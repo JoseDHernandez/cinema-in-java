@@ -1,6 +1,7 @@
 package com.mycompany.cuevadeana;
 
 import Classes.Movie;
+import Classes.Theater;
 import Classes.User;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
@@ -10,6 +11,8 @@ import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
 import Templates.DebugWindow;
+import static com.mongodb.client.model.Filters.and;
+import static com.mongodb.client.model.Filters.eq;
 import java.util.ArrayList;
 import java.util.List;
 import org.bson.types.Binary;
@@ -52,6 +55,11 @@ public class Mongo {
         insertDocument("movies", movie.converter());
     }
 
+    //Insertar showtime
+    public void insert(Theater theater) {
+        insertDocument("showtimes", theater.converter());
+    }
+
     private void insertDocument(String collectionName, Document document) {
         try {
             MongoCollection<Document> collection = getCollection(collectionName);
@@ -62,7 +70,7 @@ public class Mongo {
         }
     }
 
-    public Document getUser(String pass, String username) {
+    public Document findUser(String pass, String username) {
         Document query = new Document("UserName", username).append("Password", pass);
         return getCollection("users").find(query).first();
     }
@@ -72,12 +80,22 @@ public class Mongo {
         return getCollection("users").find(query).first();
     }
 
+    public Document findTheater(String name, String date) {
+        Document query = new Document("Name", name).append("Date", date);
+        return getCollection("showtimes").find(query).first();
+    }
+
+    public Document getTheater(String title, String date) {
+        Document query = (Document) and(eq("Date", date), eq("Showtimes.Title", title));
+        return getCollection("showtimes").find(query).first();
+    }
+
     // Obtener películas
     public List<Movie> getMovies(int min, int max) {
         //Validar cantidad maxima de documentos
         long totalDocuments = getCollection("movies").countDocuments();
         max = (max == 0 || max > totalDocuments) ? (int) totalDocuments : max;
-        List<Movie> movies;
+        List<Movie> movies = new ArrayList<>();
         //List of movies
         try (MongoCursor<Document> cursor = getCollection("movies").find().skip(min).limit(max).iterator()) {
             //List of movies

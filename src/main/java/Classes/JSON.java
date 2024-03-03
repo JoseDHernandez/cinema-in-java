@@ -20,18 +20,16 @@ public class JSON {
         String temp = "";
         try {
             if (list == null) {
-                jsonArray = null;
+                temp = "";
+            } else if (list.size() == 1) {
+                temp = "\"" + list.get(0) + "\"";
             } else {
-                if (list.size() == 1) {
-                    temp = "\"" + list.get(0) + "\"";
-                } else {
-                    for (String t : list) {
-                        temp += ",\"" + t + '"';
-                    }
-                    temp = temp.substring(1);
+                for (String t : list) {
+                    temp += ",\"" + t + '"';
                 }
-                jsonArray = new JSONArray("[" + temp + "]");
+                temp = temp.substring(1);
             }
+            jsonArray = new JSONArray("[" + temp + "]");
         } catch (JSONException e) {
             DebugWindow window = new DebugWindow();
             window.newWindow("danger", "JSON Error:\n" + e.toString(), "JSON Error");

@@ -9,7 +9,9 @@ import Classes.User;
 import Templates.DebugWindow;
 import Templates.List_movies;
 import Templates.Login;
-import Templates.Register_movies;
+import Templates.RegisterShowtimes;
+import Templates.RegisterUser;
+import Templates.RegisterMovies;
 import Templates.Seats;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -65,6 +67,7 @@ public class Main extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 102, 102));
+        setPreferredSize(new java.awt.Dimension(1024, 800));
         addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentResized(java.awt.event.ComponentEvent evt) {
                 formComponentResized(evt);
@@ -72,6 +75,7 @@ public class Main extends javax.swing.JFrame {
         });
 
         jPanel1.setBackground(new java.awt.Color(255, 102, 102));
+        jPanel1.setPreferredSize(new java.awt.Dimension(1024, 768));
 
         Button1.setBackground(new java.awt.Color(255, 153, 153));
         Button1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -156,7 +160,7 @@ public class Main extends javax.swing.JFrame {
                 .addGroup(PanelOptionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
                     .addComponent(DBName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(BtSave)
                 .addContainerGap())
         );
@@ -168,14 +172,14 @@ public class Main extends javax.swing.JFrame {
             .addGroup(MasterPanelLayout.createSequentialGroup()
                 .addGap(616, 616, 616)
                 .addComponent(PanelOptions, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         MasterPanelLayout.setVerticalGroup(
             MasterPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(MasterPanelLayout.createSequentialGroup()
                 .addGap(14, 14, 14)
                 .addComponent(PanelOptions, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(453, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         Venta.setBackground(new java.awt.Color(255, 153, 153));
@@ -256,7 +260,7 @@ public class Main extends javax.swing.JFrame {
                     .addComponent(Opciones, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
-            .addComponent(MasterPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(MasterPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 1024, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -270,11 +274,11 @@ public class Main extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(Opciones, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 29, Short.MAX_VALUE))
+                                .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addComponent(Lista, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(Venta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(MasterPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(MasterPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 687, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -310,7 +314,7 @@ public class Main extends javax.swing.JFrame {
     private void Button1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Button1MouseClicked
         // TODO add your handling code here:
         if (OptionsData.getInstance().getUser().getRol().equals("Admin")) {
-            Register_movies registerMovie = new Register_movies();
+            RegisterMovies registerMovie = new RegisterMovies();
             changeScenne(registerMovie);
         } else {
             Seats v = new Seats();
@@ -338,41 +342,26 @@ public class Main extends javax.swing.JFrame {
 
     public void login(String username, String pass, boolean menuType) {
         Mongo mongoDB = new Mongo();
-        //Guardar datos del usuario
-        User user = new User();
-        //Verificar si esta en registro o ingreso
-        DebugWindow window = new DebugWindow();
-        if (menuType) {
-            Document userData = mongoDB.getUser(OptionsData.getInstance().getUser().hashPassword(pass), username);
-            if (userData.getString("Password").equals(OptionsData.getInstance().getUser().hashPassword(pass))) {
+        Document userData = mongoDB.findUser(OptionsData.getInstance().getUser().hashPassword(pass), username);
+        if (userData.getString("Password").equals(OptionsData.getInstance().getUser().hashPassword(pass))) {
 
-                user.setId(userData.getObjectId("_id").toString());
-                user.setUserName(userData.getString("UserName"));
-                user.setRol(userData.getString("Rol"));
-                OptionsData.getInstance().setUser(user);
-
-                //Validar si es admin o no
-                Button1.setText(user.getRol().equals("Administrador") ? "Registrar" : "Venta");
-
-                enableButtons(true);
-                listMovies();
-            } else {
-                window.newWindow("warning", "Usuario invalido", "Error de ingreso");
-
+            User user = new User();
+            user.setId(userData.getObjectId("_id").toString());
+            user.setUserName(userData.getString("UserName"));
+            user.setName(userData.getString("Name"));
+            user.setIdentification(userData.getString("Identification"));
+            user.setRol(userData.getString("Rol"));
+            if (user.getRol().equals("Cajero")) {
+                user.setCashRegister(userData.getString("CashRegister"));
             }
+            OptionsData.getInstance().setUser(user);
+            //Cambiar botones segun el cargo
+            Button1.setText(user.getRol().equals("Administrador") ? "Registrar" : "Venta");
+            enableButtons(true);
+            listMovies();
         } else {
-            user.setUserName(username);
-            user.setPassword(pass);
-            user.setRol("User");
-            if (mongoDB.getUser(username) != null) {
-                window.newWindow("warning", "Usuario ya registrado", "Error de registro");
-
-            } else {
-                mongoDB.insert(user);
-                OptionsData.getInstance().setUser(user);
-                enableButtons(true);
-                listMovies();
-            }
+            DebugWindow window = new DebugWindow();
+            window.newWindow("warning", "Usuario invalido", "Error de ingreso");
         }
         mongoDB.closeConnection();
     }

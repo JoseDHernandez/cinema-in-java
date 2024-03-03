@@ -32,31 +32,31 @@ public class Bill {
     Fecha y hora de la compra
      */
     private String nit;
-    private int Code;
+    private String Code;
     private String cashRegister;
     private String cashier;
     private String movie;
     private Showtime showtime;
     private String seats;
     private double price;
-    private final double iva = 0.19;
+    private final double iva;
     private double totalPrice;
     private LocalDateTime purchaseDate;
 
-    public Bill(String nit, int codigoFactura, String asientos,
-            double valor) {
-        this.nit = nit;
-        this.Code = codigoFactura;
-        this.seats = asientos;
-        this.price = valor;
-        this.totalPrice = valor;
-        /* datos desde clase usuario y funcion
-        this.fechaHoraCompra = fechaHoraCompra;
-        this.caja = caja;
-        this.Cajero = Cajero;
-        this.pelicula = pelicula;
-        this.fechaFuncion = fechaFuncion;
-        this.ubicacionSala = ubicacionSala;*/
+    public Bill() {
+        nit = "00000000000";
+        Code = "";
+        seats = "";
+        cashRegister = "";
+        cashier = "";
+        movie = null;
+        showtime = null;
+        seats = "";
+        price = 0.0;
+        iva = 0.19;
+        totalPrice = 0.0;
+        purchaseDate = null;
+
     }
 
     // Getters and setters
@@ -68,11 +68,11 @@ public class Bill {
         this.nit = nit;
     }
 
-    public int getCode() {
+    public String getCode() {
         return Code;
     }
 
-    public void setCode(int Code) {
+    public void setCode(String Code) {
         this.Code = Code;
     }
 

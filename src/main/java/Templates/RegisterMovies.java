@@ -26,12 +26,12 @@ import org.bson.types.Binary;
  *
  * @author Jose
  */
-public class Register_movies extends javax.swing.JPanel {
+public class RegisterMovies extends javax.swing.JPanel {
 
     /**
      * Creates new form NewJPanel
      */
-    public Register_movies() {
+    public RegisterMovies() {
         initComponents();
     }
 

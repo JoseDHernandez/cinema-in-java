@@ -4,8 +4,9 @@
  */
 package Classes;
 
-import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
+import org.bson.Document;
 
 /**
  *
@@ -13,19 +14,11 @@ import java.util.List;
  */
 public class Showtime {
 
-    private String sala;
     private List<String> seatsSold;
-    private LocalDateTime hour;
+    private LocalTime startHour;
+    private LocalTime endHour;
     private String movie;
-    private String features;
-
-    public String getSala() {
-        return sala;
-    }
-
-    public void setSala(String sala) {
-        this.sala = sala;
-    }
+    private int duration;
 
     public List<String> getSeatsSold() {
         return seatsSold;
@@ -35,12 +28,20 @@ public class Showtime {
         this.seatsSold = seatsSold;
     }
 
-    public LocalDateTime getHour() {
-        return hour;
+    public LocalTime getStartHour() {
+        return startHour;
     }
 
-    public void setHour(LocalDateTime hour) {
-        this.hour = hour;
+    public void setStartHour(LocalTime startHour) {
+        this.startHour = startHour;
+    }
+
+    public LocalTime getEndHour() {
+        return endHour;
+    }
+
+    public void setEndHour(LocalTime endHour) {
+        this.endHour = endHour;
     }
 
     public String getMovie() {
@@ -49,13 +50,20 @@ public class Showtime {
 
     public void setMovie(Movie movie) {
         this.movie = movie.getTitle();
+        this.duration = movie.getDuration();
     }
 
-    public String getFeatures() {
-        return features;
+    public int getDuration() {
+        return duration;
     }
 
-    public void setFeatures(String features) {
-        this.features = features;
+    public Document converter() {
+        JSON json = new JSON();
+        Document document = new Document("Title", movie)
+                .append("StartHour", startHour.toString())
+                .append("End Hour", endHour.toString())
+                .append("Duration", duration)
+                .append("SeatsSold", json.listToJson(seatsSold));
+        return document;
     }
 }
