@@ -6,12 +6,25 @@ package Templates;
 
 import Classes.Bill;
 import Classes.Movie;
+import Classes.REGEX;
+import Classes.Showtime;
+import Classes.Theater;
+import Classes.User;
 import com.mycompany.cuevadeana.Mongo;
 import java.awt.Color;
 import java.awt.Component;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
+import org.bson.Document;
 
 /**
  *
@@ -22,35 +35,45 @@ public class Seats extends javax.swing.JPanel {
     /**
      * Creates new form Venta
      */
-    private List<String> allSeatsSold = new ArrayList<>();
-    private List<String> seatsSold = new ArrayList<>();
+    private Mongo mongoDB;
+    private User cashier;
+    //Precios
+    private final double PRECIO_BASE_2D = 10000.0; // Precio base para proyección 2D
+    private final double PRECIO_BASE_3D = 15000.0; // Precio base para proyección 3D
+    private final double PRECIO_BASE_4D = 20000.0; // Precio base para proyección 4D
+    private final double PRECIO_VIP = 5000.0;// Precios adicionales para asientos VIP
+    private final List<String> VIP_SEATS = Arrays.asList("G7", "G8", "G9", "G10", "H7", "H8", "H9",
+            "H10", "I7", "I8", "I9", "I10", "J7", "J8", "J9", "J10");
+    //Colores
+    private final Color SILLA_RUEDAS = Color.LIGHT_GRAY;
+    private final Color VENDIDA = Color.darkGray;
+    private final Color SELECCION = Color.ORANGE;
+    private final Color VIP = Color.MAGENTA;
+    //Variables de menus
+    private List<String> allSeatsSold = new ArrayList<>();//Todas las silla vendidas de una funcion
+    private List<String> seatsSold = new ArrayList<>();//Sillas seleccionadas
     private String titleOfMovie = "";
+    private String dateString = "";//Dia actual
+    private List<String> showtimesListString = new ArrayList<>(); // Para lista de horarios
+    private List<Theater> theaterList = new ArrayList<>();//Almacena la lista de funciones regresadas de la DB
+    private List<Showtime> showtimeList = new ArrayList<>();
+    private Showtime tempShow = new Showtime(); //Showtime temporal para tener como referencia
 
-    public Seats() {
+    public Seats(Mongo client, User cashier) {
         initComponents();
+        mongoDB = client;
+        this.cashier = cashier;
         //Establer nombres a los botones
         setNames();
         //Obtener lista de peliculas
         getMovieTitles();
-        Component[] sillas = Sala.getComponents();
+        //Obtener fecha actual
+        LocalDate dateNow = LocalDate.now();
 
-        for (int i = 0; i < 16; i++) {
+        // Formatear la fecha como una cadena de texto en el formato deseado
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        dateString = dateNow.format(formatter);
 
-            allSeatsSold.add(String.valueOf("A" + (i + 1)));  // Generar el nombre de la silla (A1, A2, ..., A16)
-        }
-        //Indicar las sillas ya vendidas en amarillo
-        if (allSeatsSold != null) {
-            for (Component silla : sillas) {
-                if (silla instanceof JButton button) {
-                    for (String seatSold : allSeatsSold) {
-                        if (button.getName() != null && button.getName().equals(seatSold)) {
-                            button.setBackground(Color.yellow);
-                            break;
-                        }
-                    }
-                }
-            }
-        }
     }
 
     /**
@@ -353,7 +376,7 @@ public class Seats extends javax.swing.JPanel {
         jLabel31 = new javax.swing.JLabel();
         jLabel32 = new javax.swing.JLabel();
         Screen = new javax.swing.JPanel();
-        jLabel35 = new javax.swing.JLabel();
+        LabelScreen = new javax.swing.JLabel();
         SoldButton = new javax.swing.JButton();
         jLabel33 = new javax.swing.JLabel();
         ListMovies = new javax.swing.JComboBox<>();
@@ -370,6 +393,8 @@ public class Seats extends javax.swing.JPanel {
         jSeparator1 = new javax.swing.JSeparator();
         jLabel40 = new javax.swing.JLabel();
         Showtimes = new javax.swing.JComboBox<>();
+        jLabel35 = new javax.swing.JLabel();
+        jDateChooser1 = new com.toedter.calendar.JDateChooser();
 
         setPreferredSize(new java.awt.Dimension(1024, 768));
 
@@ -478,6 +503,7 @@ public class Seats extends javax.swing.JPanel {
             }
         });
 
+        Q1.setBackground(SILLA_RUEDAS);
         Q1.setPreferredSize(new java.awt.Dimension(30, 30));
         Q1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -626,6 +652,7 @@ public class Seats extends javax.swing.JPanel {
             }
         });
 
+        Q2.setBackground(SILLA_RUEDAS);
         Q2.setPreferredSize(new java.awt.Dimension(30, 30));
         Q2.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -1193,6 +1220,7 @@ public class Seats extends javax.swing.JPanel {
             }
         });
 
+        G7.setBackground(VIP);
         G7.setPreferredSize(new java.awt.Dimension(30, 30));
         G7.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -1200,6 +1228,7 @@ public class Seats extends javax.swing.JPanel {
             }
         });
 
+        H7.setBackground(VIP);
         H7.setPreferredSize(new java.awt.Dimension(30, 30));
         H7.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -1207,6 +1236,7 @@ public class Seats extends javax.swing.JPanel {
             }
         });
 
+        I7.setBackground(VIP);
         I7.setPreferredSize(new java.awt.Dimension(30, 30));
         I7.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -1214,6 +1244,7 @@ public class Seats extends javax.swing.JPanel {
             }
         });
 
+        J7.setBackground(VIP);
         J7.setPreferredSize(new java.awt.Dimension(30, 30));
         J7.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -1320,6 +1351,7 @@ public class Seats extends javax.swing.JPanel {
             }
         });
 
+        G8.setBackground(VIP);
         G8.setPreferredSize(new java.awt.Dimension(30, 30));
         G8.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -1327,6 +1359,7 @@ public class Seats extends javax.swing.JPanel {
             }
         });
 
+        H8.setBackground(VIP);
         H8.setPreferredSize(new java.awt.Dimension(30, 30));
         H8.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -1334,6 +1367,7 @@ public class Seats extends javax.swing.JPanel {
             }
         });
 
+        I8.setBackground(VIP);
         I8.setPreferredSize(new java.awt.Dimension(30, 30));
         I8.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -1341,6 +1375,7 @@ public class Seats extends javax.swing.JPanel {
             }
         });
 
+        J8.setBackground(VIP);
         J8.setPreferredSize(new java.awt.Dimension(30, 30));
         J8.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -1447,6 +1482,7 @@ public class Seats extends javax.swing.JPanel {
             }
         });
 
+        G9.setBackground(VIP);
         G9.setPreferredSize(new java.awt.Dimension(30, 30));
         G9.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -1454,6 +1490,7 @@ public class Seats extends javax.swing.JPanel {
             }
         });
 
+        H9.setBackground(VIP);
         H9.setPreferredSize(new java.awt.Dimension(30, 30));
         H9.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -1461,6 +1498,7 @@ public class Seats extends javax.swing.JPanel {
             }
         });
 
+        I9.setBackground(VIP);
         I9.setPreferredSize(new java.awt.Dimension(30, 30));
         I9.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -1468,6 +1506,7 @@ public class Seats extends javax.swing.JPanel {
             }
         });
 
+        J9.setBackground(VIP);
         J9.setPreferredSize(new java.awt.Dimension(30, 30));
         J9.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -1574,6 +1613,7 @@ public class Seats extends javax.swing.JPanel {
             }
         });
 
+        G10.setBackground(VIP);
         G10.setPreferredSize(new java.awt.Dimension(30, 30));
         G10.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -1581,6 +1621,7 @@ public class Seats extends javax.swing.JPanel {
             }
         });
 
+        H10.setBackground(VIP);
         H10.setPreferredSize(new java.awt.Dimension(30, 30));
         H10.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -1588,6 +1629,7 @@ public class Seats extends javax.swing.JPanel {
             }
         });
 
+        I10.setBackground(VIP);
         I10.setPreferredSize(new java.awt.Dimension(30, 30));
         I10.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -1595,6 +1637,7 @@ public class Seats extends javax.swing.JPanel {
             }
         });
 
+        J10.setBackground(VIP);
         J10.setPreferredSize(new java.awt.Dimension(30, 30));
         J10.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -2277,6 +2320,7 @@ public class Seats extends javax.swing.JPanel {
             }
         });
 
+        Q15.setBackground(SILLA_RUEDAS);
         Q15.setPreferredSize(new java.awt.Dimension(30, 30));
         Q15.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -2404,6 +2448,7 @@ public class Seats extends javax.swing.JPanel {
             }
         });
 
+        Q16.setBackground(SILLA_RUEDAS);
         Q16.setPreferredSize(new java.awt.Dimension(30, 30));
         Q16.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -2475,7 +2520,7 @@ public class Seats extends javax.swing.JPanel {
 
         jLabel32.setText("16");
 
-        jLabel35.setText("Pantalla");
+        LabelScreen.setText("Pantalla");
 
         javax.swing.GroupLayout ScreenLayout = new javax.swing.GroupLayout(Screen);
         Screen.setLayout(ScreenLayout);
@@ -2483,14 +2528,14 @@ public class Seats extends javax.swing.JPanel {
             ScreenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ScreenLayout.createSequentialGroup()
                 .addGap(238, 238, 238)
-                .addComponent(jLabel35)
+                .addComponent(LabelScreen)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         ScreenLayout.setVerticalGroup(
             ScreenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ScreenLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel35)
+                .addComponent(LabelScreen)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -3442,7 +3487,7 @@ public class Seats extends javax.swing.JPanel {
 
         jLabel36.setText("Caracteristica");
 
-        Features.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "2D", "3D", "4D", "2D + CC", "3D + CC", "4D + CC" }));
+        Features.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Todas", "2D", "3D", "4D", "2D - CC", "3D - CC", "4D - CC" }));
         Features.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 FeaturesActionPerformed(evt);
@@ -3466,6 +3511,22 @@ public class Seats extends javax.swing.JPanel {
         jLabel40.setText("Funciones");
 
         Showtimes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecciona" }));
+        Showtimes.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                ShowtimesItemStateChanged(evt);
+            }
+        });
+        Showtimes.addPopupMenuListener(new javax.swing.event.PopupMenuListener() {
+            public void popupMenuCanceled(javax.swing.event.PopupMenuEvent evt) {
+            }
+            public void popupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {
+            }
+            public void popupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent evt) {
+                ShowtimesPopupMenuWillBecomeVisible(evt);
+            }
+        });
+
+        jLabel35.setText("Fecha");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -3507,10 +3568,14 @@ public class Seats extends javax.swing.JPanel {
                                             .addComponent(clientName)))
                                     .addComponent(SeatsSoldLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jSeparator1)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jLabel40)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel40)
+                                            .addComponent(jLabel35))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(Showtimes, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(Showtimes, 0, 178, Short.MAX_VALUE)
+                                            .addComponent(jDateChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                                 .addGap(0, 10, Short.MAX_VALUE))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -3550,6 +3615,10 @@ public class Seats extends javax.swing.JPanel {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel40)
                     .addComponent(Showtimes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(23, 23, 23)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel35)
+                    .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(SoldButton)
                 .addContainerGap())
@@ -3777,7 +3846,6 @@ public class Seats extends javax.swing.JPanel {
         O14.setName("O14");
         P14.setName("P14");
         Q14.setName("Q14");
-
         A15.setName("A15");
         B15.setName("B15");
         C15.setName("C15");
@@ -3829,17 +3897,171 @@ public class Seats extends javax.swing.JPanel {
 
     }
 
-    private void setTitle() {
-        if (ListMovies.getSelectedIndex() != 0 && !titleOfMovie.equals(ListMovies.getSelectedItem().toString())) {
-            System.out.println("Cambio " + ListMovies.getSelectedItem().toString());
-            titleOfMovie = ListMovies.getSelectedItem().toString();
-        } else {
-            titleOfMovie = "";
+    //Evitar que se ejecute dos veces setSeatsSold
+    private int indexControl = 0;
+
+    //Cargar sillas vendidas segun la presentacion
+    private void setSeatsSold() {
+        if (Showtimes.getSelectedIndex() > 0 && ListMovies.getSelectedIndex() != 0 && indexControl != Showtimes.getSelectedIndex()) {
+            indexControl = Showtimes.getSelectedIndex();
+            //Obtener sillas vendidas
+            String[] text = Showtimes.getSelectedItem().toString().split(" ");
+            String Theater = text[0] + " " + text[1];
+            //Datos para la busqueda de la funcion
+            Theater = Theater.substring(0, Theater.length() - 1);
+            String startHour = text[3];
+            String endHour = text[5];
+            //Buscar funcion para asignar sillas
+            for (Showtime show : showtimeList) {
+                if (show.getTheater().equals(Theater) && show.getStartHour().toString().equals(startHour) && show.getEndHour().toString().equals(endHour)) {
+                    tempShow.setStartHour(show.getStartHour());
+                    tempShow.setEndHour(show.getEndHour());
+                    tempShow.setTheater(show.getTheater());
+                    tempShow.setMovie(titleOfMovie);
+                    //Asignar sillas vendidas
+                    allSeatsSold = show.getSeatsSold();
+                    break;
+                }
+            }
+            //Limpiar datos
+            seatsSold = new ArrayList<>();
+            SeatsSoldLabel.setText("");
+            //Obtener botones
+            Component[] sillas = Sala.getComponents();
+            //Indicar las sillas ya vendidas en amarillo
+            if (!allSeatsSold.isEmpty()) {
+                for (Component silla : sillas) {
+                    if (silla instanceof JButton button) {
+                        for (String seatSold : allSeatsSold) {
+                            if (button.getName() != null) {
+                                if (VIP_SEATS.contains(button.getName())) {
+                                    button.setBackground(VIP);
+                                }
+                                if (button.getName().equals(seatSold)) {
+                                    button.setBackground(VENDIDA);
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 
+    //Establecer las funciones en el JComboBox segun las caracteristicas y pelicula
+    private void setShows() {
+        /*
+            Sala 1    - 2D
+            Sala 2    - 2D - CC
+            Sala 3    - 2D 
+            Sala 4    - 3D
+            Sala 5    - 3D - CC
+            Sala 6    - 3D
+            Sala 7    - 4D - CC
+            Sala 8    - 4D
+            Sala 9    - 4D
+         */
+        Showtimes.removeAllItems();
+        Showtimes.addItem("Selecciona");
+        Showtimes.setSelectedIndex(0);
+        if (Features.getSelectedIndex() != 0) {
+            //Salas
+            List<String> theaterList = new ArrayList<>();
+            //Filtro de salas segun caracteristica
+            String[] features = Features.getSelectedItem().toString().split(" ");
+            String Feature = features[0];
+            //Filtrar por dimencion
+            switch (Feature) {
+                case "2D":
+                    //Si tiene CC
+                    if (features.length > 1) {
+                        theaterList.add("Sala 2");
+                    } else {
+                        theaterList.add("Sala 1");
+                        theaterList.add("Sala 3");
+                    }
+                    break;
+                case "3D":
+                    if (features.length > 1) {
+                        theaterList.add("Sala 5");
+                    } else {
+                        theaterList.add("Sala 4");
+                        theaterList.add("Sala 6");
+                    }
+                    break;
+                case "4D":
+                    if (features.length > 1) {
+                        theaterList.add("Sala 7");
+                    } else {
+                        theaterList.add("Sala 8");
+                        theaterList.add("Sala 9");
+                    }
+                    break;
+                default:
+                    break;
+            }
+            //Agregar sala a lista
+            if (!theaterList.isEmpty()) {
+                int constains = 0;
+                for (String show : showtimesListString) {
+                    String[] text = show.split(" ");
+                    String Theater = text[0] + " " + text[1];
+                    Theater = Theater.substring(0, Theater.length() - 1);
+                    //Si la sala cumple la caracteristica
+                    if (theaterList.contains(Theater)) {
+                        Showtimes.addItem(show);
+                        constains++;
+                    }
+                }
+                if (constains == 0) {
+                    Showtimes.addItem("No hay funciones con " + Features.getSelectedItem().toString());
+                }
+            } else {
+                Showtimes.addItem("No hay funciones con " + Features.getSelectedItem().toString());
+            }
+        } else {
+            for (String show : showtimesListString) {
+                Showtimes.addItem(show);
+            }
+        }
+    }
+
+    //Obtener lista de funciones
+    private void getShows() {
+        if (ListMovies.getSelectedIndex() != 0 && !titleOfMovie.equals(ListMovies.getSelectedItem().toString())) {
+            titleOfMovie = ListMovies.getSelectedItem().toString();
+            LabelScreen.setText(titleOfMovie);
+            DebugWindow window = new DebugWindow();
+            try {
+                theaterList = mongoDB.getTheater(titleOfMovie, dateString);
+                if (theaterList.isEmpty()) {
+                    //Restablecer showtimes
+                    theaterList = new ArrayList<>();
+                    window.newWindow("alert", "Funcion no encontrada:\n solicite el registro de la funcion correspodiente al dia " + dateString
+                            + " para la pelicula " + titleOfMovie + " con un administrador", "Funcion no encontrada");
+                } else {
+                    for (Theater shows : theaterList) {
+                        for (Showtime hours : shows.getShowtimes()) {
+                            String temp = shows.getName() + ":  " + hours.getStartHour() + " - " + hours.getEndHour();
+                            showtimesListString.add(temp);
+                            showtimeList.add(hours);
+                        }
+                    }
+                    setShows();
+                }
+            } catch (Exception e) {
+                System.out.println(e);
+                window.newWindow("danger", e.toString(), "Error en venta de entrada");
+            }
+        } else {
+            titleOfMovie = "";
+            LabelScreen.setText("Pantalla");
+        }
+    }
+
+    //Obtener lista de peliculas
     private void getMovieTitles() {
-        Mongo mongoDB = new Mongo();
         List<Movie> movies = mongoDB.getMovies(0, 0);
         if (movies.isEmpty()) {
             ListMovies.removeItemAt(0);
@@ -3850,15 +4072,15 @@ public class Seats extends javax.swing.JPanel {
                 ListMovies.addItem(movie.getTitle());
             }
         }
-        mongoDB.closeConnection();
     }
 
+    //Agregar silla a la factura
     private void addChair(java.awt.event.MouseEvent evt) {
         String seatName = evt.getComponent().getName();
         //Valida si la silla no esta vendida, agrega o remove de las sillas de la factura
         if (!allSeatsSold.contains(seatName) && !seatsSold.contains(seatName)) {
             seatsSold.add(seatName);
-            evt.getComponent().setBackground(Color.GREEN);
+            evt.getComponent().setBackground(SELECCION);
         } else {
             seatsSold.remove(seatsSold.indexOf(seatName));
             evt.getComponent().setBackground(Color.white);
@@ -3866,9 +4088,62 @@ public class Seats extends javax.swing.JPanel {
         SeatsSoldLabel.setText("<html><p>" + seatsSold.toString() + "</p></html>");
     }
 
-    private void ticketsSold() {
-        Bill bill = new Bill();
+    //Calcular precio
+    private double getPrice() {
+        double price = 0.0;
+        //Precio segun categoria
+        String[] features = Features.getSelectedItem().toString().split(" ");
+        String Feature = features[0];
+        //Filtrar por dimencion
+        switch (Feature) {
+            case "2D":
+                price += PRECIO_BASE_2D;
+                break;
+            case "3D":
+                price += PRECIO_BASE_3D;
+                break;
+            case "4D":
+                price += PRECIO_BASE_4D;
+                break;
+        }
+        //Multiplicar por cantidad de sillas
+        price *= seatsSold.size();
+        //Añadir precio vip
+        for (String seat : seatsSold) {
+            if (VIP_SEATS.contains(seat)) {
+                price += PRECIO_VIP;
+            }
+        }
+        return price;
+    }
 
+    //Generar factura
+    private void ticketsSold() {
+        REGEX regex = new REGEX();
+        Bill bill = new Bill();
+        String nameClient = clientName.getText().trim();
+        String numIde = Identification.getText().trim();
+        if (regex.validate(1, nameClient) && numIde.length() > 9) {
+
+            String iden = (Type.getSelectedIndex() > 0 ? Type.getSelectedItem().toString() : "CC") + " " + numIde;
+            bill.setNameClient(nameClient);
+            bill.setIdentification(iden);
+            bill.setCashier(cashier);
+            bill.setShowtime(tempShow);
+            bill.setSeats(seatsSold);
+            bill.setDateShow(dateString);
+            bill.setPrice(getPrice());
+            int selectedOption = JOptionPane.showConfirmDialog(null, bill.toString(), "Factura", JOptionPane.OK_CANCEL_OPTION);
+            System.out.println("Opcion: " + selectedOption);
+        } else {
+            DebugWindow window = new DebugWindow();
+            window.newWindow("warning", "Datos invalidos", "Error en generacion de factura");
+        }
+    }
+
+    private void registerBill() {
+        //actualizar Showtiem temporal con las sillas compradas
+        tempShow.setSeatsSold(seatsSold);
     }
     private void B1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B1ActionPerformed
         // TODO add your handling code here:
@@ -5353,11 +5628,20 @@ public class Seats extends javax.swing.JPanel {
     private void ListMoviesItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_ListMoviesItemStateChanged
         // TODO add your handling code here:
 
-        setTitle();
+        getShows();
     }//GEN-LAST:event_ListMoviesItemStateChanged
 
-    private void A1MouseClicked(java.awt.event.MouseEvent evt) {
+    private void ShowtimesPopupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent evt) {//GEN-FIRST:event_ShowtimesPopupMenuWillBecomeVisible
+        // TODO add your handling code here:
+        setShows();
+    }//GEN-LAST:event_ShowtimesPopupMenuWillBecomeVisible
 
+    private void ShowtimesItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_ShowtimesItemStateChanged
+        // TODO add your handling code here:
+        setSeatsSold();
+    }//GEN-LAST:event_ShowtimesItemStateChanged
+
+    private void A1MouseClicked(java.awt.event.MouseEvent evt) {
         addChair(evt);
     }
 
@@ -5556,6 +5840,7 @@ public class Seats extends javax.swing.JPanel {
     private javax.swing.JButton L7;
     private javax.swing.JButton L8;
     private javax.swing.JButton L9;
+    private javax.swing.JLabel LabelScreen;
     private javax.swing.JComboBox<String> ListMovies;
     private javax.swing.JButton M1;
     private javax.swing.JButton M10;
@@ -5628,6 +5913,7 @@ public class Seats extends javax.swing.JPanel {
     private javax.swing.JButton SoldButton;
     private javax.swing.JComboBox<String> Type;
     private javax.swing.JTextField clientName;
+    private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

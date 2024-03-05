@@ -20,6 +20,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class RegisterShowtimes extends javax.swing.JPanel {
 
+    private Mongo mongoDB;
     private Theater theater = new Theater();
     private List<Movie> movies;
     private final int delayTime = 20;//Tiempo entre funciones
@@ -29,8 +30,9 @@ public class RegisterShowtimes extends javax.swing.JPanel {
     /**
      * Creates new form RegisterShowtimes
      */
-    public RegisterShowtimes() {
+    public RegisterShowtimes(Mongo client) {
         initComponents();
+        mongoDB = client;
         getMovieTitles();
 
     }
@@ -205,7 +207,6 @@ public class RegisterShowtimes extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void getMovieTitles() {
-        Mongo mongoDB = new Mongo();
         movies = mongoDB.getMovies(0, 0);
         if (movies.isEmpty()) {
             ListMovies.removeItemAt(0);
@@ -216,7 +217,6 @@ public class RegisterShowtimes extends javax.swing.JPanel {
                 ListMovies.addItem(movie.getTitle());
             }
         }
-        mongoDB.closeConnection();
     }
 
     private void updateTable() {
@@ -260,7 +260,8 @@ public class RegisterShowtimes extends javax.swing.JPanel {
                     features += "3D";
                 } else if (temp >= 7 && temp <= 9) {
                     features += "4D";
-                } else if (temp == 2 || temp == 5 || temp == 7) {
+                }
+                if (temp == 2 || temp == 5 || temp == 7) {
                     features += ", CC";
                 }
                 theater.setFeatures(features);
@@ -335,7 +336,8 @@ public class RegisterShowtimes extends javax.swing.JPanel {
             try {
                 Mongo mongoDB = new Mongo();
                 //Validar si ya existe un registro del mismo dia
-                if (mongoDB.findTheater(theater.getName(), theater.getDate()) != null) {
+                System.out.println("Date: " + theater.getDate());
+                if (mongoDB.findTheater(theater.getName(), theater.getDate()) == null) {
                     mongoDB.insert(theater);
                     mongoDB.closeConnection();
                     //Limpiar datos

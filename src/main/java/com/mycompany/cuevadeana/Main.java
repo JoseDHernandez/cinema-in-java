@@ -4,7 +4,6 @@
  */
 package com.mycompany.cuevadeana;
 
-import Classes.REGEX;
 import Classes.User;
 import Templates.DebugWindow;
 import Templates.List_movies;
@@ -13,10 +12,6 @@ import Templates.RegisterShowtimes;
 import Templates.RegisterUser;
 import Templates.RegisterMovies;
 import Templates.Seats;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import javax.swing.JPanel;
 import org.bson.Document;
 
@@ -29,13 +24,19 @@ public class Main extends javax.swing.JFrame {
     /**
      * Creates new form Main
      */
+    //Variables globales
+    private User userData = new User();
+    private Mongo mongoDB = null;
+    //Fin variables globales
+
     public Main() {
         initComponents();
         enableButtons(false);//Deshabilitar botones
         PanelOptions.setVisible(false);
 
-        //login();
-        venta();
+        login();
+        //venta();
+        //registerShowtime();
     }
 
     /**
@@ -49,7 +50,7 @@ public class Main extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         Button1 = new javax.swing.JButton();
-        Lista = new javax.swing.JButton();
+        Button2 = new javax.swing.JButton();
         MasterPanel = new javax.swing.JPanel();
         PanelOptions = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
@@ -58,7 +59,7 @@ public class Main extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         DBName = new javax.swing.JTextField();
         BtSave = new javax.swing.JButton();
-        Venta = new javax.swing.JButton();
+        Button3 = new javax.swing.JButton();
         Opciones = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
@@ -67,10 +68,14 @@ public class Main extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 102, 102));
-        setPreferredSize(new java.awt.Dimension(1024, 800));
         addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentResized(java.awt.event.ComponentEvent evt) {
                 formComponentResized(evt);
+            }
+        });
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
             }
         });
 
@@ -90,14 +95,14 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
-        Lista.setBackground(new java.awt.Color(255, 153, 153));
-        Lista.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        Lista.setForeground(new java.awt.Color(255, 255, 255));
-        Lista.setText("Lista");
-        Lista.setBorder(null);
-        Lista.addMouseListener(new java.awt.event.MouseAdapter() {
+        Button2.setBackground(new java.awt.Color(255, 153, 153));
+        Button2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        Button2.setForeground(new java.awt.Color(255, 255, 255));
+        Button2.setText("Lista");
+        Button2.setBorder(null);
+        Button2.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                ListaMouseClicked(evt);
+                Button2MouseClicked(evt);
             }
         });
 
@@ -172,7 +177,7 @@ public class Main extends javax.swing.JFrame {
             .addGroup(MasterPanelLayout.createSequentialGroup()
                 .addGap(616, 616, 616)
                 .addComponent(PanelOptions, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(129, Short.MAX_VALUE))
         );
         MasterPanelLayout.setVerticalGroup(
             MasterPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -182,14 +187,14 @@ public class Main extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        Venta.setBackground(new java.awt.Color(255, 153, 153));
-        Venta.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        Venta.setForeground(new java.awt.Color(255, 255, 255));
-        Venta.setText("Venta");
-        Venta.setBorder(null);
-        Venta.addMouseListener(new java.awt.event.MouseAdapter() {
+        Button3.setBackground(new java.awt.Color(255, 153, 153));
+        Button3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        Button3.setForeground(new java.awt.Color(255, 255, 255));
+        Button3.setText("Venta");
+        Button3.setBorder(null);
+        Button3.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                VentaMouseClicked(evt);
+                Button3MouseClicked(evt);
             }
         });
 
@@ -218,6 +223,7 @@ public class Main extends javax.swing.JFrame {
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("La cueva de ana");
 
+        UserNameTitle.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
         UserNameTitle.setForeground(new java.awt.Color(255, 255, 255));
         UserNameTitle.setText("  ");
 
@@ -227,9 +233,9 @@ public class Main extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 314, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(UserNameTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 314, Short.MAX_VALUE)
+                    .addComponent(UserNameTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -252,9 +258,9 @@ public class Main extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(Button1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(12, 12, 12)
-                .addComponent(Lista, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(Button2, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(Venta, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(Button3, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(Opciones, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -275,10 +281,10 @@ public class Main extends javax.swing.JFrame {
                                 .addComponent(Opciones, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(Lista, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(Venta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(Button2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(Button3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(MasterPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 687, Short.MAX_VALUE))
+                .addComponent(MasterPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 689, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -307,29 +313,46 @@ public class Main extends javax.swing.JFrame {
         MasterPanel.repaint();
     }
 
+    private void registerShowtime() {
+        RegisterShowtimes re = new RegisterShowtimes(mongoDB);
+        changeScenne(re);
+    }
+
     private void venta() {
-        Seats v = new Seats();
+        Seats v = new Seats(mongoDB, userData);
         changeScenne(v);
+    }
+
+    private void registerMovie() {
+        RegisterMovies registerMovie = new RegisterMovies(mongoDB);
+        changeScenne(registerMovie);
     }
     private void Button1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Button1MouseClicked
         // TODO add your handling code here:
-        if (OptionsData.getInstance().getUser().getRol().equals("Admin")) {
-            RegisterMovies registerMovie = new RegisterMovies();
-            changeScenne(registerMovie);
+        if (userData.getRol().equals("Administrador")) {
+            registerMovie();
         } else {
-            Seats v = new Seats();
-            changeScenne(v);
+            venta();
         }
     }//GEN-LAST:event_Button1MouseClicked
 
     private void listMovies() {
-        List_movies list_movies = new List_movies();
+        List_movies list_movies = new List_movies(mongoDB);
         changeScenne(list_movies);
     }
-    private void ListaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ListaMouseClicked
+
+    private void registerUser() {
+        RegisterUser newUser = new RegisterUser(mongoDB);
+        changeScenne(newUser);
+    }
+    private void Button2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Button2MouseClicked
         // TODO add your handling code here:
-        listMovies();
-    }//GEN-LAST:event_ListaMouseClicked
+        if (userData.getRol().equals("Administrador")) {
+            registerShowtime();
+        } else {
+            listMovies();
+        }
+    }//GEN-LAST:event_Button2MouseClicked
 
     private void formComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentResized
         // TODO add your handling code here:
@@ -341,7 +364,9 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_formComponentResized
 
     public void login(String username, String pass, boolean menuType) {
-        Mongo mongoDB = new Mongo();
+        //Establecer coneccion con mongoDB
+        mongoDB = new Mongo();
+        //Validar usuario
         Document userData = mongoDB.findUser(OptionsData.getInstance().getUser().hashPassword(pass), username);
         if (userData.getString("Password").equals(OptionsData.getInstance().getUser().hashPassword(pass))) {
 
@@ -354,20 +379,28 @@ public class Main extends javax.swing.JFrame {
             if (user.getRol().equals("Cajero")) {
                 user.setCashRegister(userData.getString("CashRegister"));
             }
-            OptionsData.getInstance().setUser(user);
+            this.userData = user;
             //Cambiar botones segun el cargo
             Button1.setText(user.getRol().equals("Administrador") ? "Registrar" : "Venta");
+            Button2.setText(user.getRol().equals("Administrador") ? "Funciones" : "Peliculas");
+            Button3.setText(user.getRol().equals("Administrador") ? "Usuarios" : " ");
+            //
+            UserNameTitle.setText(user.getName());
             enableButtons(true);
             listMovies();
         } else {
             DebugWindow window = new DebugWindow();
             window.newWindow("warning", "Usuario invalido", "Error de ingreso");
         }
-        mongoDB.closeConnection();
     }
-    private void VentaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_VentaMouseClicked
+    private void Button3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Button3MouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_VentaMouseClicked
+        if (userData.getRol().equals("Administrador")) {
+            registerUser();
+        } else {
+
+        }
+    }//GEN-LAST:event_Button3MouseClicked
 
     private void OpcionesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_OpcionesMouseClicked
         // TODO add your handling code here:
@@ -395,17 +428,24 @@ public class Main extends javax.swing.JFrame {
     }
     private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
         // TODO add your handling code here:
-        OptionsData.getInstance().setUser(new User());
+        userData = null;
         UserNameTitle.setText(" ");
         enableButtons(false);
         //Repintar el formulario
         login();
     }//GEN-LAST:event_jButton2MouseClicked
 
-    private void enableButtons(boolean enable) {
-        Lista.setEnabled(enable);
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        // TODO add your handling code here:
+        if (mongoDB != null) {
+            mongoDB.closeConnection();
+        }
+    }//GEN-LAST:event_formWindowClosing
 
-        Venta.setEnabled(enable);
+    private void enableButtons(boolean enable) {
+        Button2.setEnabled(enable);
+
+        Button3.setEnabled(enable);
         jButton2.setEnabled(enable);
         Opciones.setEnabled(!enable);
         BtSave.setEnabled(!enable);
@@ -449,14 +489,14 @@ public class Main extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtSave;
     private javax.swing.JButton Button1;
+    private javax.swing.JButton Button2;
+    private javax.swing.JButton Button3;
     private javax.swing.JTextField DBName;
-    private javax.swing.JButton Lista;
     private javax.swing.JPanel MasterPanel;
     private javax.swing.JButton Opciones;
     private javax.swing.JPanel PanelOptions;
     private javax.swing.JTextField URIMongo;
     private javax.swing.JLabel UserNameTitle;
-    private javax.swing.JButton Venta;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;

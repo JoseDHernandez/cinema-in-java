@@ -1,6 +1,7 @@
 package com.mycompany.cuevadeana;
 
 import Classes.Movie;
+import Classes.Showtime;
 import Classes.Theater;
 import Classes.User;
 import com.mongodb.MongoClient;
@@ -13,6 +14,7 @@ import org.bson.Document;
 import Templates.DebugWindow;
 import static com.mongodb.client.model.Filters.and;
 import static com.mongodb.client.model.Filters.eq;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import org.bson.types.Binary;
@@ -85,9 +87,41 @@ public class Mongo {
         return getCollection("showtimes").find(query).first();
     }
 
-    public Document getTheater(String title, String date) {
-        Document query = (Document) and(eq("Date", date), eq("Showtimes.Title", title));
-        return getCollection("showtimes").find(query).first();
+    public List<Theater> getTheater(String title, String date) {
+        List<Theater> theaters = new ArrayList<>();
+
+        try {
+
+            MongoCursor<Document> cursor = getCollection("showtimes").find(and(eq("Date", date), eq("Showtimes.Title", title))).iterator();
+
+            while (cursor.hasNext()) {
+                Document doc = cursor.next();
+                Theater theater = new Theater();
+                theater.setName(doc.getString("Name"));
+                theater.setDate(doc.getString("Date"));
+                // Obtener la lista de showtimes del documento
+                List<Document> showtimesDocs = doc.getList("Showtimes", Document.class);
+                //Iterar sobre los horarios
+                for (Document showtimeDoc : showtimesDocs) {
+                    if (showtimeDoc.getString("Title").equals(title)) {
+                        Showtime showtime = new Showtime();
+                        showtime.setStartHour(LocalTime.parse(showtimeDoc.getString("StartHour")));
+                        showtime.setEndHour(LocalTime.parse(showtimeDoc.getString("End Hour")));
+                        showtime.setTheater(theater.getName());
+                        showtime.setMovie(showtimeDoc.getString("Title"));
+                        showtime.setSeatsSold((List<String>) showtimeDoc.get("SeatsSold"));
+                        theater.addShowtime(showtime);
+                    }
+                }
+                theaters.add(theater);
+            }
+            cursor.close();
+            return theaters;
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+        return theaters;
     }
 
     // Obtener películas
@@ -99,7 +133,6 @@ public class Mongo {
         //List of movies
         try (MongoCursor<Document> cursor = getCollection("movies").find().skip(min).limit(max).iterator()) {
             //List of movies
-            movies = new ArrayList<>();
             while (cursor.hasNext()) {
                 Document doc = cursor.next();
                 Movie movie = new Movie();
@@ -118,6 +151,7 @@ public class Mongo {
                 }
                 movies.add(movie);
             }
+            cursor.close();
         }
         return movies;
     }

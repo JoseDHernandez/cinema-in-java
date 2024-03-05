@@ -55,11 +55,14 @@ public class Login extends javax.swing.JPanel {
 
         UserLabel.setText("<html><p align='center'>Nombre de<br>usuario</p><html>");
 
+        userName.setText("ADCRSITGOHU");
         userName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 userNameActionPerformed(evt);
             }
         });
+
+        Password.setText("123");
 
         PassLabel.setText("Contraseña");
 
@@ -93,7 +96,6 @@ public class Login extends javax.swing.JPanel {
                                         .addComponent(PassLabel)
                                         .addGap(28, 28, 28))
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, UserPanelLayout.createSequentialGroup()
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(UserLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
                                 .addGroup(UserPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)

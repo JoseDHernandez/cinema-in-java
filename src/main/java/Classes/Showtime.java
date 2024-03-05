@@ -19,9 +19,18 @@ public class Showtime {
     private LocalTime endHour;
     private String movie;
     private int duration;
+    private String theater;
 
     public List<String> getSeatsSold() {
         return seatsSold;
+    }
+
+    public void setTheater(String theater) {
+        this.theater = theater;
+    }
+
+    public String getTheater() {
+        return theater;
     }
 
     public void setSeatsSold(List<String> seatsSold) {
@@ -51,6 +60,10 @@ public class Showtime {
     public void setMovie(Movie movie) {
         this.movie = movie.getTitle();
         this.duration = movie.getDuration();
+    }
+
+    public void setMovie(String movie) {
+        this.movie = movie;
     }
 
     public int getDuration() {

@@ -18,15 +18,17 @@ public class List_movies extends javax.swing.JPanel {
     /**
      * Creates new form List_movies
      */
-    public List_movies() {
+    private Mongo mongoDB;
+
+    public List_movies(Mongo client) {
         initComponents();
+        mongoDB = client;
         viewMovies();
     }
 
     private void viewMovies() {
 
         Panel.removeAll();
-        Mongo mongoDB = new Mongo();
         List<Movie> mongoMovies = mongoDB.getMovies(0, 5);
         final int maxUn = mongoMovies.size();
         final int columns = 5, rows = (int) Math.ceil((double) maxUn / columns);
@@ -41,7 +43,6 @@ public class List_movies extends javax.swing.JPanel {
 
         Panel.revalidate();
         Panel.repaint();
-        mongoDB.closeConnection();
     }
 
     /**

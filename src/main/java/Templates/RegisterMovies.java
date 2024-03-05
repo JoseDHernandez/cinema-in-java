@@ -31,8 +31,11 @@ public class RegisterMovies extends javax.swing.JPanel {
     /**
      * Creates new form NewJPanel
      */
-    public RegisterMovies() {
+    private Mongo mongoDB;
+
+    public RegisterMovies(Mongo client) {
         initComponents();
+        this.mongoDB = client;
     }
 
     /**
@@ -464,7 +467,6 @@ public class RegisterMovies extends javax.swing.JPanel {
         FileNameExtensionFilter extensionFilter = new FileNameExtensionFilter("png", "PNG", "jpg", "JPG", "webp", "WEBP", "JPEG", "jpeg");
         fileChooser.setFileFilter(extensionFilter);
         if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
-
             //a binaario
             imagenInBinary = imgBinary(fileChooser.getSelectedFile());
             //binario a byte
@@ -579,9 +581,7 @@ public class RegisterMovies extends javax.swing.JPanel {
             movie.setDuration(duration);
             movie.setDate(dateString);
             //Conecction and insertion in database
-            Mongo mongoDB = new Mongo();
             mongoDB.insert(movie);
-            mongoDB.closeConnection();
             //Clear all fields
             clearForm();
         } else {

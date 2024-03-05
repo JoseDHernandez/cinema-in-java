@@ -16,8 +16,11 @@ public class RegisterUser extends javax.swing.JPanel {
     /**
      * Creates new form RegisterUser
      */
-    public RegisterUser() {
+    private Mongo mongoDB;
+
+    public RegisterUser(Mongo client) {
         initComponents();
+        mongoDB = client;
     }
 
     /**
@@ -185,14 +188,12 @@ public class RegisterUser extends javax.swing.JPanel {
         user.setCashRegister(cashRegister);
         user.setPassword(password);
         //Register in DB
-        Mongo mongoDB = new Mongo();
         if (mongoDB.getUser(user.getUserName()) != null) {
             DebugWindow window = new DebugWindow();
             window.newWindow("warning", "Usuario ya registrado", "Error de registro");
         } else {
             mongoDB.insert(user);
         }
-        mongoDB.closeConnection();
     }//GEN-LAST:event_jButton1MouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
