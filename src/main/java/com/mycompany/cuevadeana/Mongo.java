@@ -23,11 +23,20 @@ public class Mongo {
 
     private MongoClient mongoClient;
     private MongoDatabase mongoDatabase;
-    private final String URI = OptionsData.getInstance().getURI();
-    private final String DATABASE_NAME = OptionsData.getInstance().getDBName();
+    private String URI = "";
+    private String DATABASE_NAME = "";
     private DebugWindow window = new DebugWindow();
 
-    public Mongo() {
+    /**
+     * Constructor de la clase Mongo que acepta URI y nombre de la base de datos
+     * como parámetros.
+     *
+     * @param uri URI de conexión a la base de datos.
+     * @param name Nombre de la base de datos.
+     */
+    public Mongo(String uri, String name) {
+        URI = uri;
+        DATABASE_NAME = name;
         try {
             MongoClientURI clientURI = new MongoClientURI(URI);
             mongoClient = new MongoClient(clientURI);
@@ -37,31 +46,58 @@ public class Mongo {
         }
     }
 
+    /**
+     * Cierra la conexión con la base de datos MongoDB.
+     */
     public void closeConnection() {
         if (mongoClient != null) {
             mongoClient.close();
         }
     }
 
+    /**
+     * Obtiene una colección de la base de datos.
+     *
+     * @param collectionName Nombre de la colección.
+     * @return La colección especificada.
+     */
     private MongoCollection<Document> getCollection(String collectionName) {
         return mongoDatabase.getCollection(collectionName);
     }
 
-    // Insertar usuario
+    /**
+     * Inserta un usuario en la base de datos.
+     *
+     * @param user El usuario a insertar.
+     */
     public void insert(User user) {
         insertDocument("users", user.convert());
     }
 
-    // Insertar película
+    /**
+     * Inserta una película en la base de datos.
+     *
+     * @param movie La película a insertar.
+     */
     public void insert(Movie movie) {
         insertDocument("movies", movie.converter());
     }
 
-    //Insertar showtime
+    /**
+     * Inserta un función con los horarios en la base de datos.
+     *
+     * @param theater Función/ presentación a insertar.
+     */
     public void insert(Theater theater) {
         insertDocument("showtimes", theater.converter());
     }
 
+    /**
+     * Inserta un documento en la colección especificada.
+     *
+     * @param collectionName Nombre de la colección.
+     * @param document El documento a insertar.
+     */
     private void insertDocument(String collectionName, Document document) {
         try {
             MongoCollection<Document> collection = getCollection(collectionName);
@@ -72,28 +108,52 @@ public class Mongo {
         }
     }
 
+    /**
+     * Busca un usuario en la base de datos.
+     *
+     * @param pass Contraseña del usuario.
+     * @param username Nombre de usuario.
+     * @return El documento del usuario encontrado.
+     */
     public Document findUser(String pass, String username) {
         Document query = new Document("UserName", username).append("Password", pass);
         return getCollection("users").find(query).first();
     }
 
+    /**
+     * Obtiene un usuario de la base de datos.
+     *
+     * @param username Nombre de usuario.
+     * @return El documento del usuario encontrado.
+     */
     public Document getUser(String username) {
         Document query = new Document("UserName", username);
         return getCollection("users").find(query).first();
     }
 
+    /**
+     * Busca un horario de función en la base de datos.
+     *
+     * @param name Nombre del horario de función.
+     * @param date Fecha del horario de función.
+     * @return El documento del horario de función encontrado.
+     */
     public Document findTheater(String name, String date) {
         Document query = new Document("Name", name).append("Date", date);
         return getCollection("showtimes").find(query).first();
     }
 
+    /**
+     * Obtiene los horarios de función de una película en una fecha específica.
+     *
+     * @param title Título de la película.
+     * @param date Fecha de la función.
+     * @return Lista de horarios de función.
+     */
     public List<Theater> getTheater(String title, String date) {
         List<Theater> theaters = new ArrayList<>();
-
         try {
-
             MongoCursor<Document> cursor = getCollection("showtimes").find(and(eq("Date", date), eq("Showtimes.Title", title))).iterator();
-
             while (cursor.hasNext()) {
                 Document doc = cursor.next();
                 Theater theater = new Theater();
@@ -120,11 +180,16 @@ public class Mongo {
         } catch (Exception e) {
             System.out.println(e);
         }
-
         return theaters;
     }
 
-    // Obtener películas
+    /**
+     * Obtiene una lista de películas de la base de datos.
+     *
+     * @param min Índice mínimo de la lista.
+     * @param max Índice máximo de la lista.
+     * @return Lista de películas.
+     */
     public List<Movie> getMovies(int min, int max) {
         //Validar cantidad maxima de documentos
         long totalDocuments = getCollection("movies").countDocuments();

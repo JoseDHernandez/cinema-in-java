@@ -88,17 +88,29 @@ public class MoviePoster extends javax.swing.JPanel {
             .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
     }// </editor-fold>//GEN-END:initComponents
+    /**
+     * Establece los datos de la película en el componente.
+     *
+     * @param title El título de la película.
+     * @param date La fecha de la película.
+     */
     public void setData(String title, String date) {
         Title.setText(title);
         Date.setText(date);
     }
-    
+
+    /**
+     * Establece el póster de la película en el componente.
+     *
+     * @param imageData Los datos binarios de la imagen del póster.
+     */
     public void setPoster(byte[] imageData) {
         ImageIcon ico = new ImageIcon(imageData);
         Image img = ico.getImage();
         ImageIcon scaledIcon = new ImageIcon(img.getScaledInstance(170, 230, Image.SCALE_SMOOTH));
         Poster.setIcon(scaledIcon);
     }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Date;
     private javax.swing.JLabel Poster;

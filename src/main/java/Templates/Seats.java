@@ -13,18 +13,13 @@ import Classes.User;
 import com.mycompany.cuevadeana.Mongo;
 import java.awt.Color;
 import java.awt.Component;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
-import org.bson.Document;
 
 /**
  *
@@ -4123,8 +4118,9 @@ public class Seats extends javax.swing.JPanel {
         Bill bill = new Bill();
         String nameClient = clientName.getText().trim();
         String numIde = Identification.getText().trim();
+        //Validar campos
         if (regex.validate(1, nameClient) && numIde.length() > 9) {
-
+            //Generar factura
             String iden = (Type.getSelectedIndex() > 0 ? Type.getSelectedItem().toString() : "CC") + " " + numIde;
             bill.setNameClient(nameClient);
             bill.setIdentification(iden);
@@ -4133,6 +4129,7 @@ public class Seats extends javax.swing.JPanel {
             bill.setSeats(seatsSold);
             bill.setDateShow(dateString);
             bill.setPrice(getPrice());
+            //Mostrar factura
             int selectedOption = JOptionPane.showConfirmDialog(null, bill.toString(), "Factura", JOptionPane.OK_CANCEL_OPTION);
             System.out.println("Opcion: " + selectedOption);
         } else {
@@ -4141,6 +4138,7 @@ public class Seats extends javax.swing.JPanel {
         }
     }
 
+    //Guardar factura en la base de datos
     private void registerBill() {
         //actualizar Showtiem temporal con las sillas compradas
         tempShow.setSeatsSold(seatsSold);

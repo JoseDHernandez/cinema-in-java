@@ -16,7 +16,9 @@ import java.util.List;
 public class List_movies extends javax.swing.JPanel {
 
     /**
-     * Creates new form List_movies
+     * Crea un nuevo formulario List_movies.
+     *
+     * @param client El cliente de MongoDB.
      */
     private Mongo mongoDB;
 
@@ -26,6 +28,9 @@ public class List_movies extends javax.swing.JPanel {
         viewMovies();
     }
 
+    /**
+     * Muestra las películas en el panel.
+     */
     private void viewMovies() {
 
         Panel.removeAll();
@@ -40,7 +45,6 @@ public class List_movies extends javax.swing.JPanel {
             mt.setPoster(movie.getPoster());
             Panel.add(mt);
         }
-
         Panel.revalidate();
         Panel.repaint();
     }

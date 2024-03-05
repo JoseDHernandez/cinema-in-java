@@ -23,18 +23,19 @@ public class RegisterShowtimes extends javax.swing.JPanel {
     private Mongo mongoDB;
     private Theater theater = new Theater();
     private List<Movie> movies;
-    private final int delayTime = 20;//Tiempo entre funciones
-    private final int openTime = 7; //Hora de apertura
+    private final int delayTime = 20; // Tiempo entre funciones
+    private final int openTime = 7; // Hora de apertura
     DebugWindow window = new DebugWindow();
 
     /**
-     * Creates new form RegisterShowtimes
+     * Crea un nuevo formulario RegisterShowtimes.
+     *
+     * @param client El cliente de MongoDB.
      */
     public RegisterShowtimes(Mongo client) {
         initComponents();
         mongoDB = client;
         getMovieTitles();
-
     }
 
     /**
@@ -334,7 +335,6 @@ public class RegisterShowtimes extends javax.swing.JPanel {
     private void saveShowtime() {
         if (!theater.getShowtimes().isEmpty()) {
             try {
-                Mongo mongoDB = new Mongo();
                 //Validar si ya existe un registro del mismo dia
                 System.out.println("Date: " + theater.getDate());
                 if (mongoDB.findTheater(theater.getName(), theater.getDate()) == null) {

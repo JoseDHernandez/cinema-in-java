@@ -26,6 +26,9 @@ public class Main extends javax.swing.JFrame {
      */
     //Variables globales
     private User userData = new User();
+    //Base de datos
+    private String URIMONGO = "mongodb://localhost:27017";
+    private String DBNAME = "cine";
     private Mongo mongoDB = null;
     //Fin variables globales
 
@@ -304,6 +307,7 @@ public class Main extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
     JPanel actualScenne = null;
 
+    //Re dibuja el JPanel cuando se cambia el tamaño del contenedor 
     private void changeScenne(JPanel scenne) {
         actualScenne = scenne; //910 *630
         MasterPanel.removeAll();
@@ -363,14 +367,20 @@ public class Main extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_formComponentResized
 
-    public void login(String username, String pass, boolean menuType) {
+    /*
+    *Valida al usuario y estable sus datos en local
+    *@param usernaname Nombre del usuario
+    *@param pass Contraseña del usuario
+     */
+    public void login(String username, String pass) {
         //Establecer coneccion con mongoDB
-        mongoDB = new Mongo();
+        mongoDB = new Mongo(URIMONGO, DBNAME);
         //Validar usuario
-        Document userData = mongoDB.findUser(OptionsData.getInstance().getUser().hashPassword(pass), username);
-        if (userData.getString("Password").equals(OptionsData.getInstance().getUser().hashPassword(pass))) {
 
-            User user = new User();
+        User user = new User();
+        Document userData = mongoDB.findUser(user.hashPassword(pass), username);
+        if (userData.getString("Password").equals(user.hashPassword(pass))) {
+
             user.setId(userData.getObjectId("_id").toString());
             user.setUserName(userData.getString("UserName"));
             user.setName(userData.getString("Name"));
@@ -409,8 +419,8 @@ public class Main extends javax.swing.JFrame {
 
     private void BtSaveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtSaveMouseClicked
         // TODO add your handling code here:
-        OptionsData.getInstance().setURI(URIMongo.getText().trim());
-        OptionsData.getInstance().setDBName(DBName.getText().trim());
+        URIMONGO = URIMongo.getText().trim();
+        DBNAME = DBName.getText().trim();
     }//GEN-LAST:event_BtSaveMouseClicked
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed

@@ -1,37 +1,37 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ * Este archivo define la clase DebugWindow, que proporciona métodos para mostrar ventanas de depuración.
  */
 package Templates;
 
 import javax.swing.JOptionPane;
 
 /**
- *
- * @author Jose
+ * La clase DebugWindow proporciona métodos para mostrar ventanas de depuración.
  */
 public class DebugWindow {
 
-    /*
-    0 danger
-     1 info
-     2 warning
-     3 question
+    /**
+     * Muestra una nueva ventana de depuración.
+     *
+     * @param type El tipo de ventana (danger, info, warning, question).
+     * @param message El mensaje que se mostrará en la ventana.
+     * @param title El título de la ventana.
      */
-
     public void newWindow(String type, String message, String title) {
-        
         JOptionPane.showMessageDialog(null, message, title, typeOfWindow(type));
-
     }
 
     private int typeOfWindow(String type) {
-       type = type.toLowerCase();
+        type = type.toLowerCase();
         return switch (type) {
-            case "info" -> 1;
-            case "warning" -> 2;
-            case "question" -> 3;
-            default -> 0;
+            case "info" ->
+                1;
+            case "warning" ->
+                2;
+            case "question" ->
+                3;
+            default ->
+                0;
         };
     }
 }

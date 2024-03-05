@@ -1,6 +1,5 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ * Este archivo define la clase JSON, que proporciona métodos para convertir listas de cadenas a formato JSON.
  */
 package Classes;
 
@@ -10,11 +9,17 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 /**
- *
- * @author Jose
+ * La clase JSON proporciona métodos para convertir listas de cadenas a formato
+ * JSON.
  */
 public class JSON {
 
+    /**
+     * Convierte una lista de cadenas a un objeto JSONArray en formato JSON.
+     *
+     * @param list La lista de cadenas a convertir.
+     * @return El objeto JSONArray resultante (Retorna null en caso de error).
+     */
     public JSONArray listToJson(List<String> list) {
         JSONArray jsonArray;
         String temp = "";

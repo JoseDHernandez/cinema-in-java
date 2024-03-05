@@ -29,7 +29,9 @@ import org.bson.types.Binary;
 public class RegisterMovies extends javax.swing.JPanel {
 
     /**
-     * Creates new form NewJPanel
+     * Crea un nuevo formulario para el registro de peliculas.
+     *
+     * @param client El cliente de MongoDB.
      */
     private Mongo mongoDB;
 
@@ -627,10 +629,12 @@ public class RegisterMovies extends javax.swing.JPanel {
     }
     DebugWindow window = new DebugWindow();
 
+    //
     private List<String> stringToList(String text) {
         return Arrays.asList(text.split(","));
     }
 
+    //Obtiene lista de generos
     private String getListGenres() {
         String list = "";
         if (Comedia.isSelected()) {

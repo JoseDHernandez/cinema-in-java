@@ -4,11 +4,7 @@
  */
 package Templates;
 
-import Classes.User;
 import com.mycompany.cuevadeana.Main;
-import com.mycompany.cuevadeana.Mongo;
-import com.mycompany.cuevadeana.OptionsData;
-import org.bson.Document;
 
 /**
  *
@@ -17,12 +13,11 @@ import org.bson.Document;
 public class Login extends javax.swing.JPanel {
 
     private final Main parentFrame;
-    private boolean menuType = true;
 
     /**
-     * Creates new form Login
+     * Crea un nuevo formulario de inicio de sesión.
      *
-     * @param parentFrame
+     * @param parentFrame El marco principal.
      */
     public Login(Main parentFrame) {
         this.parentFrame = parentFrame;
@@ -175,17 +170,22 @@ public class Login extends javax.swing.JPanel {
 
     private void ButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonMouseClicked
         // TODO add your handling code here:
-
         String pass = Password.getText().trim();
         String username = userName.getText().trim();
-        parentFrame.login(username, pass, menuType);
+        parentFrame.login(username, pass);
     }//GEN-LAST:event_ButtonMouseClicked
 
+    /**
+     * Habilita o deshabilita los campos de inicio de sesión.
+     *
+     * @param t true para habilitar, false para deshabilitar.
+     */
     private void loginFields(boolean t) {
         Password.setEnabled(t);
         userName.setEnabled(t);
         Button.setEnabled(t);
     }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Button;
     private javax.swing.JLabel PassLabel;

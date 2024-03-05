@@ -1,6 +1,7 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ * Este archivo define la clase Bill, que representa una factura de venta para un cine.
+ * Contiene información sobre el cliente, la película, la fecha y hora de la función,
+ * las entradas vendidas, el precio y el cálculo del IVA.
  */
 package Classes;
 
@@ -12,8 +13,7 @@ import java.util.List;
 import org.bson.Document;
 
 /**
- *
- * @author Jose
+ * La clase Bill representa una factura de venta para un cine.
  */
 public class Bill {
 
@@ -29,6 +29,10 @@ public class Bill {
     private String nameClient;
     private String identification;
 
+    /**
+     * Constructor de la clase Bill. Inicializa los atributos con valores
+     * predeterminados.
+     */
     public Bill() {
         nit = "00000000000";
         seats = new ArrayList<>();
@@ -42,47 +46,102 @@ public class Bill {
         identification = "";
     }
 
+    /**
+     * Establece el nombre del cliente.
+     *
+     * @param name El nombre del cliente.
+     */
     public void setNameClient(String name) {
         nameClient = name;
     }
 
+    /**
+     * Establece la identificación del cliente.
+     *
+     * @param identification La identificación del cliente.
+     */
     public void setIdentification(String identification) {
         this.identification = identification;
     }
 
     // Getters and setters
+    /**
+     * Establece la fecha de la función.
+     *
+     * @param date La fecha de la función.
+     */
     public void setDateShow(String date) {
         dateShow = date;
     }
 
+    /**
+     * Obtiene la fecha de la función.
+     *
+     * @return La fecha de la función.
+     */
     public String getDateShow() {
         return dateShow;
     }
 
+    /**
+     * Obtiene el NIT.
+     *
+     * @return El NIT.
+     */
     public String getNit() {
         return nit;
     }
 
+    /**
+     * Obtiene el cajero.
+     *
+     * @return El cajero (Class User).
+     */
     public User getCashier() {
         return cashier;
     }
 
+    /**
+     * Establece el cajero.
+     *
+     * @param cashier El cajero (Class User).
+     */
     public void setCashier(User cashier) {
         this.cashier = cashier;
     }
 
+    /**
+     * Establece la función/presentación de cine.
+     *
+     * @param showtime La funcion (Class Showtime).
+     */
     public void setShowtime(Showtime showtime) {
         this.showtime = showtime;
     }
 
+    /**
+     * Obtiene los asientos comprados.
+     *
+     * @return La lista de asientos.
+     */
     public List<String> getSeats() {
         return seats;
     }
 
+    /**
+     * Establece los asientos vendidos.
+     *
+     * @param seats La lista de asientos.
+     */
     public void setSeats(List<String> seats) {
         this.seats = seats;
     }
 
+    /**
+     * Obtiene el precio sin IVA.
+     *
+     * @return El precio.
+     */
     public double getPrice() {
         return price;
     }
@@ -90,17 +149,27 @@ public class Bill {
     /**
      * Establece el precio total de la venta, incluyendo el IVA.
      *
-     * @param price El precio sin impuestos. (Double)
+     * @param price El precio sin impuestos.
      */
     public void setPrice(double price) {
         this.price = price;
         totalPrice = price + (price * iva);
     }
 
+    /**
+     * Obtiene el IVA.
+     *
+     * @return El IVA.
+     */
     public double getIva() {
         return iva;
     }
 
+    /**
+     * Obtiene el precio total.
+     *
+     * @return El precio total.
+     */
     public double getTotalPrice() {
         return totalPrice;
     }
@@ -122,34 +191,19 @@ public class Bill {
         return purchaseDate;
     }
 
-    /*
-    Cueva de ana
-    NIT
-    Dirrecion
-    Codigo factura
-    Caja
-    Cajero/a:
-    Cliente
-    ---Boleto de entrada de cine---
-    pelicula:
-    Fecha de funcion:
-    Ubicacion
-        Sala
-        Asientos
-    Valor
-    iva
-    valor total + iva
-    ----
-    Fecha y hora de la compra
+    /**
+     * Convierte la factura en una cadena de caracteres.
+     *
+     * @return La representación de la factura como cadena de caracteres.
      */
     public String toString() {
-        return "Cueva de ana \n"
+        return "Cueva de Ana \n"
                 + "NIT: " + nit
-                + "\nDireción Calle 85 # 87 CC Cometa Local 105-110 \n"
+                + "\nDirección: Calle 85 # 87 CC Cometa Local 105-110 \n"
                 + "Cajero/a: " + cashier.getName() + "\nCaja: " + cashier.getCashRegister()
                 + "\nCliente: " + nameClient + "\nIdentificación: " + identification + "\n"
                 + "--------Información de la compra-------\n"
-                + "Pelicula: " + showtime.getMovie() + "\n"
+                + "Película: " + showtime.getMovie() + "\n"
                 + "Fecha de la función: " + dateShow + " " + showtime.getStartHour() + " - " + showtime.getEndHour() + "\n"
                 + "Sala: " + showtime.getTheater() + "\n"
                 + "Asientos: " + seats + "\n"
@@ -159,6 +213,12 @@ public class Bill {
                 + "Fecha de la compra: " + getPurchaseDate();
     }
 
+    /**
+     * Convierte la factura en un documento BSON para su almacenamiento en la
+     * base de datos.
+     *
+     * @return El documento BSON.
+     */
     public Document converter() {
         Document document = new Document("CashRegister", cashier.getCashRegister())
                 .append("Cashier", cashier.getName())
