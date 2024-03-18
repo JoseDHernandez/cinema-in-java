@@ -8,10 +8,11 @@ import Classes.User;
 import Templates.DebugWindow;
 import Templates.List_movies;
 import Templates.Login;
+import Templates.Options;
 import Templates.RegisterShowtimes;
 import Templates.RegisterUser;
 import Templates.RegisterMovies;
-import Templates.Seats;
+import Templates.SellSeats;
 import javax.swing.JPanel;
 import org.bson.Document;
 
@@ -35,11 +36,18 @@ public class Main extends javax.swing.JFrame {
     public Main() {
         initComponents();
         enableButtons(false);//Deshabilitar botones
-        PanelOptions.setVisible(false);
-
+        visibleButtons(false);
         login();
-        //venta();
-        //registerShowtime();
+    }
+
+    /**
+     * Establecer la URI y nombre de la base de datos
+     *
+     * @param URI URI de mongoDB
+     * @param Name Nombre de la base de datos
+     */
+    public void setDatabase(String URI, String Name) {
+
     }
 
     /**
@@ -55,16 +63,8 @@ public class Main extends javax.swing.JFrame {
         Button1 = new javax.swing.JButton();
         Button2 = new javax.swing.JButton();
         MasterPanel = new javax.swing.JPanel();
-        PanelOptions = new javax.swing.JPanel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        URIMongo = new javax.swing.JTextField();
-        jLabel7 = new javax.swing.JLabel();
-        DBName = new javax.swing.JTextField();
-        BtSave = new javax.swing.JButton();
         Button3 = new javax.swing.JButton();
-        Opciones = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        Button4 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         UserNameTitle = new javax.swing.JLabel();
@@ -112,82 +112,15 @@ public class Main extends javax.swing.JFrame {
         MasterPanel.setBackground(new java.awt.Color(255, 255, 255));
         MasterPanel.setPreferredSize(new java.awt.Dimension(910, 630));
 
-        jLabel4.setText("Opciones");
-
-        jLabel6.setText("URI of mongo");
-
-        jLabel7.setText("Database name");
-
-        BtSave.setText("Save");
-        BtSave.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                BtSaveMouseClicked(evt);
-            }
-        });
-        BtSave.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BtSaveActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout PanelOptionsLayout = new javax.swing.GroupLayout(PanelOptions);
-        PanelOptions.setLayout(PanelOptionsLayout);
-        PanelOptionsLayout.setHorizontalGroup(
-            PanelOptionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(PanelOptionsLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(PanelOptionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(PanelOptionsLayout.createSequentialGroup()
-                        .addGroup(PanelOptionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(PanelOptionsLayout.createSequentialGroup()
-                                .addComponent(jLabel6)
-                                .addGap(18, 18, 18)
-                                .addComponent(URIMongo, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jLabel4))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(PanelOptionsLayout.createSequentialGroup()
-                        .addComponent(jLabel7)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(PanelOptionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(DBName)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelOptionsLayout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(BtSave)
-                                .addGap(98, 98, 98))))))
-        );
-        PanelOptionsLayout.setVerticalGroup(
-            PanelOptionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(PanelOptionsLayout.createSequentialGroup()
-                .addGap(16, 16, 16)
-                .addComponent(jLabel4)
-                .addGap(18, 18, 18)
-                .addGroup(PanelOptionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(URIMongo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(PanelOptionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(DBName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(BtSave)
-                .addContainerGap())
-        );
-
         javax.swing.GroupLayout MasterPanelLayout = new javax.swing.GroupLayout(MasterPanel);
         MasterPanel.setLayout(MasterPanelLayout);
         MasterPanelLayout.setHorizontalGroup(
             MasterPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(MasterPanelLayout.createSequentialGroup()
-                .addGap(616, 616, 616)
-                .addComponent(PanelOptions, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(129, Short.MAX_VALUE))
+            .addGap(0, 1024, Short.MAX_VALUE)
         );
         MasterPanelLayout.setVerticalGroup(
             MasterPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(MasterPanelLayout.createSequentialGroup()
-                .addGap(14, 14, 14)
-                .addComponent(PanelOptions, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGap(0, 689, Short.MAX_VALUE)
         );
 
         Button3.setBackground(new java.awt.Color(255, 153, 153));
@@ -201,22 +134,10 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
-        Opciones.setText("Opciones");
-        Opciones.addMouseListener(new java.awt.event.MouseAdapter() {
+        Button4.setText("Opciones");
+        Button4.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                OpcionesMouseClicked(evt);
-            }
-        });
-
-        jButton2.setText("Salir");
-        jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButton2MouseClicked(evt);
-            }
-        });
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                Button4MouseClicked(evt);
             }
         });
 
@@ -265,9 +186,7 @@ public class Main extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(Button3, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(Opciones, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(Button4, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
             .addComponent(MasterPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 1024, Short.MAX_VALUE)
         );
@@ -279,13 +198,10 @@ public class Main extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(9, 9, 9)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(Button1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(Opciones, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(Button1, javax.swing.GroupLayout.DEFAULT_SIZE, 58, Short.MAX_VALUE)
                             .addComponent(Button2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(Button3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(Button3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(Button4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(MasterPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 689, Short.MAX_VALUE))
         );
@@ -323,7 +239,7 @@ public class Main extends javax.swing.JFrame {
     }
 
     private void venta() {
-        Seats v = new Seats(mongoDB, userData);
+        SellSeats v = new SellSeats(mongoDB, userData);
         changeScenne(v);
     }
 
@@ -367,10 +283,11 @@ public class Main extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_formComponentResized
 
-    /*
-    *Valida al usuario y estable sus datos en local
-    *@param usernaname Nombre del usuario
-    *@param pass Contraseña del usuario
+    /**
+     * Valida al usuario y estable sus datos en local
+     *
+     * @param usernaname Nombre del usuario
+     * @param pass Contraseña del usuario
      */
     public void login(String username, String pass) {
         //Establecer coneccion con mongoDB
@@ -380,7 +297,6 @@ public class Main extends javax.swing.JFrame {
         User user = new User();
         Document userData = mongoDB.findUser(user.hashPassword(pass), username);
         if (userData.getString("Password").equals(user.hashPassword(pass))) {
-
             user.setId(userData.getObjectId("_id").toString());
             user.setUserName(userData.getString("UserName"));
             user.setName(userData.getString("Name"));
@@ -394,9 +310,11 @@ public class Main extends javax.swing.JFrame {
             Button1.setText(user.getRol().equals("Administrador") ? "Registrar" : "Venta");
             Button2.setText(user.getRol().equals("Administrador") ? "Funciones" : "Peliculas");
             Button3.setText(user.getRol().equals("Administrador") ? "Usuarios" : " ");
+            Button4.setText("Salir");
             //
             UserNameTitle.setText(user.getName());
             enableButtons(true);
+            visibleButtons(true);
             listMovies();
         } else {
             DebugWindow window = new DebugWindow();
@@ -412,39 +330,21 @@ public class Main extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_Button3MouseClicked
 
-    private void OpcionesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_OpcionesMouseClicked
+    private void Button4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Button4MouseClicked
         // TODO add your handling code here:
-        PanelOptions.setVisible(true);
-    }//GEN-LAST:event_OpcionesMouseClicked
-
-    private void BtSaveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtSaveMouseClicked
-        // TODO add your handling code here:
-        URIMONGO = URIMongo.getText().trim();
-        DBNAME = DBName.getText().trim();
-    }//GEN-LAST:event_BtSaveMouseClicked
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void BtSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtSaveActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_BtSaveActionPerformed
+        if (Button4.getText().equals("Opciones")) {
+            Options op = new Options(this);
+            op.setVisible(true);
+        } else {
+            //cerrar ssecion
+        }
+    }//GEN-LAST:event_Button4MouseClicked
 
     private void login() {
         Login loginT = new Login(this);
         loginT.setName("Login");
         changeScenne(loginT);
     }
-    private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
-        // TODO add your handling code here:
-        userData = null;
-        UserNameTitle.setText(" ");
-        enableButtons(false);
-        //Repintar el formulario
-        login();
-    }//GEN-LAST:event_jButton2MouseClicked
-
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         // TODO add your handling code here:
         if (mongoDB != null) {
@@ -453,12 +353,15 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowClosing
 
     private void enableButtons(boolean enable) {
+        Button1.setEnabled(enable);
         Button2.setEnabled(enable);
-
         Button3.setEnabled(enable);
-        jButton2.setEnabled(enable);
-        Opciones.setEnabled(!enable);
-        BtSave.setEnabled(!enable);
+    }
+
+    private void visibleButtons(boolean isVisible) {
+        Button1.setVisible(isVisible);
+        Button2.setVisible(isVisible);
+        Button3.setVisible(isVisible);
     }
 
     /**
@@ -497,21 +400,13 @@ public class Main extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton BtSave;
     private javax.swing.JButton Button1;
     private javax.swing.JButton Button2;
     private javax.swing.JButton Button3;
-    private javax.swing.JTextField DBName;
+    private javax.swing.JButton Button4;
     private javax.swing.JPanel MasterPanel;
-    private javax.swing.JButton Opciones;
-    private javax.swing.JPanel PanelOptions;
-    private javax.swing.JTextField URIMongo;
     private javax.swing.JLabel UserNameTitle;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     // End of variables declaration//GEN-END:variables
