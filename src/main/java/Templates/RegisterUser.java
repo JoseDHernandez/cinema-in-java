@@ -190,7 +190,7 @@ public class RegisterUser extends javax.swing.JPanel {
         //Register in DB
         if (mongoDB.getUser(user.getUserName()) != null) {
             DebugWindow window = new DebugWindow();
-            window.newWindow("warning", "Usuario ya registrado", "Error de registro");
+            window.Message("warning", "Usuario ya registrado", "Error de registro");
         } else {
             mongoDB.insert(user);
         }

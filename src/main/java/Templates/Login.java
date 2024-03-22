@@ -15,7 +15,7 @@ import java.net.URISyntaxException;
  * @author Jose
  */
 public class Login extends javax.swing.JPanel {
-    
+
     private final Main parentFrame;
 
     /**
@@ -58,7 +58,7 @@ public class Login extends javax.swing.JPanel {
 
         UserLabel.setText("<html><p align='center'>Nombre de<br>usuario</p><html>");
 
-        userName.setText("ADCRSITGOHU");
+        userName.setText("CRJOSDAHERHOR");
         userName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 userNameActionPerformed(evt);
@@ -147,7 +147,7 @@ public class Login extends javax.swing.JPanel {
             }
         });
 
-        jLabel3.setText("La cueva de ana 2024 by José David Hernández Hortúa is licensed under CC BY-NC 4.0. ");
+        jLabel3.setText("La cueva de ana 2024 by José David Hernández Hortúa is licensed under CC BY-NC-SA 4.0. ");
         jLabel3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -222,14 +222,14 @@ public class Login extends javax.swing.JPanel {
     private void userNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userNameActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_userNameActionPerformed
-    
+
     private void ButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonMouseClicked
         // TODO add your handling code here:
         String pass = Password.getText().trim();
         String username = userName.getText().trim();
         parentFrame.login(username, pass);
     }//GEN-LAST:event_ButtonMouseClicked
-    
+
     private void openBrowserPage(String uri) {
         try {
             // Abrir la URL en el navegador predeterminado
@@ -242,10 +242,10 @@ public class Login extends javax.swing.JPanel {
         // TODO add your handling code here:
         openBrowserPage("https://github.com/federal344BP/cinema-in-java");
     }//GEN-LAST:event_jLabel2MouseClicked
-    
+
     private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
         // TODO add your handling code here:
-        openBrowserPage("http://creativecommons.org/licenses/by-nc/4.0/");
+        openBrowserPage("http://creativecommons.org/licenses/by-nc-sa/4.0/");
     }//GEN-LAST:event_jLabel3MouseClicked
 
     /**

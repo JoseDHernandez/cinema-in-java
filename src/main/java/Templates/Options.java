@@ -211,9 +211,9 @@ public class Options extends javax.swing.JFrame {
             mongoClient.close();
         } catch (MongoException e) {
             status = false;
-            window.newWindow("danger", "\n" + e.toString(), "Error en la prueba de conexión");
+            window.Message("danger", "\n" + e.toString(), "Error en la prueba de conexión");
         }
-        window.newWindow(status ? "info" : "danger", status ? "Conexión valida" : "Conexión invalida", "Prueba de conexión");
+        window.Message(status ? "info" : "danger", status ? "Conexión valida" : "Conexión invalida", "Prueba de conexión");
     }//GEN-LAST:event_jButton1MouseClicked
 
     /**

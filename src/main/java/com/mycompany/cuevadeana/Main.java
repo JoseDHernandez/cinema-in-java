@@ -318,7 +318,7 @@ public class Main extends javax.swing.JFrame {
             listMovies();
         } else {
             DebugWindow window = new DebugWindow();
-            window.newWindow("warning", "Usuario invalido", "Error de ingreso");
+            window.Message("warning", "Usuario invalido", "Error de ingreso");
         }
     }
     private void Button3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Button3MouseClicked

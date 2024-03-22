@@ -181,7 +181,7 @@ public class Bill {
      * @return La fecha y hora actual de Colombia.
      */
     public LocalDateTime getPurchaseDate() {
-        if (purchaseDate != null) {
+        if (purchaseDate == null) {
             LocalDateTime date = LocalDateTime.now();
             ZoneId zone = ZoneId.of("America/Bogota");
             ZonedDateTime zonaHoraria = date.atZone(zone);
@@ -191,26 +191,36 @@ public class Bill {
         return purchaseDate;
     }
 
+    public Showtime getShowtime() {
+        return showtime;
+    }
+
     /**
      * Convierte la factura en una cadena de caracteres.
      *
      * @return La representación de la factura como cadena de caracteres.
      */
+    @Override
     public String toString() {
-        return "Cueva de Ana \n"
-                + "NIT: " + nit
-                + "\nDirección: Calle 85 # 87 CC Cometa Local 105-110 \n"
-                + "Cajero/a: " + cashier.getName() + "\nCaja: " + cashier.getCashRegister()
-                + "\nCliente: " + nameClient + "\nIdentificación: " + identification + "\n"
-                + "--------Información de la compra-------\n"
-                + "Película: " + showtime.getMovie() + "\n"
-                + "Fecha de la función: " + dateShow + " " + showtime.getStartHour() + " - " + showtime.getEndHour() + "\n"
-                + "Sala: " + showtime.getTheater() + "\n"
-                + "Asientos: " + seats + "\n"
-                + "Valor: " + price + "  IVA: 19% \n"
-                + "Valor total: " + totalPrice
-                + "\n--------------------------------------\n"
-                + "Fecha de la compra: " + getPurchaseDate();
+        StringBuilder receiptBuilder = new StringBuilder();
+        receiptBuilder.append("Cueva de Ana\n")
+                .append("NIT: ").append(nit).append("\n")
+                .append("Dirección: Calle 85 # 87 CC Cometa Local 105-110\n")
+                .append("Cajero/a: ").append(cashier.getName()).append("\n")
+                .append("Caja: ").append(cashier.getCashRegister()).append("\n")
+                .append("Cliente: ").append(nameClient).append("\n")
+                .append("Identificación: ").append(identification).append("\n")
+                .append("--------Información de la compra-------\n")
+                .append("Película: ").append(showtime.getMovie()).append("\n")
+                .append("Fecha de la función: ").append(dateShow).append(" ")
+                .append(showtime.getStartHour()).append(" - ").append(showtime.getEndHour()).append("\n")
+                .append("Sala: ").append(showtime.getTheater()).append("\n")
+                .append("Asientos: ").append(seats).append("\n")
+                .append("Valor: ").append(price).append("  IVA: 19%\n")
+                .append("Valor total: ").append(totalPrice).append("\n")
+                .append("--------------------------------------\n")
+                .append("Fecha de la compra: ").append(getPurchaseDate());
+        return receiptBuilder.toString();
     }
 
     /**
@@ -226,10 +236,10 @@ public class Bill {
                 .append("Identification", identification)
                 .append("Movie", showtime.getMovie())
                 .append("Date", dateShow)
-                .append("StartTime", showtime.getStartHour())
-                .append("EndHour", showtime.getEndHour())
+                .append("StartTime", showtime.getStartHour().toString())
+                .append("EndHour", showtime.getEndHour().toString())
                 .append("Theater", showtime.getTheater())
-                .append("Seats", seats)
+                .append("Seats", JSON.listToJson(seats))
                 .append("Price", price)
                 .append("Tax", iva)
                 .append("TotalPrice", totalPrice)

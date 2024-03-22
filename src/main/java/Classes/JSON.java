@@ -20,7 +20,7 @@ public class JSON {
      * @param list La lista de cadenas a convertir.
      * @return El objeto JSONArray resultante (Retorna null en caso de error).
      */
-    public JSONArray listToJson(List<String> list) {
+    public static JSONArray listToJson(List<String> list) {
         JSONArray jsonArray;
         String temp = "";
         try {
@@ -37,7 +37,7 @@ public class JSON {
             jsonArray = new JSONArray("[" + temp + "]");
         } catch (JSONException e) {
             DebugWindow window = new DebugWindow();
-            window.newWindow("danger", "JSON Error:\n" + e.toString(), "JSON Error");
+            window.Message("danger", "JSON Error:\n" + e.toString(), "JSON Error");
             return null; // Manejar el error según sea necesario
         }
         return jsonArray;

@@ -302,7 +302,7 @@ public class RegisterShowtimes extends javax.swing.JPanel {
                     //Comprar si la pelicula no pasa de las 11 PM
                     int end = endTime.getHour(), start = startTime.getHour();
                     if ((start >= 0 && start < openTime || start >= 23) || (end >= 0 && end < openTime || end >= 23)) {
-                        window.newWindow("warning", "Ya no se pueden agregar mas peliculas", "Limite de horario");
+                        window.Message("warning", "Ya no se pueden agregar mas peliculas", "Limite de horario");
                     } else {
                         showtime.setStartHour(startTime);
                         showtime.setEndHour(endTime);
@@ -312,15 +312,15 @@ public class RegisterShowtimes extends javax.swing.JPanel {
                         ListMovies.setSelectedIndex(0);
                         //Actualizar tabla
                         updateTable();
-                        window.newWindow("info", "Pelicula añadida", "Pelicula registrada en la funcion");
+                        window.Message("info", "Pelicula añadida", "Pelicula registrada en la funcion");
                     }
                 }
 
             } else {
-                window.newWindow("warning", "Pelicula no seleccionada", "Pelicula no seleccionada");
+                window.Message("warning", "Pelicula no seleccionada", "Pelicula no seleccionada");
             }
         } else {
-            window.newWindow("warning", "Fecha no seleccionada", "Fecha no seleccionada");
+            window.Message("warning", "Fecha no seleccionada", "Fecha no seleccionada");
         }
 
     }
@@ -345,12 +345,12 @@ public class RegisterShowtimes extends javax.swing.JPanel {
                     enableInputs();
                     updateTable();
                 } else {
-                    window.newWindow("danger", "Fecha ya registrada", "Error en registrar funcion");
+                    window.Message("danger", "Fecha ya registrada", "Error en registrar funcion");
                     enableInputs();
                 }
 
             } catch (Exception ex) {
-                window.newWindow("danger", ex.toString(), "Error en registrar funcion");
+                window.Message("danger", ex.toString(), "Error en registrar funcion");
             }
         }
     }

@@ -111,7 +111,7 @@ public class Showtime {
     }
 
     /**
-     * Establece la película asociada a la función.
+     * Establece el titulo de la película asociada a la función.
      *
      * @param movie La película asociada.
      */
@@ -135,12 +135,11 @@ public class Showtime {
      * @return El documento BSON.
      */
     public Document converter() {
-        JSON json = new JSON();
         Document document = new Document("Title", movie)
                 .append("StartHour", startHour.toString())
                 .append("End Hour", endHour.toString())
                 .append("Duration", duration)
-                .append("SeatsSold", json.listToJson(seatsSold));
+                .append("SeatsSold", JSON.listToJson(seatsSold));
         return document;
     }
 }

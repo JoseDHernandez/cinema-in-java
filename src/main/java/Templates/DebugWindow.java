@@ -17,21 +17,19 @@ public class DebugWindow {
      * @param message El mensaje que se mostrará en la ventana.
      * @param title El título de la ventana.
      */
-    public void newWindow(String type, String message, String title) {
-        JOptionPane.showMessageDialog(null, message, title, typeOfWindow(type));
-    }
-
-    private int typeOfWindow(String type) {
+    public static void Message(String type, String message, String title) {
         type = type.toLowerCase();
-        return switch (type) {
+        int num;
+        switch (type) {
             case "info" ->
-                1;
+                num = 1;
             case "warning" ->
-                2;
+                num = 2;
             case "question" ->
-                3;
+                num = 3;
             default ->
-                0;
+                num = 0;
         };
+        JOptionPane.showMessageDialog(null, message, title, num);
     }
 }

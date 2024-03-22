@@ -209,7 +209,6 @@ public class Movie {
      * @return El documento BSON.
      */
     public Document converter() {
-        JSON json = new JSON();
         Document document = new Document("Title", title)
                 .append("Classification", classification)
                 .append("Date", getDate())
@@ -220,10 +219,10 @@ public class Movie {
 
         // Verificar si actors y genres no son nulos antes de convertirlos a JSON
         if (actors != null) {
-            document.append("Actors", json.listToJson(actors));
+            document.append("Actors", JSON.listToJson(actors));
         }
         if (genres != null) {
-            document.append("Genres", json.listToJson(genres));
+            document.append("Genres", JSON.listToJson(genres));
         }
 
         return document;

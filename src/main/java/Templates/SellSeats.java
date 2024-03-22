@@ -16,7 +16,6 @@ import java.awt.Component;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -47,6 +46,7 @@ public class SellSeats extends javax.swing.JPanel {
     private final Color VENDIDA = Color.darkGray;
     private final Color SELECCION = Color.ORANGE;
     private final Color VIP = Color.MAGENTA;
+    private final Color VOID = Color.white;
     //Variables de menus
     private List<String> allSeatsSold = new ArrayList<>();//Todas las silla vendidas de una funcion
     private List<String> seatsSold = new ArrayList<>();//Sillas seleccionadas
@@ -3526,59 +3526,61 @@ public class SellSeats extends javax.swing.JPanel {
 
         jLabel35.setText("Fecha");
 
+        DateChoosser.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                DateChoosserPropertyChange(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(Sala, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel33)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel33)
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel36)
+                                    .addComponent(jLabel34)
+                                    .addComponent(jLabel39))
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel36)
-                                            .addComponent(jLabel34)
-                                            .addComponent(jLabel39))
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addGap(19, 19, 19)
-                                                .addComponent(ListMovies, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addGap(18, 18, 18)
-                                                .addComponent(Features, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                        .addGap(19, 19, 19)
+                                        .addComponent(ListMovies, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel38)
-                                            .addComponent(jLabel37))
                                         .addGap(18, 18, 18)
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addComponent(Type, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(Identification, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addComponent(clientName)))
-                                    .addComponent(SeatsSoldLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jSeparator1)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel40)
-                                            .addComponent(jLabel35))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(Showtimes, 0, 178, Short.MAX_VALUE)
-                                            .addComponent(DateChoosser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                                .addGap(0, 10, Short.MAX_VALUE))))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(SoldButton)
-                        .addGap(116, 116, 116))))
+                                        .addComponent(Features, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel38)
+                                    .addComponent(jLabel37))
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(Type, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(Identification, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(clientName)))
+                            .addComponent(SeatsSoldLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jSeparator1)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel40)
+                                    .addComponent(jLabel35))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(SoldButton)
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(Showtimes, 0, 178, Short.MAX_VALUE)
+                                        .addComponent(DateChoosser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                        .addGap(0, 10, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -3617,9 +3619,9 @@ public class SellSeats extends javax.swing.JPanel {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel35)
                     .addComponent(DateChoosser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(75, 75, 75)
                 .addComponent(SoldButton)
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -3899,7 +3901,7 @@ public class SellSeats extends javax.swing.JPanel {
     private int indexControl = 0;
 
     //Cargar sillas vendidas segun la presentacion
-    private void setSeatsSold() {
+    private void loadSeatsSold() {
         if (Showtimes.getSelectedIndex() > 0 && ListMovies.getSelectedIndex() != 0 && indexControl != Showtimes.getSelectedIndex()) {
             indexControl = Showtimes.getSelectedIndex();
             //Obtener sillas vendidas
@@ -3922,7 +3924,6 @@ public class SellSeats extends javax.swing.JPanel {
                 }
             }
             //Limpiar datos
-            seatsSold = new ArrayList<>();
             SeatsSoldLabel.setText("");
             //Obtener botones
             Component[] sillas = Sala.getComponents();
@@ -3930,20 +3931,23 @@ public class SellSeats extends javax.swing.JPanel {
             if (!allSeatsSold.isEmpty()) {
                 for (Component silla : sillas) {
                     if (silla instanceof JButton button) {
-                        for (String seatSold : allSeatsSold) {
-                            if (button.getName() != null) {
-                                if (VIP_SEATS.contains(button.getName())) {
-                                    button.setBackground(VIP);
-                                }
-                                if (button.getName().equals(seatSold)) {
-                                    button.setBackground(VENDIDA);
-                                    break;
-                                }
+                        if (button.getName() != null) {
+                            if (VIP_SEATS.contains(button.getName())) {
+                                button.setBackground(VIP);
+                            } else if (allSeatsSold.contains(button.getName())) {
+                                button.setBackground(VENDIDA);
+                                break;
+                            } else if (seatsSold.contains(button.getName())) {
+                                button.setBackground(Color.BLACK);
+                            } else {
+                                button.setBackground(VOID);
                             }
                         }
                     }
                 }
             }
+
+            seatsSold = new ArrayList<>();
         }
     }
 
@@ -4022,6 +4026,8 @@ public class SellSeats extends javax.swing.JPanel {
             for (String show : showtimesListString) {
                 Showtimes.addItem(show);
             }
+            //Limpiar sillas
+            loadSeatsSold();
         }
     }
 
@@ -4030,17 +4036,11 @@ public class SellSeats extends javax.swing.JPanel {
         if (ListMovies.getSelectedIndex() != 0 && !titleOfMovie.equals(ListMovies.getSelectedItem().toString())) {
             titleOfMovie = ListMovies.getSelectedItem().toString();
             LabelScreen.setText(titleOfMovie);
-            DebugWindow window = new DebugWindow();
             try {
                 //Fecha (date chooser o actual)
-                String dateSelected = DateChoosser.getDate() != null ? dateString : formatterDate.format(DateChoosser.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+                String dateSelected = DateChoosser.getDate() == null ? dateString : formatterDate.format(DateChoosser.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
                 theaterList = mongoDB.getTheater(titleOfMovie, dateSelected);
-                if (theaterList.isEmpty()) {
-                    //Restablecer showtimes
-                    theaterList = new ArrayList<>();
-                    window.newWindow("alert", "Funcion no encontrada:\n solicite el registro de la funcion correspodiente al dia " + dateString
-                            + " para la pelicula " + titleOfMovie + " con un administrador", "Funcion no encontrada");
-                } else {
+                if (!theaterList.isEmpty()) {
                     for (Theater shows : theaterList) {
                         for (Showtime hours : shows.getShowtimes()) {
                             String temp = shows.getName() + ":  " + hours.getStartHour() + " - " + hours.getEndHour();
@@ -4049,10 +4049,16 @@ public class SellSeats extends javax.swing.JPanel {
                         }
                     }
                     setShows();
+
+                } else {
+                    //Restablecer showtimes
+                    theaterList = new ArrayList<>();
+                    DebugWindow.Message("alert", "Funcion no encontrada:\n solicite el registro de la funcion correspodiente al dia " + dateString
+                            + " para la pelicula " + titleOfMovie + " con un administrador", "Funcion no encontrada");
                 }
             } catch (Exception e) {
                 System.out.println(e);
-                window.newWindow("danger", e.toString(), "Error en venta de entrada");
+                DebugWindow.Message("danger", e.toString(), "Error en venta de entrada");
             }
         } else {
             titleOfMovie = "";
@@ -4083,7 +4089,7 @@ public class SellSeats extends javax.swing.JPanel {
             evt.getComponent().setBackground(SELECCION);
         } else {
             seatsSold.remove(seatsSold.indexOf(seatName));
-            evt.getComponent().setBackground(Color.white);
+            evt.getComponent().setBackground(VOID);
         }
         SeatsSoldLabel.setText("<html><p>" + seatsSold.toString() + "</p></html>");
     }
@@ -4094,6 +4100,7 @@ public class SellSeats extends javax.swing.JPanel {
         //Precio segun categoria
         String[] features = Features.getSelectedItem().toString().split(" ");
         String Feature = features[0];
+        System.out.println(Feature);
         //Filtrar por dimencion
         switch (Feature) {
             case "2D":
@@ -4106,8 +4113,12 @@ public class SellSeats extends javax.swing.JPanel {
                 price += PRECIO_BASE_4D;
                 break;
         }
+        if (seatsSold.isEmpty()) {
+            throw new InternalError("Lista de asientos vacia");
+        }
         //Multiplicar por cantidad de sillas
         price *= seatsSold.size();
+        System.out.println(price);
         //Añadir precio vip
         for (String seat : seatsSold) {
             if (VIP_SEATS.contains(seat)) {
@@ -4124,7 +4135,7 @@ public class SellSeats extends javax.swing.JPanel {
         String nameClient = clientName.getText().trim();
         String numIde = Identification.getText().trim();
         //Validar campos
-        if (regex.validate(1, nameClient) && numIde.length() > 9) {
+        if (regex.validate(1, nameClient) && numIde.length() > 9 && !seatsSold.isEmpty()) {
             //Generar factura
             String iden = (Type.getSelectedIndex() > 0 ? Type.getSelectedItem().toString() : "CC") + " " + numIde;
             bill.setNameClient(nameClient);
@@ -4134,19 +4145,27 @@ public class SellSeats extends javax.swing.JPanel {
             bill.setSeats(seatsSold);
             bill.setDateShow(dateString);
             bill.setPrice(getPrice());
-            //Mostrar factura
             int selectedOption = JOptionPane.showConfirmDialog(null, bill.toString(), "Factura", JOptionPane.OK_CANCEL_OPTION);
-            System.out.println("Opcion: " + selectedOption);
+            //Almacenar factura en la base de datos
+            if (selectedOption == 0) {
+                mongoDB.insert(bill);
+            } else {
+                //Limpiar inputs
+                loadSeatsSold();
+            }
         } else {
-            DebugWindow window = new DebugWindow();
-            window.newWindow("warning", "Datos invalidos", "Error en generacion de factura");
+            //TODO: Completar lista de errores
+            DebugWindow.Message("warning", "Datos invalidos: \n", "Error en generacion de factura");
         }
     }
+//Cambio de fecha
 
-    //Guardar factura en la base de datos
-    private void registerBill() {
-        //actualizar Showtiem temporal con las sillas compradas
-        tempShow.setSeatsSold(seatsSold);
+    private void changeDate() {
+        /* Date dateChooser =DateChoosser.getDate();
+        String dateSelected =  != null ? dateString : formatterDate.format(DateChoosser.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+        if(dateChooser != null){
+            
+        }*/
     }
     private void B1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B1ActionPerformed
         // TODO add your handling code here:
@@ -5641,8 +5660,13 @@ public class SellSeats extends javax.swing.JPanel {
 
     private void ShowtimesItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_ShowtimesItemStateChanged
         // TODO add your handling code here:
-        setSeatsSold();
+        loadSeatsSold();
     }//GEN-LAST:event_ShowtimesItemStateChanged
+
+    private void DateChoosserPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_DateChoosserPropertyChange
+        // TODO add your handling code here:
+        changeDate();
+    }//GEN-LAST:event_DateChoosserPropertyChange
 
     private void A1MouseClicked(java.awt.event.MouseEvent evt) {
         addChair(evt);

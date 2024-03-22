@@ -1,5 +1,6 @@
 package com.mycompany.cuevadeana;
 
+import Classes.Bill;
 import Classes.Movie;
 import Classes.Showtime;
 import Classes.Theater;
@@ -12,6 +13,7 @@ import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
 import Templates.DebugWindow;
+import com.mongodb.client.FindIterable;
 import static com.mongodb.client.model.Filters.and;
 import static com.mongodb.client.model.Filters.eq;
 import java.time.LocalTime;
@@ -25,7 +27,6 @@ public class Mongo {
     private MongoDatabase mongoDatabase;
     private String URI = "";
     private String DATABASE_NAME = "";
-    private DebugWindow window = new DebugWindow();
 
     /**
      * Constructor de la clase Mongo que acepta URI y nombre de la base de datos
@@ -42,7 +43,7 @@ public class Mongo {
             mongoClient = new MongoClient(clientURI);
             mongoDatabase = mongoClient.getDatabase(DATABASE_NAME);
         } catch (MongoException e) {
-            window.newWindow("danger", "Error to connect to database (" + DATABASE_NAME + "):\n" + e.toString(), "ERROR TO CONNECT");
+            DebugWindow.Message("danger", "Error to connect to database (" + DATABASE_NAME + "):\n" + e.toString(), "ERROR TO CONNECT");
         }
     }
 
@@ -93,6 +94,15 @@ public class Mongo {
     }
 
     /**
+     * Insertar una nueva factura en la base de datos
+     *
+     * @param bill Factura de la funcion
+     */
+    public void insert(Bill bill) {
+        insertDocument("bills", bill.converter());
+    }
+
+    /**
      * Inserta un documento en la colección especificada.
      *
      * @param collectionName Nombre de la colección.
@@ -102,9 +112,9 @@ public class Mongo {
         try {
             MongoCollection<Document> collection = getCollection(collectionName);
             collection.insertOne(document);
-            window.newWindow("info", "Registered " + collectionName.substring(0, collectionName.length() - 1), "Registered " + collectionName.substring(0, collectionName.length() - 1));
+            DebugWindow.Message("info", "Registered " + collectionName.substring(0, collectionName.length() - 1), "Registered " + collectionName.substring(0, collectionName.length() - 1));
         } catch (MongoException e) {
-            window.newWindow("danger", "Error while inserting into collection '" + collectionName + "': " + e.toString(), "ERROR WHILE INSERTING");
+            DebugWindow.Message("danger", "Error while inserting into collection '" + collectionName + "': " + e.toString(), "ERROR WHILE INSERTING");
         }
     }
 

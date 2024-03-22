@@ -506,7 +506,7 @@ public class RegisterMovies extends javax.swing.JPanel {
         String title = Title.getText().trim();
         if (!regex.validate(1, title)) {
             hasError = true;
-            window.newWindow("warning", "The title is empty", "Null title");
+            window.Message("warning", "The title is empty", "Null title");
         }
         //convertir texto de actores a una lista
         String actorsString = Actors.getText().trim();
@@ -518,31 +518,31 @@ public class RegisterMovies extends javax.swing.JPanel {
             }
         } else {
             hasError = true;
-            window.newWindow("warning", "The actors is empty", "Null actors");
+            window.Message("warning", "The actors is empty", "Null actors");
         }
         //Generos a lista
         String genresString = getListGenres();
         if (genresString.length() == 0) {
             hasError = true;
-            window.newWindow("warning", "Genre or Genres not selected", "Null Genres");
+            window.Message("warning", "Genre or Genres not selected", "Null Genres");
         }
         //clasificacion
         if (Classification.getSelectedIndex() == 0) {
             hasError = true;
-            window.newWindow("warning", "Classification is not selected", "Null Classification");
+            window.Message("warning", "Classification is not selected", "Null Classification");
         }
 
         //Poster
         if (imagenInBinary == null) {
             hasError = true;
-            window.newWindow("warning", "Poster not upload", "Poster");
+            window.Message("warning", "Poster not upload", "Poster");
 
         }
         //Description
         String description = Description.getText().trim();
         if (!regex.validate(0, description)) {
             hasError = true;
-            window.newWindow("warning", "Description null", "Null description");
+            window.Message("warning", "Description null", "Null description");
         }
         Date date = DateChooser.getDate();
 
@@ -550,7 +550,7 @@ public class RegisterMovies extends javax.swing.JPanel {
         String dateString = sdf.format(date);
         if (!regex.validate(3, dateString)) {
             hasError = true;
-            window.newWindow("warning", "Date error", "Date error");
+            window.Message("warning", "Date error", "Date error");
         }
         //Duration
         int duration = 0;
@@ -562,13 +562,13 @@ public class RegisterMovies extends javax.swing.JPanel {
         }
         if (duration < 30 || duration > 900) {
             hasError = true;
-            window.newWindow("danger", "duration lenght error", "Invalid duration");
+            window.Message("danger", "duration lenght error", "Invalid duration");
         }
         //Director
         String director = Director.getText().trim();
         if (!regex.validate(1, director)) {
             hasError = true;
-            window.newWindow("danger", "Director's name invalid", "Invalid director");
+            window.Message("danger", "Director's name invalid", "Invalid director");
         }
         if (hasError == false) {
             //Create a class movie 
@@ -587,7 +587,7 @@ public class RegisterMovies extends javax.swing.JPanel {
             //Clear all fields
             clearForm();
         } else {
-            window.newWindow("danger", "Error in new movie", "Error to register a movie");
+            window.Message("danger", "Error in new movie", "Error to register a movie");
             hasError = false;
         }
     }//GEN-LAST:event_SaveMouseClicked
