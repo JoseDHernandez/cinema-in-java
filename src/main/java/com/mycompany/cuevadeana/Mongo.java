@@ -13,13 +13,14 @@ import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
 import Templates.DebugWindow;
-import com.mongodb.client.FindIterable;
 import static com.mongodb.client.model.Filters.and;
 import static com.mongodb.client.model.Filters.eq;
+import com.mongodb.client.result.UpdateResult;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import org.bson.types.Binary;
+import org.bson.types.ObjectId;
 
 public class Mongo {
 
@@ -94,12 +95,48 @@ public class Mongo {
     }
 
     /**
-     * Insertar una nueva factura en la base de datos
+     * Registrar una nueva factura en la base de datos y actualizar las sillas
+     * disponibles en el showtime
      *
      * @param bill Factura de la funcion
+     * @return Estado de la actualizacion
      */
-    public void insert(Bill bill) {
-        insertDocument("bills", bill.converter());
+    public boolean insert(Bill bill) {
+        //Actualizar sillas
+        List<String> seatsSold = bill.getSeats();
+        try {
+            //Variables de showtime y Id del documento 
+            Showtime showtime = bill.getShowtime();
+            MongoCursor<Document> shows = getCollection("showtimes").find(new Document("Name", showtime.getTheater()).append("Date", bill.getDateShow())).iterator();
+            while (shows.hasNext()) {
+                Document doc = shows.next();
+                //Convertir los showtimes del documento actual a lista
+                List<Document> showtimes = doc.getList("Showtimes", Document.class);
+                //Iterar los showtimes de la funcion
+                for (int i = 0; i < showtimes.size(); i++) {
+                    Document s = showtimes.get(i);
+                    //filtro
+                    if (s.getString("Title").equals(showtime.getMovie())
+                            && s.getString("StartHour").equals(showtime.getStartHour().toString())
+                            && s.getString("EndHour").equals(showtime.getEndHour().toString())) {
+                        // Encontrar el documento de showtime y actualizar SeatsSold
+                        UpdateResult resultOfSeatsSold = getCollection("showtimes").updateOne(
+                                new Document("_id", doc.getObjectId("_id")).append("Showtimes", new Document("$elemMatch", s)),
+                                new Document("$addToSet", new Document("Showtimes." + i + ".SeatsSold", new Document("$each", seatsSold)))
+                        );
+                        if (resultOfSeatsSold.wasAcknowledged() && resultOfSeatsSold.getModifiedCount() > 0) {
+                            //Registrar factura 
+                            insertDocument("bills", bill.converter());
+                            return true;
+                        }
+                    }
+                }
+            }
+        } catch (MongoException e) {
+            DebugWindow.Message("warning", "No se registraron las siguientes sillas: " + seatsSold.toString() + "\n"
+                    + e.toString(), "Error al actualizar las sillas vendidas");
+        }
+        return false;
     }
 
     /**
@@ -176,7 +213,7 @@ public class Mongo {
                     if (showtimeDoc.getString("Title").equals(title)) {
                         Showtime showtime = new Showtime();
                         showtime.setStartHour(LocalTime.parse(showtimeDoc.getString("StartHour")));
-                        showtime.setEndHour(LocalTime.parse(showtimeDoc.getString("End Hour")));
+                        showtime.setEndHour(LocalTime.parse(showtimeDoc.getString("EndHour")));
                         showtime.setTheater(theater.getName());
                         showtime.setMovie(showtimeDoc.getString("Title"));
                         showtime.setSeatsSold((List<String>) showtimeDoc.get("SeatsSold"));

@@ -236,7 +236,7 @@ public class Bill {
                 .append("Identification", identification)
                 .append("Movie", showtime.getMovie())
                 .append("Date", dateShow)
-                .append("StartTime", showtime.getStartHour().toString())
+                .append("StartHour", showtime.getStartHour().toString())
                 .append("EndHour", showtime.getEndHour().toString())
                 .append("Theater", showtime.getTheater())
                 .append("Seats", JSON.listToJson(seats))

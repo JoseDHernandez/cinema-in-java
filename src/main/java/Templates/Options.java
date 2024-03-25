@@ -23,6 +23,8 @@ public class Options extends javax.swing.JFrame {
 
     /**
      * Creates new form Options
+     *
+     * @param parentFrame Main
      */
     public Options(Main parentFrame) {
         this.parentFrame = parentFrame;
@@ -196,7 +198,6 @@ public class Options extends javax.swing.JFrame {
         // TODO add your handling code here:
         String[] valuesOption = getValues();
         boolean status = false;
-        DebugWindow window = new DebugWindow();
         try {
             MongoClientURI clientURI = new MongoClientURI(valuesOption[0]);
             MongoClient mongoClient = new MongoClient(clientURI);
@@ -211,9 +212,9 @@ public class Options extends javax.swing.JFrame {
             mongoClient.close();
         } catch (MongoException e) {
             status = false;
-            window.Message("danger", "\n" + e.toString(), "Error en la prueba de conexión");
+            DebugWindow.Message("danger", "\n" + e.toString(), "Error en la prueba de conexión");
         }
-        window.Message(status ? "info" : "danger", status ? "Conexión valida" : "Conexión invalida", "Prueba de conexión");
+        DebugWindow.Message(status ? "info" : "danger", status ? "Conexión valida" : "Conexión invalida", "Prueba de conexión");
     }//GEN-LAST:event_jButton1MouseClicked
 
     /**

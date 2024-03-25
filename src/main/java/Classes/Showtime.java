@@ -137,7 +137,7 @@ public class Showtime {
     public Document converter() {
         Document document = new Document("Title", movie)
                 .append("StartHour", startHour.toString())
-                .append("End Hour", endHour.toString())
+                .append("EndHour", endHour.toString())
                 .append("Duration", duration)
                 .append("SeatsSold", JSON.listToJson(seatsSold));
         return document;

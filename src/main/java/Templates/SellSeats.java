@@ -39,10 +39,12 @@ public class SellSeats extends javax.swing.JPanel {
     private final double PRECIO_BASE_3D = 15000.0; // Precio base para proyección 3D
     private final double PRECIO_BASE_4D = 20000.0; // Precio base para proyección 4D
     private final double PRECIO_VIP = 5000.0;// Precios adicionales para asientos VIP
+    //Sillas exclusivas
     private final List<String> VIP_SEATS = Arrays.asList("G7", "G8", "G9", "G10", "H7", "H8", "H9",
             "H10", "I7", "I8", "I9", "I10", "J7", "J8", "J9", "J10");
+    private final List<String> WHEELCHAIR_SEATS = Arrays.asList("Q1", "Q2", "Q15", "Q16");
     //Colores
-    private final Color SILLA_RUEDAS = Color.LIGHT_GRAY;
+    private final Color SILLA_RUEDAS = Color.red;
     private final Color VENDIDA = Color.darkGray;
     private final Color SELECCION = Color.ORANGE;
     private final Color VIP = Color.MAGENTA;
@@ -388,7 +390,6 @@ public class SellSeats extends javax.swing.JPanel {
         Identification = new javax.swing.JTextField();
         jLabel39 = new javax.swing.JLabel();
         SeatsSoldLabel = new javax.swing.JLabel();
-        jSeparator1 = new javax.swing.JSeparator();
         jLabel40 = new javax.swing.JLabel();
         Showtimes = new javax.swing.JComboBox<>();
         jLabel35 = new javax.swing.JLabel();
@@ -3485,7 +3486,7 @@ public class SellSeats extends javax.swing.JPanel {
 
         jLabel36.setText("Caracteristica");
 
-        Features.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Todas", "2D", "3D", "4D", "2D - CC", "3D - CC", "4D - CC" }));
+        Features.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar", "2D", "3D", "4D", "2D - CC", "3D - CC", "4D - CC" }));
         Features.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 FeaturesActionPerformed(evt);
@@ -3542,21 +3543,9 @@ public class SellSeats extends javax.swing.JPanel {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel33)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap())
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel36)
-                                    .addComponent(jLabel34)
-                                    .addComponent(jLabel39))
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGap(19, 19, 19)
-                                        .addComponent(ListMovies, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGap(18, 18, 18)
-                                        .addComponent(Features, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel38)
@@ -3568,19 +3557,31 @@ public class SellSeats extends javax.swing.JPanel {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(Identification, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addComponent(clientName)))
-                            .addComponent(SeatsSoldLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jSeparator1)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel40)
-                                    .addComponent(jLabel35))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(SoldButton)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel36)
+                                        .addComponent(jLabel34)
+                                        .addComponent(jLabel39))
                                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(Showtimes, 0, 178, Short.MAX_VALUE)
-                                        .addComponent(DateChoosser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
-                        .addGap(0, 10, Short.MAX_VALUE))))
+                                        .addGroup(jPanel1Layout.createSequentialGroup()
+                                            .addGap(19, 19, 19)
+                                            .addComponent(ListMovies, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(jPanel1Layout.createSequentialGroup()
+                                            .addGap(18, 18, 18)
+                                            .addComponent(Features, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                    .addComponent(jLabel40)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(Showtimes, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(SoldButton)
+                                    .addComponent(SeatsSoldLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(0, 10, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel35)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(DateChoosser, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -3597,29 +3598,27 @@ public class SellSeats extends javax.swing.JPanel {
                     .addComponent(jLabel38)
                     .addComponent(Type, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Identification, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel35)
+                    .addComponent(DateChoosser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(ListMovies, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel34))
-                .addGap(18, 18, 18)
+                .addGap(13, 13, 13)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel36)
                     .addComponent(Features, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(SeatsSoldLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel39))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel40)
                     .addComponent(Showtimes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(23, 23, 23)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel35)
-                    .addComponent(DateChoosser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(75, 75, 75)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(SeatsSoldLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel39))
+                .addGap(38, 38, 38)
                 .addComponent(SoldButton)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -3917,6 +3916,7 @@ public class SellSeats extends javax.swing.JPanel {
                     tempShow.setStartHour(show.getStartHour());
                     tempShow.setEndHour(show.getEndHour());
                     tempShow.setTheater(show.getTheater());
+                    titleOfMovie = show.getMovie();
                     tempShow.setMovie(titleOfMovie);
                     //Asignar sillas vendidas
                     allSeatsSold = show.getSeatsSold();
@@ -3927,26 +3927,22 @@ public class SellSeats extends javax.swing.JPanel {
             SeatsSoldLabel.setText("");
             //Obtener botones
             Component[] sillas = Sala.getComponents();
-            //Indicar las sillas ya vendidas en amarillo
-            if (!allSeatsSold.isEmpty()) {
-                for (Component silla : sillas) {
-                    if (silla instanceof JButton button) {
-                        if (button.getName() != null) {
-                            if (VIP_SEATS.contains(button.getName())) {
-                                button.setBackground(VIP);
-                            } else if (allSeatsSold.contains(button.getName())) {
-                                button.setBackground(VENDIDA);
-                                break;
-                            } else if (seatsSold.contains(button.getName())) {
-                                button.setBackground(Color.BLACK);
-                            } else {
-                                button.setBackground(VOID);
-                            }
+            //Indicar las sillas ya vendidas
+            for (Component silla : sillas) {
+                if (silla instanceof JButton button) {
+                    if (button.getName() != null) {
+                        if (VIP_SEATS.contains(button.getName())) {
+                            button.setBackground(VIP);
+                        } else if (allSeatsSold.contains(button.getName())) {
+                            button.setBackground(VENDIDA);
+                        } else if (WHEELCHAIR_SEATS.contains(button.getName())) {
+                            button.setBackground(SILLA_RUEDAS);
+                        } else {
+                            button.setBackground(VOID);
                         }
                     }
                 }
             }
-
             seatsSold = new ArrayList<>();
         }
     }
@@ -4039,6 +4035,10 @@ public class SellSeats extends javax.swing.JPanel {
             try {
                 //Fecha (date chooser o actual)
                 String dateSelected = DateChoosser.getDate() == null ? dateString : formatterDate.format(DateChoosser.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+                //Cambiar fecha si DateChosser y dateSelected son diferentes
+                if (!dateSelected.equals(dateString)) {
+                    dateString = dateSelected;
+                }
                 theaterList = mongoDB.getTheater(titleOfMovie, dateSelected);
                 if (!theaterList.isEmpty()) {
                     for (Theater shows : theaterList) {
@@ -4082,16 +4082,18 @@ public class SellSeats extends javax.swing.JPanel {
 
     //Agregar silla a la factura
     private void addChair(java.awt.event.MouseEvent evt) {
-        String seatName = evt.getComponent().getName();
-        //Valida si la silla no esta vendida, agrega o remove de las sillas de la factura
-        if (!allSeatsSold.contains(seatName) && !seatsSold.contains(seatName)) {
-            seatsSold.add(seatName);
-            evt.getComponent().setBackground(SELECCION);
-        } else {
-            seatsSold.remove(seatsSold.indexOf(seatName));
-            evt.getComponent().setBackground(VOID);
+        if (!titleOfMovie.isEmpty()) {
+            String seatName = evt.getComponent().getName();
+            //Valida si la silla no esta vendida, agrega o remove de las sillas de la factura
+            if (!allSeatsSold.contains(seatName) && !seatsSold.contains(seatName)) {
+                seatsSold.add(seatName);
+                evt.getComponent().setBackground(SELECCION);
+            } else {
+                seatsSold.remove(seatsSold.indexOf(seatName));
+                evt.getComponent().setBackground(VOID);
+            }
+            SeatsSoldLabel.setText("<html><p>" + seatsSold.toString() + "</p></html>");
         }
-        SeatsSoldLabel.setText("<html><p>" + seatsSold.toString() + "</p></html>");
     }
 
     //Calcular precio
@@ -4100,7 +4102,6 @@ public class SellSeats extends javax.swing.JPanel {
         //Precio segun categoria
         String[] features = Features.getSelectedItem().toString().split(" ");
         String Feature = features[0];
-        System.out.println(Feature);
         //Filtrar por dimencion
         switch (Feature) {
             case "2D":
@@ -4118,7 +4119,6 @@ public class SellSeats extends javax.swing.JPanel {
         }
         //Multiplicar por cantidad de sillas
         price *= seatsSold.size();
-        System.out.println(price);
         //Añadir precio vip
         for (String seat : seatsSold) {
             if (VIP_SEATS.contains(seat)) {
@@ -4135,7 +4135,7 @@ public class SellSeats extends javax.swing.JPanel {
         String nameClient = clientName.getText().trim();
         String numIde = Identification.getText().trim();
         //Validar campos
-        if (regex.validate(1, nameClient) && numIde.length() > 9 && !seatsSold.isEmpty()) {
+        if (regex.validate(1, nameClient) && numIde.length() > 9 && !seatsSold.isEmpty() && Features.getSelectedIndex() > 0) {
             //Generar factura
             String iden = (Type.getSelectedIndex() > 0 ? Type.getSelectedItem().toString() : "CC") + " " + numIde;
             bill.setNameClient(nameClient);
@@ -4148,7 +4148,13 @@ public class SellSeats extends javax.swing.JPanel {
             int selectedOption = JOptionPane.showConfirmDialog(null, bill.toString(), "Factura", JOptionPane.OK_CANCEL_OPTION);
             //Almacenar factura en la base de datos
             if (selectedOption == 0) {
-                mongoDB.insert(bill);
+                if (mongoDB.insert(bill)) {
+                    DebugWindow.Message("info", "Exito en registrar: \n" + bill.toString(), "Venta registrada");
+                    //Limpiar inputs
+                    loadSeatsSold();
+                } else {
+                    DebugWindow.Message("danger", "Error al registrar la factura ", "Error al registrar la factura");
+                }
             } else {
                 //Limpiar inputs
                 loadSeatsSold();
@@ -4158,15 +4164,7 @@ public class SellSeats extends javax.swing.JPanel {
             DebugWindow.Message("warning", "Datos invalidos: \n", "Error en generacion de factura");
         }
     }
-//Cambio de fecha
 
-    private void changeDate() {
-        /* Date dateChooser =DateChoosser.getDate();
-        String dateSelected =  != null ? dateString : formatterDate.format(DateChoosser.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
-        if(dateChooser != null){
-            
-        }*/
-    }
     private void B1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_B1ActionPerformed
@@ -5665,7 +5663,7 @@ public class SellSeats extends javax.swing.JPanel {
 
     private void DateChoosserPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_DateChoosserPropertyChange
         // TODO add your handling code here:
-        changeDate();
+
     }//GEN-LAST:event_DateChoosserPropertyChange
 
     private void A1MouseClicked(java.awt.event.MouseEvent evt) {
@@ -5982,6 +5980,5 @@ public class SellSeats extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JSeparator jSeparator1;
     // End of variables declaration//GEN-END:variables
 }
