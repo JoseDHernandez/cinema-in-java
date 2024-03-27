@@ -19,8 +19,6 @@ import com.mongodb.client.result.UpdateResult;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
-import org.bson.types.Binary;
-import org.bson.types.ObjectId;
 
 public class Mongo {
 
@@ -28,7 +26,13 @@ public class Mongo {
     private MongoDatabase mongoDatabase;
     private String URI = "";
     private String DATABASE_NAME = "";
+    //===============Collections=================
+    private final String C_BILLS = "bills";
+    private final String C_SHOWTIMES = "showtimes";
+    private final String C_MOVIES = "movies";
+    private final String C_USERS = "users";
 
+    //===========================================
     /**
      * Constructor de la clase Mongo que acepta URI y nombre de la base de datos
      * como parámetros.
@@ -64,7 +68,7 @@ public class Mongo {
      * @return La colección especificada.
      */
     private MongoCollection<Document> getCollection(String collectionName) {
-        return mongoDatabase.getCollection(collectionName);
+        return mongoDatabase.getCollection(collectionName.toLowerCase());
     }
 
     /**
@@ -73,7 +77,7 @@ public class Mongo {
      * @param user El usuario a insertar.
      */
     public void insert(User user) {
-        insertDocument("users", user.convert());
+        insertDocument(C_USERS, user.convert());
     }
 
     /**
@@ -82,7 +86,7 @@ public class Mongo {
      * @param movie La película a insertar.
      */
     public void insert(Movie movie) {
-        insertDocument("movies", movie.converter());
+        insertDocument(C_MOVIES, movie.converter());
     }
 
     /**
@@ -91,7 +95,7 @@ public class Mongo {
      * @param theater Función/ presentación a insertar.
      */
     public void insert(Theater theater) {
-        insertDocument("showtimes", theater.converter());
+        insertDocument(C_SHOWTIMES, theater.converter());
     }
 
     /**
@@ -107,7 +111,7 @@ public class Mongo {
         try {
             //Variables de showtime y Id del documento 
             Showtime showtime = bill.getShowtime();
-            MongoCursor<Document> shows = getCollection("showtimes").find(new Document("Name", showtime.getTheater()).append("Date", bill.getDateShow())).iterator();
+            MongoCursor<Document> shows = getCollection(C_SHOWTIMES).find(new Document("Name", showtime.getTheater()).append("Date", bill.getDateShow())).iterator();
             while (shows.hasNext()) {
                 Document doc = shows.next();
                 //Convertir los showtimes del documento actual a lista
@@ -120,13 +124,13 @@ public class Mongo {
                             && s.getString("StartHour").equals(showtime.getStartHour().toString())
                             && s.getString("EndHour").equals(showtime.getEndHour().toString())) {
                         // Encontrar el documento de showtime y actualizar SeatsSold
-                        UpdateResult resultOfSeatsSold = getCollection("showtimes").updateOne(
+                        UpdateResult resultOfSeatsSold = getCollection(C_SHOWTIMES).updateOne(
                                 new Document("_id", doc.getObjectId("_id")).append("Showtimes", new Document("$elemMatch", s)),
                                 new Document("$addToSet", new Document("Showtimes." + i + ".SeatsSold", new Document("$each", seatsSold)))
                         );
                         if (resultOfSeatsSold.wasAcknowledged() && resultOfSeatsSold.getModifiedCount() > 0) {
                             //Registrar factura 
-                            insertDocument("bills", bill.converter());
+                            insertDocument(C_BILLS, bill.converter());
                             return true;
                         }
                     }
@@ -164,7 +168,7 @@ public class Mongo {
      */
     public Document findUser(String pass, String username) {
         Document query = new Document("UserName", username).append("Password", pass);
-        return getCollection("users").find(query).first();
+        return getCollection(C_USERS).find(query).first();
     }
 
     /**
@@ -175,7 +179,7 @@ public class Mongo {
      */
     public Document getUser(String username) {
         Document query = new Document("UserName", username);
-        return getCollection("users").find(query).first();
+        return getCollection(C_USERS).find(query).first();
     }
 
     /**
@@ -187,7 +191,23 @@ public class Mongo {
      */
     public Document findTheater(String name, String date) {
         Document query = new Document("Name", name).append("Date", date);
-        return getCollection("showtimes").find(query).first();
+        return getCollection(C_SHOWTIMES).find(query).first();
+    }
+
+    /**
+     * Obtener una pelicula almacenada en la base de datos
+     *
+     * @param title Titulo de la pelicula
+     * @return Clase movie
+     */
+    public Movie getMovie(String title) {
+        Document doc = getCollection(C_MOVIES).find(new Document("Title", title)).first();
+        if (doc != null) {
+            return new Movie(doc);
+        } else {
+            //Error
+            throw new RuntimeException("No existe la pelicula con el titulo: " + title);
+        }
     }
 
     /**
@@ -200,7 +220,7 @@ public class Mongo {
     public List<Theater> getTheater(String title, String date) {
         List<Theater> theaters = new ArrayList<>();
         try {
-            MongoCursor<Document> cursor = getCollection("showtimes").find(and(eq("Date", date), eq("Showtimes.Title", title))).iterator();
+            MongoCursor<Document> cursor = getCollection(C_SHOWTIMES).find(and(eq("Date", date), eq("Showtimes.Title", title))).iterator();
             while (cursor.hasNext()) {
                 Document doc = cursor.next();
                 Theater theater = new Theater();
@@ -239,28 +259,15 @@ public class Mongo {
      */
     public List<Movie> getMovies(int min, int max) {
         //Validar cantidad maxima de documentos
-        long totalDocuments = getCollection("movies").countDocuments();
+        long totalDocuments = getCollection(C_MOVIES).countDocuments();
         max = (max == 0 || max > totalDocuments) ? (int) totalDocuments : max;
         List<Movie> movies = new ArrayList<>();
         //List of movies
-        try (MongoCursor<Document> cursor = getCollection("movies").find().skip(min).limit(max).iterator()) {
+        try (MongoCursor<Document> cursor = getCollection(C_MOVIES).find().skip(min).limit(max).iterator()) {
             //List of movies
             while (cursor.hasNext()) {
                 Document doc = cursor.next();
-                Movie movie = new Movie();
-                movie.setTitle(doc.getString("Title"));
-                movie.setClassification(doc.getString("Classification"));
-                movie.setDate(doc.getString("Date"));
-                movie.setDescription(doc.getString("Description"));
-                movie.setDirector(doc.getString("Director"));
-                movie.setDuration(doc.getInteger("Duration"));
-                movie.setPoster((Binary) doc.get("Poster"));
-                if (doc.containsKey("Actors")) {
-                    movie.setActors((List<String>) doc.get("Actors"));
-                }
-                if (doc.containsKey("Genres")) {
-                    movie.setGenres((List<String>) doc.get("Genres"));
-                }
+                Movie movie = new Movie(doc);
                 movies.add(movie);
             }
             cursor.close();
@@ -268,4 +275,43 @@ public class Mongo {
         return movies;
     }
 
+    /**
+     * Eliminacion de la base de datos
+     *
+     *
+     */
+    public void dropDatabase() {
+        try {
+            mongoClient.dropDatabase(DATABASE_NAME);
+        } catch (MongoException e) {
+            DebugWindow.Message("info", "No se pudo eliminar la base de datos: " + DATABASE_NAME, "Error en la eliminacion de la base de datos");
+        }
+    }
+
+    /**
+     * Crea las colecciones de: Bills,Movies, Showtimes y Users
+     *
+     */
+    public void createDefaultCollections() {
+        mongoDatabase.createCollection(C_BILLS);
+        mongoDatabase.createCollection(C_MOVIES);
+        mongoDatabase.createCollection(C_SHOWTIMES);
+        mongoDatabase.createCollection(C_USERS);
+        //Insercion de datos
+        User admin = new User();
+        admin.setName("Administrador de prueba");
+        admin.createUserName();
+        admin.setPassword("123");
+        admin.setRol("Administrador");
+        admin.setIdentification("111111111111");
+        User casher = new User();
+        casher.setName("Cajero de prueba");
+        casher.createUserName();
+        casher.setPassword("123");
+        casher.setRol("Cajero");
+        casher.setCashRegister("Caja 1");
+        casher.setIdentification("111111111112");
+        insert(admin);
+        insert(casher);
+    }
 }

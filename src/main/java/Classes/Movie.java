@@ -3,6 +3,7 @@
  */
 package Classes;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.bson.Document;
 import org.bson.types.Binary;
@@ -21,6 +22,40 @@ public class Movie {
     private String description;
     private String director;
     private int duration;
+
+    /**
+     * Constructor por defecto de la clase Movie. Inicializa los campos de la
+     * película con valores por defecto.
+     */
+    public Movie() {
+        this.title = "";
+        this.genres = new ArrayList<>();
+        this.actors = new ArrayList<>();
+        this.classification = "";
+        this.poster = new Binary(new byte[]{});
+        this.date = "";
+        this.description = "";
+        this.director = "";
+        this.duration = 0;
+    }
+
+    /**
+     * Constructor que crea una instancia de Movie a partir de un Document de
+     * MongoDB.
+     *
+     * @param doc Documento que contiene los datos de la película.
+     */
+    public Movie(Document doc) {
+        this.title = doc.getString("Title");
+        this.genres = doc.getList("Genres", String.class);
+        this.actors = doc.getList("Actors", String.class);
+        this.classification = doc.getString("Classification");
+        this.poster = doc.get("Poster", Binary.class);
+        this.date = doc.getString("Date");
+        this.description = doc.getString("Description");
+        this.director = doc.getString("Director");
+        this.duration = doc.getInteger("Duration", 0);
+    }
 
     /**
      * Establece el título de la película.

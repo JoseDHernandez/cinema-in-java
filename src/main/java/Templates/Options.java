@@ -11,7 +11,9 @@ import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 import com.mycompany.cuevadeana.Main;
 import com.mycompany.cuevadeana.Mongo;
+import java.util.Random;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -20,6 +22,8 @@ import javax.swing.JFrame;
 public class Options extends javax.swing.JFrame {
 
     private final Main parentFrame;
+    private String Uri;
+    private String DBName;
 
     /**
      * Creates new form Options
@@ -49,9 +53,9 @@ public class Options extends javax.swing.JFrame {
         URI = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         DBNAME = new javax.swing.JTextField();
-        Button = new javax.swing.JButton();
+        SaveButton = new javax.swing.JButton();
         DataDefault = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        TestConnectionButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -104,22 +108,27 @@ public class Options extends javax.swing.JFrame {
 
         DBNAME.setText("cine");
 
-        Button.setBackground(new java.awt.Color(255, 51, 51));
-        Button.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        Button.setForeground(new java.awt.Color(255, 255, 255));
-        Button.setText("Guardar");
-        Button.addMouseListener(new java.awt.event.MouseAdapter() {
+        SaveButton.setBackground(new java.awt.Color(255, 51, 51));
+        SaveButton.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        SaveButton.setForeground(new java.awt.Color(255, 255, 255));
+        SaveButton.setText("Guardar");
+        SaveButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                ButtonMouseClicked(evt);
+                SaveButtonMouseClicked(evt);
             }
         });
 
         DataDefault.setText("Cargar valores de prueba");
-
-        jButton1.setText("Probar conexión");
-        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+        DataDefault.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButton1MouseClicked(evt);
+                DataDefaultMouseClicked(evt);
+            }
+        });
+
+        TestConnectionButton.setText("Probar conexión");
+        TestConnectionButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TestConnectionButtonMouseClicked(evt);
             }
         });
 
@@ -148,12 +157,12 @@ public class Options extends javax.swing.JFrame {
                                         .addGap(18, 18, 18)
                                         .addComponent(URI, javax.swing.GroupLayout.PREFERRED_SIZE, 331, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addComponent(jButton1)
+                                        .addComponent(TestConnectionButton)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(DataDefault))))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(94, 94, 94)
-                        .addComponent(Button, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(SaveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -173,91 +182,84 @@ public class Options extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(DataDefault)
-                    .addComponent(jButton1))
+                    .addComponent(TestConnectionButton))
                 .addGap(30, 30, 30)
-                .addComponent(Button, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(SaveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(28, 28, 28))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    private String[] getValues() {
-        String uri = URI.getText().trim();
-        String name = DBNAME.getText().trim();
-        String[] arr = new String[2];
-        arr[0] = uri;
-        arr[1] = name;
-        return arr;
+    private void getValues() {
+        Uri = URI.getText().trim();
+        DBName = DBNAME.getText().trim();
     }
-    private void ButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButtonMouseClicked
+    private void SaveButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_SaveButtonMouseClicked
         // TODO add your handling code here:
 
-    }//GEN-LAST:event_ButtonMouseClicked
+    }//GEN-LAST:event_SaveButtonMouseClicked
 
-    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
-        // TODO add your handling code here:
-        String[] valuesOption = getValues();
-        boolean status = false;
+    private boolean testConnection() {
         try {
-            MongoClientURI clientURI = new MongoClientURI(valuesOption[0]);
+            MongoClientURI clientURI = new MongoClientURI(Uri);
             MongoClient mongoClient = new MongoClient(clientURI);
             MongoCursor databases = mongoClient.listDatabaseNames().iterator();
             while (databases.hasNext()) {
                 String dbname = (String) databases.next();
-                if (dbname.equals(valuesOption[1])) {
-                    status = true;
-                    break;
+                if (dbname.equals(DBName)) {
+                    return true;
                 }
             }
             mongoClient.close();
         } catch (MongoException e) {
-            status = false;
             DebugWindow.Message("danger", "\n" + e.toString(), "Error en la prueba de conexión");
         }
+        return false;
+    }
+    private void TestConnectionButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TestConnectionButtonMouseClicked
+        // TODO add your handling code here:
+        getValues();
+        boolean status = testConnection(); // Resultado de la conexion
         DebugWindow.Message(status ? "info" : "danger", status ? "Conexión valida" : "Conexión invalida", "Prueba de conexión");
-    }//GEN-LAST:event_jButton1MouseClicked
+    }//GEN-LAST:event_TestConnectionButtonMouseClicked
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
+    private void DataDefaultMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_DataDefaultMouseClicked
+        // TODO add your handling code here:
+        getValues();
+        int op = JOptionPane.showConfirmDialog(parentFrame, "¿Desea cargarlos valores iniciales del programa?\nEsto eliminara los valores existentes almacenados (incluyendo la base de datos: " + DBName + ")", "Cargar valores por defecto", JOptionPane.OK_CANCEL_OPTION);
+        if (op == 0) {
+            int op1 = JOptionPane.showConfirmDialog(parentFrame,
+                    "ATENCIÓN\n"
+                    + "Se realizaran las siguientes operaciones:\n"
+                    + "\t1. Eliminación de la base de datos: " + DBName + "\n"
+                    + "\t2. Creación de las colecciones Bill, Showtimes, Movies y Users\n"
+                    + "\t3. Creación automatica de dos usuarios de prueba de diferente cargo (Administrador y cajero)\n"
+                    + "=====================================================================================\n"
+                    + "Todos los datos almacenados y la base de datos " + DBName + " serán elimados, al continuar con esta\n"
+                    + "operación debera reingresar las peliculas y tiempos de funciones de cada una.",
+                    "Confirmacion de carga de datos por defecto", JOptionPane.OK_CANCEL_OPTION);
+            if (op1 == 0) {
+
+                String textOriginal, text;
+                textOriginal = DBName + ((int) (Math.random() * 99 + 10)) + "";
+                text = JOptionPane.showInputDialog(parentFrame, "Ingrese el siguiente texto: " + textOriginal, "Ingrese el texto de seguridad", JOptionPane.WARNING_MESSAGE);
+                if (textOriginal.equals(text)) {
+                    //Cargar valores por defecto
+                    Mongo mongo = new Mongo(Uri, DBName);
+                    //Eliminamos y creamos los datos
+                    mongo.dropDatabase();
+                    mongo.createDefaultCollections();
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Options.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Options.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Options.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Options.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-
-            }
-        });
-    }
+    }//GEN-LAST:event_DataDefaultMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton Button;
     private javax.swing.JTextField DBNAME;
     private javax.swing.JButton DataDefault;
+    private javax.swing.JButton SaveButton;
+    private javax.swing.JButton TestConnectionButton;
     private javax.swing.JTextField URI;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

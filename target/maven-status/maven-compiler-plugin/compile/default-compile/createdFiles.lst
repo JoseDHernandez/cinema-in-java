@@ -67,6 +67,7 @@ Templates\SellSeats$179.class
 Templates\SellSeats$249.class
 Templates\SellSeats$172.class
 Templates\SellSeats$65.class
+Templates\List_movies$1.class
 Templates\SellSeats$242.class
 Templates\SellSeats$282.class
 Templates\SellSeats$93.class
@@ -263,11 +264,13 @@ Templates\SellSeats$6.class
 com\mycompany\cuevadeana\Main$3.class
 Templates\SellSeats$30.class
 Templates\SellSeats$70.class
+Templates\MoviePoster$1.class
 com\mycompany\cuevadeana\Main.class
 Templates\SellSeats$181.class
 Templates\List_movies.class
 Templates\SellSeats$82.class
 Templates\SellSeats$92.class
+Templates\ViewMovie.class
 Templates\RegisterMovies$5.class
 Templates\SellSeats$308.class
 Templates\RegisterShowtimes.class
