@@ -73,7 +73,8 @@ public class SellSeats extends javax.swing.JPanel {
 
         // Formatear la fecha como una cadena de texto en el formato deseado
         dateString = dateNow.format(formatterDate);
-
+        //Fecha actual en dateChosser 
+        DateChoosser.setDate(new Date());
     }
 
     /**
@@ -3507,6 +3508,8 @@ public class SellSeats extends javax.swing.JPanel {
 
         jLabel39.setText("Sillas:");
 
+        SeatsSoldLabel.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+
         jLabel40.setText("Funciones");
 
         Showtimes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecciona" }));
@@ -4034,7 +4037,7 @@ public class SellSeats extends javax.swing.JPanel {
             LabelScreen.setText(titleOfMovie);
             try {
                 //Fecha (date chooser o actual)
-                String dateSelected = DateChoosser.getDate() == null ? dateString : formatterDate.format(DateChoosser.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+                String dateSelected = DateChoosser.getDate().compareTo(new Date()) != 0 ? dateString : formatterDate.format(DateChoosser.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
                 //Cambiar fecha si DateChosser y dateSelected son diferentes
                 if (!dateSelected.equals(dateString)) {
                     dateString = dateSelected;

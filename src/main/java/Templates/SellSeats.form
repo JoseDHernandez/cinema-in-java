@@ -4134,6 +4134,9 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="SeatsSoldLabel">
+          <Properties>
+            <Property name="verticalAlignment" type="int" value="1"/>
+          </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel40">
           <Properties>

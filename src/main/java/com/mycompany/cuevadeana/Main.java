@@ -12,7 +12,9 @@ import Templates.Options;
 import Templates.RegisterShowtimes;
 import Templates.RegisterUser;
 import Templates.RegisterMovies;
+import Templates.Resolution;
 import Templates.SellSeats;
+import java.awt.Dimension;
 import javax.swing.JPanel;
 import org.bson.Document;
 
@@ -20,18 +22,18 @@ import org.bson.Document;
  *
  * @author Jose
  */
-public class Main extends javax.swing.JFrame {
+public class Main extends javax.swing.JFrame implements Resolution {
 
     /**
      * Creates new form Main
      */
-    //Variables globales
+    //===============Variables globales===================
     private User userData = new User();
     //Base de datos
     private String URIMONGO = "mongodb://localhost:27017";
     private String DBNAME = "cine";
     private Mongo mongoDB = null;
-    //Fin variables globales
+    //====================================================
 
     public Main() {
         initComponents();
@@ -110,17 +112,18 @@ public class Main extends javax.swing.JFrame {
         });
 
         MasterPanel.setBackground(new java.awt.Color(255, 255, 255));
-        MasterPanel.setPreferredSize(new java.awt.Dimension(910, 630));
+        MasterPanel.setMinimumSize(DEF_RESOLUTION);
+        MasterPanel.setPreferredSize(DEF_RESOLUTION);
 
         javax.swing.GroupLayout MasterPanelLayout = new javax.swing.GroupLayout(MasterPanel);
         MasterPanel.setLayout(MasterPanelLayout);
         MasterPanelLayout.setHorizontalGroup(
             MasterPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1024, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
         MasterPanelLayout.setVerticalGroup(
             MasterPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 689, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
 
         Button3.setBackground(new java.awt.Color(255, 153, 153));
@@ -157,9 +160,9 @@ public class Main extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 314, Short.MAX_VALUE)
-                    .addComponent(UserNameTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(UserNameTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 314, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 314, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -224,7 +227,7 @@ public class Main extends javax.swing.JFrame {
     JPanel actualScenne = null;
 
     //Re dibuja el JPanel cuando se cambia el tamaño del contenedor 
-    private void changeScenne(JPanel scenne) {
+    public void changeScenne(JPanel scenne) {
         actualScenne = scenne; //910 *630
         MasterPanel.removeAll();
         MasterPanel.add(scenne);
@@ -257,7 +260,7 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_Button1MouseClicked
 
     private void listMovies() {
-        List_movies list_movies = new List_movies(mongoDB);
+        List_movies list_movies = new List_movies(mongoDB, this);
         changeScenne(list_movies);
     }
 

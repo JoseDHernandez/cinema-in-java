@@ -278,6 +278,7 @@ public class Mongo {
     /**
      * Eliminacion de la base de datos
      *
+     * ELIMINA TODA LA BASE DE DATOS
      *
      */
     public void dropDatabase() {

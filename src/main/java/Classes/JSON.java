@@ -36,8 +36,7 @@ public class JSON {
             }
             jsonArray = new JSONArray("[" + temp + "]");
         } catch (JSONException e) {
-            DebugWindow window = new DebugWindow();
-            window.Message("danger", "JSON Error:\n" + e.toString(), "JSON Error");
+            DebugWindow.Message("danger", "JSON Error:\n" + e.toString(), "JSON Error");
             return null; // Manejar el error según sea necesario
         }
         return jsonArray;
