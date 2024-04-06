@@ -189,15 +189,16 @@ public class User {
 
     /**
      * Crea un nombre de usuario basado en el nombre del usuario.
+     *
+     * Debe estar asignado un rol de manera previa pasa ser ADMINISTRADOR, por
+     * defecto el rol es CAJERO
      */
     public void createUserName() {
         String[] partsName = name.split(" ");
-        String temp = (rol.equals("Administrador") ? "AD" : "CR") + "";
-        Random random = new Random();
+        String temp = rol.substring(0, 2).equalsIgnoreCase("ad") ? "AD" : "CR";
         for (String text : partsName) {
-            temp += text.substring(0, text.length() - random.nextInt(1, text.length() - 1));
+            temp += text.substring(0, text.length() - ((int) (Math.random() * (text.length() - 1))));
         }
-        System.out.println(temp);
         userName = temp;
     }
 

@@ -61,14 +61,11 @@ public class Login extends javax.swing.JPanel implements Resolution {
 
         UserLabel.setText("<html><p align='center'>Nombre de<br>usuario</p><html>");
 
-        userName.setText("CRJOSDAHERHOR");
         userName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 userNameActionPerformed(evt);
             }
         });
-
-        Password.setText("123");
 
         PassLabel.setText("Contraseña");
 
@@ -128,7 +125,7 @@ public class Login extends javax.swing.JPanel implements Resolution {
                     .addComponent(Password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(42, 42, 42)
                 .addComponent(Button, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(287, Short.MAX_VALUE))
+                .addContainerGap(168, Short.MAX_VALUE))
         );
 
         jPanel2.setBackground(new java.awt.Color(255, 102, 102));
@@ -168,7 +165,7 @@ public class Login extends javax.swing.JPanel implements Resolution {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(JLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 458, Short.MAX_VALUE))
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(194, 194, 194))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(23, 23, 23)
@@ -214,11 +211,11 @@ public class Login extends javax.swing.JPanel implements Resolution {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1024, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 849, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 700, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 581, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -230,6 +227,7 @@ public class Login extends javax.swing.JPanel implements Resolution {
         // TODO add your handling code here:
         String pass = Password.getText().trim();
         String username = userName.getText().trim();
+        loginFields(false);
         parentFrame.login(username, pass);
     }//GEN-LAST:event_ButtonMouseClicked
 

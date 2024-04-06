@@ -8,11 +8,8 @@ import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import com.mongodb.MongoException;
 import com.mongodb.client.MongoCursor;
-import com.mongodb.client.MongoDatabase;
 import com.mycompany.cuevadeana.Main;
 import com.mycompany.cuevadeana.Mongo;
-import java.util.Random;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /**
@@ -225,32 +222,45 @@ public class Options extends javax.swing.JFrame {
 
     private void DataDefaultMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_DataDefaultMouseClicked
         // TODO add your handling code here:
+        //Bloquear boton
+        DataDefault.setEnabled(false);
         getValues();
         int op = JOptionPane.showConfirmDialog(parentFrame, "¿Desea cargarlos valores iniciales del programa?\nEsto eliminara los valores existentes almacenados (incluyendo la base de datos: " + DBName + ")", "Cargar valores por defecto", JOptionPane.OK_CANCEL_OPTION);
         if (op == 0) {
             int op1 = JOptionPane.showConfirmDialog(parentFrame,
-                    "ATENCIÓN\n"
-                    + "Se realizaran las siguientes operaciones:\n"
+                    "ATENCIÓN\nSe realizaran las siguientes operaciones:\n"
                     + "\t1. Eliminación de la base de datos: " + DBName + "\n"
                     + "\t2. Creación de las colecciones Bill, Showtimes, Movies y Users\n"
-                    + "\t3. Creación automatica de dos usuarios de prueba de diferente cargo (Administrador y cajero)\n"
+                    + "\t3. Creación automatica de dos usuarios de prueba de diferente cargo (Administrador y cajero) con contraseñas: 123\n"
                     + "=====================================================================================\n"
                     + "Todos los datos almacenados y la base de datos " + DBName + " serán elimados, al continuar con esta\n"
                     + "operación debera reingresar las peliculas y tiempos de funciones de cada una.",
                     "Confirmacion de carga de datos por defecto", JOptionPane.OK_CANCEL_OPTION);
             if (op1 == 0) {
-
                 String textOriginal, text;
-                textOriginal = DBName + ((int) (Math.random() * 99 + 10)) + "";
+                textOriginal = DBName + ((int) (Math.random() * 99) + 10) + "";
                 text = JOptionPane.showInputDialog(parentFrame, "Ingrese el siguiente texto: " + textOriginal, "Ingrese el texto de seguridad", JOptionPane.WARNING_MESSAGE);
                 if (textOriginal.equals(text)) {
                     //Cargar valores por defecto
                     Mongo mongo = new Mongo(Uri, DBName);
                     //Eliminamos y creamos los datos
                     mongo.dropDatabase();
-                    mongo.createDefaultCollections();
+                    if (mongo.createDefaultCollections()) {
+                        this.dispose();
+                        DebugWindow.Message("info", "Datos creados", "Exitos en la creación de los datos");
+                    } else {
+                        DebugWindow.Message("danger", "Error en la creacion de los datos, se recomienda  validar los datos y reintentar", "ERROR EN LA CARGA DE DATOS POR DEFECTO");
+                        DataDefault.setEnabled(true);
+                    }
+                } else {
+                    DebugWindow.Message("warning", "El texto de confimación es incorrecto", "Texto incorrecto");
+                    DataDefault.setEnabled(true);
                 }
+            } else {
+                DataDefault.setEnabled(true);
             }
+        } else {
+            DataDefault.setEnabled(true);
         }
     }//GEN-LAST:event_DataDefaultMouseClicked
 

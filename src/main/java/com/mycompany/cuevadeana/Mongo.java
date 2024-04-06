@@ -292,27 +292,33 @@ public class Mongo {
     /**
      * Crea las colecciones de: Bills,Movies, Showtimes y Users
      *
+     * @return Retorna un valor boleano indicando si se crearon los datos o no
      */
-    public void createDefaultCollections() {
-        mongoDatabase.createCollection(C_BILLS);
-        mongoDatabase.createCollection(C_MOVIES);
-        mongoDatabase.createCollection(C_SHOWTIMES);
-        mongoDatabase.createCollection(C_USERS);
-        //Insercion de datos
-        User admin = new User();
-        admin.setName("Administrador de prueba");
-        admin.createUserName();
-        admin.setPassword("123");
-        admin.setRol("Administrador");
-        admin.setIdentification("111111111111");
-        User casher = new User();
-        casher.setName("Cajero de prueba");
-        casher.createUserName();
-        casher.setPassword("123");
-        casher.setRol("Cajero");
-        casher.setCashRegister("Caja 1");
-        casher.setIdentification("111111111112");
-        insert(admin);
-        insert(casher);
+    public boolean createDefaultCollections() {
+        try {
+            mongoDatabase.createCollection(C_BILLS);
+            mongoDatabase.createCollection(C_MOVIES);
+            mongoDatabase.createCollection(C_SHOWTIMES);
+            mongoDatabase.createCollection(C_USERS);
+            //Insercion de datos
+            User admin = new User();
+            admin.setName("Administrador de prueba");
+            admin.setRol("Administrador");
+            admin.createUserName();
+            admin.setPassword("123");
+            admin.setIdentification("111111111111");
+            User casher = new User();
+            casher.setName("Cajero de prueba");
+            casher.setRol("Cajero");
+            casher.createUserName();
+            casher.setPassword("123");
+            casher.setCashRegister("Caja 1");
+            casher.setIdentification("111111111112");
+            insert(admin);
+            insert(casher);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 }

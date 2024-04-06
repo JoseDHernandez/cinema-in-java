@@ -14,7 +14,7 @@ import Templates.RegisterUser;
 import Templates.RegisterMovies;
 import Templates.Resolution;
 import Templates.SellSeats;
-import java.awt.Dimension;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import org.bson.Document;
 
@@ -29,9 +29,9 @@ public class Main extends javax.swing.JFrame implements Resolution {
      */
     //===============Variables globales===================
     private User userData = new User();
-    //Base de datos
-    private String URIMONGO = "mongodb://localhost:27017";
-    private String DBNAME = "cine";
+    //Base de datos por defecto
+    private final String URIMONGO = "mongodb://localhost:27017";
+    private final String DBNAME = "cine";
     private Mongo mongoDB = null;
     //====================================================
 
@@ -39,7 +39,7 @@ public class Main extends javax.swing.JFrame implements Resolution {
         initComponents();
         enableButtons(false);//Deshabilitar botones
         visibleButtons(false);
-        login();
+        SC_Login();
     }
 
     /**
@@ -236,44 +236,44 @@ public class Main extends javax.swing.JFrame implements Resolution {
         MasterPanel.repaint();
     }
 
-    private void registerShowtime() {
+    private void SC_RegisterShowtime() {
         RegisterShowtimes re = new RegisterShowtimes(mongoDB);
         changeScenne(re);
     }
 
-    private void venta() {
+    private void SC_SellSeats() {
         SellSeats v = new SellSeats(mongoDB, userData);
         changeScenne(v);
     }
 
-    private void registerMovie() {
+    private void SC_RegisterMovie() {
         RegisterMovies registerMovie = new RegisterMovies(mongoDB);
         changeScenne(registerMovie);
     }
     private void Button1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Button1MouseClicked
         // TODO add your handling code here:
         if (userData.getRol().equals("Administrador")) {
-            registerMovie();
+            SC_RegisterMovie();
         } else {
-            venta();
+            SC_SellSeats();
         }
     }//GEN-LAST:event_Button1MouseClicked
 
-    private void listMovies() {
+    private void SC_ListMovies() {
         List_movies list_movies = new List_movies(mongoDB, this);
         changeScenne(list_movies);
     }
 
-    private void registerUser() {
+    private void SC_RegisterUser() {
         RegisterUser newUser = new RegisterUser(mongoDB);
         changeScenne(newUser);
     }
     private void Button2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Button2MouseClicked
         // TODO add your handling code here:
         if (userData.getRol().equals("Administrador")) {
-            registerShowtime();
+            SC_RegisterShowtime();
         } else {
-            listMovies();
+            SC_ListMovies();
         }
     }//GEN-LAST:event_Button2MouseClicked
 
@@ -289,7 +289,7 @@ public class Main extends javax.swing.JFrame implements Resolution {
     /**
      * Valida al usuario y estable sus datos en local
      *
-     * @param usernaname Nombre del usuario
+     * @param username Nombre del usuario
      * @param pass Contraseña del usuario
      */
     public void login(String username, String pass) {
@@ -298,15 +298,15 @@ public class Main extends javax.swing.JFrame implements Resolution {
         //Validar usuario
 
         User user = new User();
-        Document userData = mongoDB.findUser(user.hashPassword(pass), username);
-        if (userData.getString("Password").equals(user.hashPassword(pass))) {
-            user.setId(userData.getObjectId("_id").toString());
-            user.setUserName(userData.getString("UserName"));
-            user.setName(userData.getString("Name"));
-            user.setIdentification(userData.getString("Identification"));
-            user.setRol(userData.getString("Rol"));
+        Document userDataLogin = mongoDB.findUser(user.hashPassword(pass), username);
+        if (userDataLogin.getString("Password").equals(user.hashPassword(pass))) {
+            user.setId(userDataLogin.getObjectId("_id").toString());
+            user.setUserName(userDataLogin.getString("UserName"));
+            user.setName(userDataLogin.getString("Name"));
+            user.setIdentification(userDataLogin.getString("Identification"));
+            user.setRol(userDataLogin.getString("Rol"));
             if (user.getRol().equals("Cajero")) {
-                user.setCashRegister(userData.getString("CashRegister"));
+                user.setCashRegister(userDataLogin.getString("CashRegister"));
             }
             this.userData = user;
             //Cambiar botones segun el cargo
@@ -318,16 +318,16 @@ public class Main extends javax.swing.JFrame implements Resolution {
             UserNameTitle.setText(user.getName());
             enableButtons(true);
             visibleButtons(true);
-            listMovies();
+            SC_ListMovies();
         } else {
-            DebugWindow window = new DebugWindow();
-            window.Message("warning", "Usuario invalido", "Error de ingreso");
+            DebugWindow.Message("warning", "Usuario invalido", "Error de ingreso");
+            SC_Login();
         }
     }
     private void Button3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Button3MouseClicked
         // TODO add your handling code here:
         if (userData.getRol().equals("Administrador")) {
-            registerUser();
+            SC_RegisterUser();
         } else {
 
         }
@@ -339,11 +339,21 @@ public class Main extends javax.swing.JFrame implements Resolution {
             Options op = new Options(this);
             op.setVisible(true);
         } else {
-            //cerrar ssecion
+            //Cerrar sesion
+            int op = JOptionPane.showConfirmDialog(this, "¿Estas seguro de querer cerrar sesion?", "Cerrar sesion", JOptionPane.OK_CANCEL_OPTION);
+            if (op == 0) {
+                //Cerrar conexion
+                mongoDB.closeConnection();
+                //Limpiar datos
+                this.userData = new User();
+                UserNameTitle.setText("");
+                //Repintar login
+                SC_Login();
+            }
         }
     }//GEN-LAST:event_Button4MouseClicked
 
-    private void login() {
+    private void SC_Login() {
         Login loginT = new Login(this);
         loginT.setName("Login");
         changeScenne(loginT);
