@@ -5,7 +5,6 @@ package Classes;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Random;
 import org.bson.Document;
 
 /**
@@ -197,8 +196,9 @@ public class User {
         String[] partsName = name.split(" ");
         String temp = rol.substring(0, 2).equalsIgnoreCase("ad") ? "AD" : "CR";
         for (String text : partsName) {
-            temp += text.substring(0, text.length() - ((int) (Math.random() * (text.length() - 1))));
+            temp += text.substring(0, Math.min(3, text.length())).toUpperCase();
         }
+        temp += 100 + (int) (Math.random() * 900);
         userName = temp;
     }
 

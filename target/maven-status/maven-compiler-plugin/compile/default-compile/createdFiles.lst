@@ -230,6 +230,7 @@ Templates\SellSeats$278.class
 com\mycompany\cuevadeana\Main$4.class
 Templates\RegisterMovies.class
 Templates\SellSeats$183.class
+Classes\Tools.class
 Templates\Resolution.class
 Templates\SellSeats$143.class
 Templates\SellSeats$31.class
@@ -264,6 +265,7 @@ Templates\SellSeats$294.class
 Templates\SellSeats$48.class
 Templates\SellSeats$6.class
 com\mycompany\cuevadeana\Main$3.class
+Templates\SellSeats$312.class
 Templates\SellSeats$30.class
 Templates\SellSeats$70.class
 Templates\MoviePoster$1.class
@@ -276,7 +278,6 @@ Templates\ViewMovie.class
 Templates\RegisterMovies$5.class
 Templates\SellSeats$308.class
 Templates\RegisterShowtimes.class
-Templates\DebugWindow.class
 Templates\RegisterMovies$2.class
 Templates\Options$3.class
 Templates\SellSeats$169.class
@@ -302,7 +303,6 @@ Templates\SellSeats$177.class
 Templates\SellSeats$212.class
 Templates\SellSeats$232.class
 Templates\SellSeats$284.class
-Classes\JSON.class
 Templates\SellSeats$264.class
 Templates\SellSeats$174.class
 Templates\SellSeats$35.class
@@ -326,10 +326,10 @@ Templates\SellSeats$235.class
 Templates\SellSeats$261.class
 Templates\SellSeats$176.class
 Templates\SellSeats$34.class
+Classes\Window.class
 com\mycompany\cuevadeana\Main$7.class
 Templates\SellSeats$180.class
 Templates\SellSeats$91.class
-Classes\REGEX.class
 Templates\SellSeats$123.class
 Templates\SellSeats$130.class
 Templates\SellSeats$228.class

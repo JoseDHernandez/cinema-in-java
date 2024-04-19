@@ -1,14 +1,14 @@
 /*
- * Este archivo define la clase DebugWindow, que proporciona métodos para mostrar ventanas de depuración.
+ * Este archivo define la clase Window, que proporciona métodos para mostrar ventanas.
  */
-package Templates;
+package Classes;
 
 import javax.swing.JOptionPane;
 
 /**
- * La clase DebugWindow proporciona métodos para mostrar ventanas de depuración.
+ * La clase Window proporciona métodos para mostrar ventanas de depuración.
  */
-public class DebugWindow {
+public class Window {
 
     /**
      * Muestra una nueva ventana de depuración.

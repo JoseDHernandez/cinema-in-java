@@ -5,20 +5,20 @@ import Classes.Movie;
 import Classes.Showtime;
 import Classes.Theater;
 import Classes.User;
+import Classes.Window;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import com.mongodb.MongoException;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
-import org.bson.Document;
-import Templates.DebugWindow;
 import static com.mongodb.client.model.Filters.and;
 import static com.mongodb.client.model.Filters.eq;
 import com.mongodb.client.result.UpdateResult;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import org.bson.Document;
 
 public class Mongo {
 
@@ -48,7 +48,7 @@ public class Mongo {
             mongoClient = new MongoClient(clientURI);
             mongoDatabase = mongoClient.getDatabase(DATABASE_NAME);
         } catch (MongoException e) {
-            DebugWindow.Message("danger", "Error to connect to database (" + DATABASE_NAME + "):\n" + e.toString(), "ERROR TO CONNECT");
+            Window.Message("danger", "Error to connect to database (" + DATABASE_NAME + "):\n" + e.toString(), "ERROR TO CONNECT");
         }
     }
 
@@ -137,7 +137,7 @@ public class Mongo {
                 }
             }
         } catch (MongoException e) {
-            DebugWindow.Message("warning", "No se registraron las siguientes sillas: " + seatsSold.toString() + "\n"
+            Window.Message("warning", "No se registraron las siguientes sillas: " + seatsSold.toString() + "\n"
                     + e.toString(), "Error al actualizar las sillas vendidas");
         }
         return false;
@@ -153,9 +153,9 @@ public class Mongo {
         try {
             MongoCollection<Document> collection = getCollection(collectionName);
             collection.insertOne(document);
-            DebugWindow.Message("info", "Registered " + collectionName.substring(0, collectionName.length() - 1), "Registered " + collectionName.substring(0, collectionName.length() - 1));
+            Window.Message("info", "Registered " + collectionName.substring(0, collectionName.length() - 1), "Registered " + collectionName.substring(0, collectionName.length() - 1));
         } catch (MongoException e) {
-            DebugWindow.Message("danger", "Error while inserting into collection '" + collectionName + "': " + e.toString(), "ERROR WHILE INSERTING");
+            Window.Message("danger", "Error while inserting into collection '" + collectionName + "': " + e.toString(), "ERROR WHILE INSERTING");
         }
     }
 
@@ -285,7 +285,7 @@ public class Mongo {
         try {
             mongoClient.dropDatabase(DATABASE_NAME);
         } catch (MongoException e) {
-            DebugWindow.Message("info", "No se pudo eliminar la base de datos: " + DATABASE_NAME, "Error en la eliminacion de la base de datos");
+            Window.Message("info", "No se pudo eliminar la base de datos: " + DATABASE_NAME, "Error en la eliminacion de la base de datos");
         }
     }
 

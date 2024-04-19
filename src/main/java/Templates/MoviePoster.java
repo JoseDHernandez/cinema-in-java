@@ -50,7 +50,7 @@ public class MoviePoster extends javax.swing.JPanel {
 
         Poster.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        Title.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        Title.setFont(new java.awt.Font("Ebrima", 0, 14)); // NOI18N
         Title.setText("Title");
 
         Date.setText("Date");

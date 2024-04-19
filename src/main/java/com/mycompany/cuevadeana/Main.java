@@ -1,17 +1,13 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package com.mycompany.cuevadeana;
 
 import Classes.User;
-import Templates.DebugWindow;
+import Classes.Window;
 import Templates.List_movies;
 import Templates.Login;
 import Templates.Options;
+import Templates.RegisterMovies;
 import Templates.RegisterShowtimes;
 import Templates.RegisterUser;
-import Templates.RegisterMovies;
 import Templates.Resolution;
 import Templates.SellSeats;
 import javax.swing.JOptionPane;
@@ -30,26 +26,18 @@ public class Main extends javax.swing.JFrame implements Resolution {
     //===============Variables globales===================
     private User userData = new User();
     //Base de datos por defecto
-    private final String URIMONGO = "mongodb://localhost:27017";
-    private final String DBNAME = "cine";
+    private String URIMONGO = "mongodb://localhost:27017";
+    private String DBNAME = "cine";
     private Mongo mongoDB = null;
+    private JPanel actualScenne = null;
     //====================================================
 
     public Main() {
         initComponents();
+        this.setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
         enableButtons(false);//Deshabilitar botones
         visibleButtons(false);
         SC_Login();
-    }
-
-    /**
-     * Establecer la URI y nombre de la base de datos
-     *
-     * @param URI URI de mongoDB
-     * @param Name Nombre de la base de datos
-     */
-    public void setDatabase(String URI, String Name) {
-
     }
 
     /**
@@ -66,10 +54,10 @@ public class Main extends javax.swing.JFrame implements Resolution {
         Button2 = new javax.swing.JButton();
         MasterPanel = new javax.swing.JPanel();
         Button3 = new javax.swing.JButton();
-        Button4 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         UserNameTitle = new javax.swing.JLabel();
+        Button4 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 102, 102));
@@ -123,7 +111,7 @@ public class Main extends javax.swing.JFrame implements Resolution {
         );
         MasterPanelLayout.setVerticalGroup(
             MasterPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 689, Short.MAX_VALUE)
         );
 
         Button3.setBackground(new java.awt.Color(255, 153, 153));
@@ -137,13 +125,6 @@ public class Main extends javax.swing.JFrame implements Resolution {
             }
         });
 
-        Button4.setText("Opciones");
-        Button4.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                Button4MouseClicked(evt);
-            }
-        });
-
         jPanel2.setBackground(new java.awt.Color(255, 102, 102));
 
         jLabel5.setFont(new java.awt.Font("Ebrima", 3, 36)); // NOI18N
@@ -154,6 +135,15 @@ public class Main extends javax.swing.JFrame implements Resolution {
         UserNameTitle.setForeground(new java.awt.Color(255, 255, 255));
         UserNameTitle.setText("  ");
 
+        Button4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        Button4.setForeground(new java.awt.Color(255, 102, 102));
+        Button4.setText("Opciones");
+        Button4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                Button4MouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -163,15 +153,20 @@ public class Main extends javax.swing.JFrame implements Resolution {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(UserNameTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 314, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 314, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(Button4, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel5)
-                .addGap(0, 0, 0)
-                .addComponent(UserNameTitle)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(Button4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel5)
+                        .addGap(0, 0, 0)
+                        .addComponent(UserNameTitle)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -188,9 +183,7 @@ public class Main extends javax.swing.JFrame implements Resolution {
                 .addComponent(Button2, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(Button3, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(Button4, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap(91, Short.MAX_VALUE))
             .addComponent(MasterPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 1024, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
@@ -203,8 +196,7 @@ public class Main extends javax.swing.JFrame implements Resolution {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(Button1, javax.swing.GroupLayout.DEFAULT_SIZE, 58, Short.MAX_VALUE)
                             .addComponent(Button2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(Button3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(Button4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(Button3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(MasterPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 689, Short.MAX_VALUE))
         );
@@ -224,7 +216,19 @@ public class Main extends javax.swing.JFrame implements Resolution {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    JPanel actualScenne = null;
+
+    public void changeDB_Options(String uri, String name) {
+        URIMONGO = uri;
+        DBNAME = name;
+    }
+
+    public String getURIMONGO() {
+        return URIMONGO;
+    }
+
+    public String getDBNAME() {
+        return DBNAME;
+    }
 
     //Re dibuja el JPanel cuando se cambia el tamaño del contenedor 
     public void changeScenne(JPanel scenne) {
@@ -320,7 +324,7 @@ public class Main extends javax.swing.JFrame implements Resolution {
             visibleButtons(true);
             SC_ListMovies();
         } else {
-            DebugWindow.Message("warning", "Usuario invalido", "Error de ingreso");
+            Window.Message("warning", "Usuario invalido", "Error de ingreso");
             SC_Login();
         }
     }

@@ -139,7 +139,7 @@ public class Showtime {
                 .append("StartHour", startHour.toString())
                 .append("EndHour", endHour.toString())
                 .append("Duration", duration)
-                .append("SeatsSold", JSON.listToJson(seatsSold));
+                .append("SeatsSold", Tools.listToJson(seatsSold));
         return document;
     }
 }

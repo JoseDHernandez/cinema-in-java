@@ -252,12 +252,12 @@ public class Movie {
                 .append("Duration", duration)
                 .append("Poster", poster);
 
-        // Verificar si actors y genres no son nulos antes de convertirlos a JSON
+        // Verificar si actors y genres no son nulos antes de convertirlos a Tools
         if (actors != null) {
-            document.append("Actors", JSON.listToJson(actors));
+            document.append("Actors", Tools.listToJson(actors));
         }
         if (genres != null) {
-            document.append("Genres", JSON.listToJson(genres));
+            document.append("Genres", Tools.listToJson(genres));
         }
 
         return document;
