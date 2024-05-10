@@ -105,10 +105,7 @@ public class RegisterShowtimes extends javax.swing.JPanel implements Resolution 
 
         Table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
                 "Pelicula", "Inicio", "Fin", "Duración"
@@ -159,9 +156,9 @@ public class RegisterShowtimes extends javax.swing.JPanel implements Resolution 
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 436, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel6)
-                .addGap(119, 119, 119)
+                .addGap(33, 33, 33)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(21, 21, 21))
+                .addGap(107, 107, 107))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -171,13 +168,8 @@ public class RegisterShowtimes extends javax.swing.JPanel implements Resolution 
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(23, 23, 23)
-                                .addComponent(jLabel1))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(170, 170, 170)
-                                .addComponent(AddButton, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(23, 23, 23)
+                        .addComponent(jLabel1)
                         .addGap(86, 86, 86))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -188,7 +180,8 @@ public class RegisterShowtimes extends javax.swing.JPanel implements Resolution 
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(TheaterFeatures, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(DateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(ListMovies, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(ListMovies, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(AddButton, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(40, 40, 40)))
                 .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -210,9 +203,9 @@ public class RegisterShowtimes extends javax.swing.JPanel implements Resolution 
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel4)
                     .addComponent(DateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(88, 88, 88)
+                .addGap(43, 43, 43)
                 .addComponent(AddButton, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(69, 69, 69))
+                .addGap(114, 114, 114))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -326,7 +319,7 @@ public class RegisterShowtimes extends javax.swing.JPanel implements Resolution 
                     //Comprar si la pelicula no pasa de las 11 PM
                     int end = endTime.getHour(), start = startTime.getHour();
                     if ((start >= 0 && start < openTime || start >= 23) || (end >= 0 && end < openTime || end >= 23)) {
-                        window.Message("warning", "Ya no se pueden agregar mas peliculas porque se supera el limite de horario", "Limite de horario");
+                        Window.Message("warning", "Ya no se pueden agregar mas peliculas porque se supera el limite de horario", "Limite de horario");
                     } else {
                         showtime.setStartHour(startTime);
                         showtime.setEndHour(endTime);
@@ -356,6 +349,7 @@ public class RegisterShowtimes extends javax.swing.JPanel implements Resolution 
         DateChooser.setEnabled(true);
     }
 
+    //Guardar en la base de datos
     private void saveShowtime() {
         if (!theater.getShowtimes().isEmpty()) {
             try {
@@ -369,12 +363,12 @@ public class RegisterShowtimes extends javax.swing.JPanel implements Resolution 
                     enableInputs();
                     updateTable();
                 } else {
-                    window.Message("danger", "Fecha ya registrada", "Error en registrar funcion");
+                    Window.Message("danger", "Fecha ya registrada", "Error en registrar funcion");
                     enableInputs();
                 }
 
             } catch (Exception ex) {
-                window.Message("danger", ex.toString(), "Error en registrar funcion");
+                Window.Message("danger", ex.toString(), "Error en registrar funcion");
             }
         }
     }

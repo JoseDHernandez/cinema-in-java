@@ -61,6 +61,7 @@ public class Main extends javax.swing.JFrame implements Resolution {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 102, 102));
+        setPreferredSize(new java.awt.Dimension(1366, 768));
         addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentResized(java.awt.event.ComponentEvent evt) {
                 formComponentResized(evt);
@@ -111,7 +112,7 @@ public class Main extends javax.swing.JFrame implements Resolution {
         );
         MasterPanelLayout.setVerticalGroup(
             MasterPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 689, Short.MAX_VALUE)
+            .addGap(0, 708, Short.MAX_VALUE)
         );
 
         Button3.setBackground(new java.awt.Color(255, 153, 153));
@@ -127,13 +128,13 @@ public class Main extends javax.swing.JFrame implements Resolution {
 
         jPanel2.setBackground(new java.awt.Color(255, 102, 102));
 
-        jLabel5.setFont(new java.awt.Font("Ebrima", 3, 36)); // NOI18N
+        jLabel5.setFont(new java.awt.Font("Ebrima", 3, 18)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("La cueva de ana");
 
-        UserNameTitle.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
+        UserNameTitle.setFont(new java.awt.Font("Segoe UI", 0, 8)); // NOI18N
         UserNameTitle.setForeground(new java.awt.Color(255, 255, 255));
-        UserNameTitle.setText("  ");
+        UserNameTitle.setText("  s");
 
         Button4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         Button4.setForeground(new java.awt.Color(255, 102, 102));
@@ -150,24 +151,24 @@ public class Main extends javax.swing.JFrame implements Resolution {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(UserNameTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 314, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 314, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 314, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(UserNameTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 314, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
                 .addComponent(Button4, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(Button4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel5)
-                        .addGap(0, 0, 0)
-                        .addComponent(UserNameTitle)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(UserNameTitle))
+                    .addComponent(Button4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -177,13 +178,13 @@ public class Main extends javax.swing.JFrame implements Resolution {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(Button1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(12, 12, 12)
+                .addGap(18, 18, 18)
+                .addComponent(Button1, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(25, 25, 25)
                 .addComponent(Button2, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(Button3, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(91, Short.MAX_VALUE))
+                .addContainerGap(85, Short.MAX_VALUE))
             .addComponent(MasterPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 1024, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
@@ -192,13 +193,15 @@ public class Main extends javax.swing.JFrame implements Resolution {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(9, 9, 9)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(Button1, javax.swing.GroupLayout.DEFAULT_SIZE, 58, Short.MAX_VALUE)
-                            .addComponent(Button2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(Button3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addContainerGap()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(Button3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(Button2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(Button1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(MasterPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 689, Short.MAX_VALUE))
+                .addComponent(MasterPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 708, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -300,31 +303,35 @@ public class Main extends javax.swing.JFrame implements Resolution {
         //Establecer coneccion con mongoDB
         mongoDB = new Mongo(URIMONGO, DBNAME);
         //Validar usuario
-
-        User user = new User();
-        Document userDataLogin = mongoDB.findUser(user.hashPassword(pass), username);
-        if (userDataLogin.getString("Password").equals(user.hashPassword(pass))) {
-            user.setId(userDataLogin.getObjectId("_id").toString());
-            user.setUserName(userDataLogin.getString("UserName"));
-            user.setName(userDataLogin.getString("Name"));
-            user.setIdentification(userDataLogin.getString("Identification"));
-            user.setRol(userDataLogin.getString("Rol"));
-            if (user.getRol().equals("Cajero")) {
-                user.setCashRegister(userDataLogin.getString("CashRegister"));
+        try {
+            User user = new User();
+            Document userDataLogin = mongoDB.findUser(user.hashPassword(pass), username);
+            if (userDataLogin.getString("Password").equals(user.hashPassword(pass))) {
+                user.setId(userDataLogin.getObjectId("_id").toString());
+                user.setUserName(userDataLogin.getString("UserName"));
+                user.setName(userDataLogin.getString("Name"));
+                user.setIdentification(userDataLogin.getString("Identification"));
+                user.setRol(userDataLogin.getString("Rol"));
+                if (user.getRol().equals("Cajero")) {
+                    user.setCashRegister(userDataLogin.getString("CashRegister"));
+                }
+                this.userData = user;
+                //Cambiar botones segun el cargo
+                Button1.setText(user.getRol().equals("Administrador") ? "Registrar" : "Venta");
+                Button2.setText(user.getRol().equals("Administrador") ? "Funciones" : "Peliculas");
+                Button3.setText(user.getRol().equals("Administrador") ? "Usuarios" : " ");
+                Button4.setText("Salir");
+                //
+                UserNameTitle.setText(user.getName());
+                enableButtons(true);
+                visibleButtons(true);
+                SC_ListMovies();
+            } else {
+                Window.Message("warning", "Usuario invalido", "Error de ingreso");
+                SC_Login();
             }
-            this.userData = user;
-            //Cambiar botones segun el cargo
-            Button1.setText(user.getRol().equals("Administrador") ? "Registrar" : "Venta");
-            Button2.setText(user.getRol().equals("Administrador") ? "Funciones" : "Peliculas");
-            Button3.setText(user.getRol().equals("Administrador") ? "Usuarios" : " ");
-            Button4.setText("Salir");
-            //
-            UserNameTitle.setText(user.getName());
-            enableButtons(true);
-            visibleButtons(true);
-            SC_ListMovies();
-        } else {
-            Window.Message("warning", "Usuario invalido", "Error de ingreso");
+        } catch (Exception e) {
+            Window.Message("warning", "Error al conectar con la base de datos", "Error de ingreso");
             SC_Login();
         }
     }
@@ -339,7 +346,7 @@ public class Main extends javax.swing.JFrame implements Resolution {
 
     private void Button4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Button4MouseClicked
         // TODO add your handling code here:
-        if (Button4.getText().equals("Opciones")) {
+        if (Button4.getText().equalsIgnoreCase("Opciones")) {
             Options op = new Options(this);
             op.setVisible(true);
         } else {
@@ -349,8 +356,10 @@ public class Main extends javax.swing.JFrame implements Resolution {
                 //Cerrar conexion
                 mongoDB.closeConnection();
                 //Limpiar datos
-                this.userData = new User();
-                UserNameTitle.setText("");
+                UserNameTitle.setText(" ");
+                userData = new User();
+                visibleButtons(false);
+                Button4.setText("Opciones");
                 //Repintar login
                 SC_Login();
             }

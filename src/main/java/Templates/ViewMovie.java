@@ -9,9 +9,9 @@ import javax.swing.ImageIcon;
  * @author Jose
  */
 public class ViewMovie extends javax.swing.JPanel implements Resolution {
-    
+
     Movie movie = new Movie();
-    
+
     public ViewMovie(Movie movie) {
         this.movie = movie;
         initComponents();
@@ -27,7 +27,7 @@ public class ViewMovie extends javax.swing.JPanel implements Resolution {
     private String toHTML(String text) {
         return "<html><p>" + text + "</p></html>";
     }
-    
+
     private void setData() {
         //Establecer poster
         ImageIcon ico = new ImageIcon(movie.getPoster());
@@ -76,6 +76,8 @@ public class ViewMovie extends javax.swing.JPanel implements Resolution {
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
+
+        setBackground(new java.awt.Color(255, 255, 255));
 
         Poster.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
@@ -203,8 +205,8 @@ public class ViewMovie extends javax.swing.JPanel implements Resolution {
                         .addGap(33, 33, 33)
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(Description, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(35, 35, 35)
+                        .addComponent(Description, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(Director)
                             .addComponent(jLabel5))
@@ -219,7 +221,7 @@ public class ViewMovie extends javax.swing.JPanel implements Resolution {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(41, 41, 41)
                         .addComponent(Poster, javax.swing.GroupLayout.PREFERRED_SIZE, 441, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(63, Short.MAX_VALUE))
+                .addContainerGap(106, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
