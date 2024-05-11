@@ -446,7 +446,7 @@ public class SellSeats extends javax.swing.JPanel {
 
         jLabel36.setFont(new java.awt.Font("Ebrima", 1, 14)); // NOI18N
         jLabel36.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel36.setText("Caracteristica");
+        jLabel36.setText("Característica");
 
         Features.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar", "2D", "3D", "4D", "2D - CC", "3D - CC", "4D - CC" }));
         Features.addActionListener(new java.awt.event.ActionListener() {
@@ -3719,7 +3719,7 @@ public class SellSeats extends javax.swing.JPanel {
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 24, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -3732,7 +3732,7 @@ public class SellSeats extends javax.swing.JPanel {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 804, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 780, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
     private void setNames() {

@@ -195,6 +195,14 @@ public class Bill {
         return showtime;
     }
 
+    public String getNameClient() {
+        return nameClient;
+    }
+
+    public String getIdentification() {
+        return identification;
+    }
+
     /**
      * Convierte la factura en una cadena de caracteres.
      *

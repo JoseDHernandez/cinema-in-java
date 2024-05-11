@@ -21,7 +21,7 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="jPanel1" alignment="0" pref="1075" max="32767" attributes="0"/>
+          <Component id="jPanel1" alignment="0" pref="1336" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
@@ -180,7 +180,7 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Identificacion"/>
+                <Property name="text" type="java.lang.String" value="Identificaci&#xf3;n"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JComboBox" name="Type">

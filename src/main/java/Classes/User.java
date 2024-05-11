@@ -214,7 +214,7 @@ public class User {
                 .append("Name", name)
                 .append("Identification", identification)
                 .append("Rol", rol)
-                .append("CashRegister", rol.equals("Administrador") ? null : cashRegister)
+                .append("CashRegister", rol.equalsIgnoreCase("Administrador") ? null : cashRegister)
                 .append("Password", password);
     }
 }

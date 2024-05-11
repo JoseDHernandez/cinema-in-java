@@ -53,6 +53,18 @@ public class Mongo {
     }
 
     /**
+     * Obtener cliente de mongo
+     *
+     * @return cliente
+     */
+    public MongoClient getClient() {
+        if (mongoClient != null) {
+            return mongoClient;
+        }
+        return null;
+    }
+
+    /**
      * Cierra la conexión con la base de datos MongoDB.
      */
     public void closeConnection() {
@@ -183,6 +195,23 @@ public class Mongo {
     }
 
     /**
+     * Busca una factura / boleto registrado
+     *
+     * @param date Fecha de la venta
+     * @param identification Identificacion del cliente
+     * @param movieName Nombre de la pelicula
+     * @return Devuelve el documento de la factura
+     */
+    public Document findBill(String date, String identification, String movieName) {
+        Document query = new Document();
+        query.append("Date", date);
+        query.append("Identification", identification);
+        query.append("Movie", movieName);
+
+        return getCollection(C_BILLS).find(query).first();
+    }
+
+    /**
      * Busca un horario de función en la base de datos.
      *
      * @param name Nombre del horario de función.
@@ -304,13 +333,13 @@ public class Mongo {
             User admin = new User();
             admin.setName("Administrador de prueba");
             admin.setRol("Administrador");
-            admin.createUserName();
+            admin.setUserName("Admin");
             admin.setPassword("123");
             admin.setIdentification("111111111111");
             User casher = new User();
             casher.setName("Cajero de prueba");
             casher.setRol("Cajero");
-            casher.createUserName();
+            casher.setUserName("CajeroTest");
             casher.setPassword("123");
             casher.setCashRegister("Caja 1");
             casher.setIdentification("111111111112");
