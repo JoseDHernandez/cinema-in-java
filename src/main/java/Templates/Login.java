@@ -62,14 +62,11 @@ public class Login extends javax.swing.JPanel implements Resolution {
 
         UserLabel.setText("<html><p align='center'>Nombre de<br>usuario</p><html>");
 
-        userName.setText("CRCAJDEPRU121");
         userName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 userNameActionPerformed(evt);
             }
         });
-
-        Password.setText("123");
 
         PassLabel.setText("Contraseña");
 
