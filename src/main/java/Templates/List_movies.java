@@ -5,6 +5,7 @@
 package Templates;
 
 import Classes.Movie;
+import Classes.User;
 import com.mycompany.cuevadeana.Main;
 import com.mycompany.cuevadeana.Mongo;
 import java.awt.GridLayout;
@@ -25,9 +26,11 @@ public class List_movies extends javax.swing.JPanel implements Resolution {
      */
     private Mongo mongoDB;
     private final Main parentFrame;
+    private User user;
 
-    public List_movies(Mongo client, Main parentFrame) {
+    public List_movies(Mongo client, Main parentFrame, User user) {
         this.parentFrame = parentFrame;
+        this.user = user;
         initComponents();
         mongoDB = client;
         viewMovies();
@@ -71,7 +74,7 @@ public class List_movies extends javax.swing.JPanel implements Resolution {
      *
      */
     public void openViewMovie(String title) {
-        ViewMovie v = new ViewMovie(mongoDB.getMovie(title));
+        ViewMovie v = new ViewMovie(mongoDB.getMovie(title), user);
         parentFrame.changeScenne(v);
     }
 
