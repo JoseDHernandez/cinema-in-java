@@ -479,6 +479,8 @@ public class SellSeats extends javax.swing.JPanel {
         jLabel39.setForeground(new java.awt.Color(255, 255, 255));
         jLabel39.setText("Código de sillas:");
 
+        SeatsSoldLabel.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        SeatsSoldLabel.setForeground(new java.awt.Color(255, 255, 255));
         SeatsSoldLabel.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         SeatsSoldLabel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
