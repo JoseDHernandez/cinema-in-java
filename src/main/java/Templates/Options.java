@@ -228,6 +228,8 @@ public class Options extends javax.swing.JFrame {
             mongoClient.close();
         } catch (MongoException e) {
             Window.Message("danger", "\n" + e.toString(), "Error en la prueba de conexión");
+        } catch (Exception e) {
+            Window.Message("danger", "\n" + e.toString(), "Error en la prueba de conexión");
         }
         return false;
     }

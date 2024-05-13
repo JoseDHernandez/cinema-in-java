@@ -4098,10 +4098,13 @@ public class SellSeats extends javax.swing.JPanel {
                 default:
                     break;
             }
+            System.out.println("Salas: " + showtimesListString.toString());
+            System.out.println("Teatros: " + theaterList.toString());
             //Agregar sala a lista
             if (!theaterList.isEmpty()) {
                 int constains = 0;
                 for (String show : showtimesListString) {
+                    System.out.println("SHOW: " + show);
                     String[] text = show.split(" ");
                     String Theater = text[0] + " " + text[1];
                     Theater = Theater.substring(0, Theater.length() - 1);
@@ -4128,7 +4131,8 @@ public class SellSeats extends javax.swing.JPanel {
 
     //Obtener lista de funciones
     public void getShows() {
-        if (ListMovies.getSelectedIndex() != 0 && !titleOfMovie.isEmpty() && !titleOfMovie.equals(ListMovies.getSelectedItem().toString())) {
+        if (ListMovies.getSelectedIndex() != 0 && !titleOfMovie.equalsIgnoreCase(ListMovies.getSelectedItem().toString())) {
+            System.out.println("\n\nPeliculas");
             titleOfMovie = ListMovies.getSelectedItem().toString();
             LabelScreen.setText(titleOfMovie);
             try {
@@ -4140,9 +4144,12 @@ public class SellSeats extends javax.swing.JPanel {
                 }
                 theaterList = mongoDB.getTheater(titleOfMovie, dateSelected);
                 if (!theaterList.isEmpty()) {
+                    showtimeList.clear();
+                    showtimesListString.clear();
                     for (Theater shows : theaterList) {
                         for (Showtime hours : shows.getShowtimes()) {
                             String temp = shows.getName() + ":  " + hours.getStartHour() + " - " + hours.getEndHour();
+                            System.out.println(temp);
                             showtimesListString.add(temp);
                             showtimeList.add(hours);
                         }
