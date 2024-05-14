@@ -41,18 +41,20 @@ public class List_movies extends javax.swing.JPanel implements Resolution {
      */
     private void viewMovies() {
         Panel.removeAll();
-        List<Movie> mongoMovies = mongoDB.getMovies(0, 5);
+        List<Movie> mongoMovies = mongoDB.getMovies(0, 0);
         if (!mongoMovies.isEmpty()) {
             Warning.setVisible(false);
             final int maxUn = mongoMovies.size();
             final int columns = 5, rows = (int) Math.ceil((double) maxUn / columns);
-            int gap = 50;
+            System.out.println("size: " + maxUn);
+            System.out.println("Colmuns: " + columns);
+            System.out.println("Rows: " + rows);
+            int gap = 5;
             GridLayout gb = new GridLayout(rows, columns, gap, gap);
             Panel.setLayout(gb);
             for (Movie movie : mongoMovies) {
                 MoviePoster mt = new MoviePoster(this);
-                mt.setData(movie.getTitle(), movie.getDate());
-                mt.setPoster(movie.getPoster());
+                mt.setData(movie.getTitle(), movie.getPoster());
                 mt.setName(movie.getTitle());
                 mt.addActionListener(new ActionListener() {
                     @Override
@@ -123,6 +125,7 @@ public class List_movies extends javax.swing.JPanel implements Resolution {
 
         setBackground(new java.awt.Color(255, 255, 255));
         setMinimumSize(DEF_RESOLUTION);
+        setPreferredSize(new java.awt.Dimension(1336, 673));
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setPreferredSize(new java.awt.Dimension(910, 630));
@@ -142,14 +145,14 @@ public class List_movies extends javax.swing.JPanel implements Resolution {
             .addGroup(PanelLayout.createSequentialGroup()
                 .addGap(219, 219, 219)
                 .addComponent(Warning)
-                .addContainerGap(379, Short.MAX_VALUE))
+                .addContainerGap(500, Short.MAX_VALUE))
         );
         PanelLayout.setVerticalGroup(
             PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelLayout.createSequentialGroup()
                 .addGap(314, 314, 314)
                 .addComponent(Warning)
-                .addContainerGap(485, Short.MAX_VALUE))
+                .addContainerGap(467, Short.MAX_VALUE))
         );
 
         Panel1.setViewportView(Panel);
@@ -393,7 +396,7 @@ public class List_movies extends javax.swing.JPanel implements Resolution {
                     .addComponent(DateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(153, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -403,13 +406,15 @@ public class List_movies extends javax.swing.JPanel implements Resolution {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(Panel1, javax.swing.GroupLayout.DEFAULT_SIZE, 739, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(Panel1, javax.swing.GroupLayout.PREFERRED_SIZE, 1051, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(Panel1, javax.swing.GroupLayout.DEFAULT_SIZE, 841, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(Panel1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -417,12 +422,12 @@ public class List_movies extends javax.swing.JPanel implements Resolution {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 1024, Short.MAX_VALUE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 1330, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 841, Short.MAX_VALUE)
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 673, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 

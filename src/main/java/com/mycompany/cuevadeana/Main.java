@@ -60,6 +60,7 @@ public class Main extends javax.swing.JFrame implements Resolution {
         Button1 = new javax.swing.JButton();
         Button2 = new javax.swing.JButton();
         Button3 = new javax.swing.JButton();
+        Button5 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 102, 102));
@@ -79,18 +80,16 @@ public class Main extends javax.swing.JFrame implements Resolution {
         jPanel1.setPreferredSize(new java.awt.Dimension(1024, 768));
 
         MasterPanel.setBackground(new java.awt.Color(255, 255, 255));
-        MasterPanel.setMinimumSize(DEF_RESOLUTION);
-        MasterPanel.setPreferredSize(DEF_RESOLUTION);
 
         javax.swing.GroupLayout MasterPanelLayout = new javax.swing.GroupLayout(MasterPanel);
         MasterPanel.setLayout(MasterPanelLayout);
         MasterPanelLayout.setHorizontalGroup(
             MasterPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1024, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
         MasterPanelLayout.setVerticalGroup(
             MasterPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 703, Short.MAX_VALUE)
+            .addGap(0, 673, Short.MAX_VALUE)
         );
 
         Menu.setBackground(new java.awt.Color(255, 102, 102));
@@ -99,7 +98,7 @@ public class Main extends javax.swing.JFrame implements Resolution {
 
         jLabel5.setFont(new java.awt.Font("Ebrima", 3, 18)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel5.setText("La cueva de ana");
+        jLabel5.setText("La Cueva de Ana");
 
         UserNameTitle.setFont(new java.awt.Font("Segoe UI", 0, 8)); // NOI18N
         UserNameTitle.setForeground(new java.awt.Color(255, 255, 255));
@@ -114,7 +113,7 @@ public class Main extends javax.swing.JFrame implements Resolution {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 314, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(UserNameTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 314, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(36, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -169,11 +168,22 @@ public class Main extends javax.swing.JFrame implements Resolution {
         Button3.setBackground(new java.awt.Color(255, 153, 153));
         Button3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         Button3.setForeground(new java.awt.Color(255, 255, 255));
-        Button3.setText("Venta");
+        Button3.setText("Peliculas");
         Button3.setBorder(null);
         Button3.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 Button3MouseClicked(evt);
+            }
+        });
+
+        Button5.setBackground(new java.awt.Color(255, 153, 153));
+        Button5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        Button5.setForeground(new java.awt.Color(255, 255, 255));
+        Button5.setText("Venta");
+        Button5.setBorder(null);
+        Button5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                Button5MouseClicked(evt);
             }
         });
 
@@ -182,22 +192,24 @@ public class Main extends javax.swing.JFrame implements Resolution {
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addContainerGap()
+                .addContainerGap(283, Short.MAX_VALUE)
                 .addComponent(Button4, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(Button1, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(Button2, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(Button3, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(9, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(Button5, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(Button3, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(Button4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(Button1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(Button2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(Button3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(Button5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(Button2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(Button1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout MenuLayout = new javax.swing.GroupLayout(Menu);
@@ -206,8 +218,9 @@ public class Main extends javax.swing.JFrame implements Resolution {
             MenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(MenuLayout.createSequentialGroup()
                 .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(91, 91, 91)
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         MenuLayout.setVerticalGroup(
             MenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -219,8 +232,8 @@ public class Main extends javax.swing.JFrame implements Resolution {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(MasterPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 1024, Short.MAX_VALUE)
             .addComponent(Menu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(MasterPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 1335, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -228,21 +241,18 @@ public class Main extends javax.swing.JFrame implements Resolution {
                 .addContainerGap()
                 .addComponent(Menu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(MasterPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 703, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(MasterPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 673, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1335, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(0, 0, 0))
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 732, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -252,11 +262,11 @@ public class Main extends javax.swing.JFrame implements Resolution {
         URIMONGO = uri;
         DBNAME = name;
     }
-
+    
     public String getURIMONGO() {
         return URIMONGO;
     }
-
+    
     public String getDBNAME() {
         return DBNAME;
     }
@@ -270,17 +280,17 @@ public class Main extends javax.swing.JFrame implements Resolution {
         MasterPanel.revalidate();
         MasterPanel.repaint();
     }
-
+    
     private void SC_RegisterShowtime() {
         RegisterShowtimes re = new RegisterShowtimes(mongoDB);
         changeScenne(re);
     }
-
+    
     private void SC_SellSeats() {
         SellSeats v = new SellSeats(mongoDB, userData);
         changeScenne(v);
     }
-
+    
     private void SC_RegisterMovie() {
         RegisterMovies registerMovie = new RegisterMovies(mongoDB);
         changeScenne(registerMovie);
@@ -293,12 +303,12 @@ public class Main extends javax.swing.JFrame implements Resolution {
             SC_SellSeats();
         }
     }//GEN-LAST:event_Button1MouseClicked
-
+    
     private void SC_ListMovies() {
         List_movies list_movies = new List_movies(mongoDB, this, userData);
         changeScenne(list_movies);
     }
-
+    
     private void SC_RegisterUser() {
         RegisterUser newUser = new RegisterUser(mongoDB);
         changeScenne(newUser);
@@ -311,7 +321,7 @@ public class Main extends javax.swing.JFrame implements Resolution {
             SC_ListMovies();
         }
     }//GEN-LAST:event_Button2MouseClicked
-
+    
     private void formComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentResized
         // TODO add your handling code here:
         if (actualScenne != null) {
@@ -347,7 +357,7 @@ public class Main extends javax.swing.JFrame implements Resolution {
                 //Cambiar botones segun el cargo
                 Button1.setText(user.getRol().equals("Administrador") ? "Registrar" : "Venta");
                 Button2.setText(user.getRol().equals("Administrador") ? "Funciones" : "Peliculas");
-
+                
                 Button4.setText("Salir");
                 //
                 UserNameTitle.setText(user.getName());
@@ -355,8 +365,10 @@ public class Main extends javax.swing.JFrame implements Resolution {
                 visibleButtons(true);
                 if (user.getRol().equals("Administrador")) {
                     Button3.setText("Usuarios");
+                    Button5.setText("Películas");
                 } else {
                     Button3.setVisible(false);
+                    Button5.setVisible(false);
                 }
                 SC_ListMovies();
             } else {
@@ -373,10 +385,10 @@ public class Main extends javax.swing.JFrame implements Resolution {
         if (userData.getRol().equals("Administrador")) {
             SC_RegisterUser();
         } else {
-
+            
         }
     }//GEN-LAST:event_Button3MouseClicked
-
+    
     private void Button4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Button4MouseClicked
         // TODO add your handling code here:
         if (Button4.getText().equalsIgnoreCase("Opciones")) {
@@ -398,7 +410,7 @@ public class Main extends javax.swing.JFrame implements Resolution {
             }
         }
     }//GEN-LAST:event_Button4MouseClicked
-
+    
     private void SC_Login() {
         Login loginT = new Login(this);
         loginT.setName("Login");
@@ -410,21 +422,30 @@ public class Main extends javax.swing.JFrame implements Resolution {
             mongoDB.closeConnection();
         }
     }//GEN-LAST:event_formWindowClosing
-
+    
     private void Button2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_Button2ActionPerformed
-
+    
+    private void Button5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Button5MouseClicked
+        // TODO add your handling code here:
+        if (userData.getRol().equals("Administrador")) {
+            SC_ListMovies();
+        }
+    }//GEN-LAST:event_Button5MouseClicked
+    
     private void enableButtons(boolean enable) {
         Button1.setEnabled(enable);
         Button2.setEnabled(enable);
         Button3.setEnabled(enable);
+        Button5.setEnabled(enable);
     }
-
+    
     private void visibleButtons(boolean isVisible) {
         Button1.setVisible(isVisible);
         Button2.setVisible(isVisible);
         Button3.setVisible(isVisible);
+        Button5.setVisible(isVisible);
     }
 
     /**
@@ -467,6 +488,7 @@ public class Main extends javax.swing.JFrame implements Resolution {
     private javax.swing.JButton Button2;
     private javax.swing.JButton Button3;
     private javax.swing.JButton Button4;
+    private javax.swing.JButton Button5;
     private javax.swing.JPanel MasterPanel;
     private javax.swing.JPanel Menu;
     private javax.swing.JLabel UserNameTitle;

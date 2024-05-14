@@ -54,6 +54,7 @@ public class RegisterUser extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         Table = new javax.swing.JTable();
 
+        setBackground(new java.awt.Color(255, 255, 255));
         setPreferredSize(new java.awt.Dimension(1336, 768));
 
         jPanel1.setPreferredSize(new java.awt.Dimension(1024, 768));
