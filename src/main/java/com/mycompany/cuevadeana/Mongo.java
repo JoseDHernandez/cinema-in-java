@@ -195,6 +195,28 @@ public class Mongo {
     }
 
     /**
+     * Obtiene una lista de usuarios registrados en la base de datos.
+     *
+     * @return Lista de usuarios.
+     */
+    public List<User> getUsers() {
+        List<User> users = new ArrayList<>();
+        try {
+            MongoCursor<Document> cursor = getCollection(C_USERS).find().iterator();
+            while (cursor.hasNext()) {
+                Document doc = cursor.next();
+                User user = new User(doc);
+                users.add(user);
+            }
+            cursor.close();
+        } catch (Exception e) {
+            // Manejar cualquier excepción
+        }
+        return users;
+
+    }
+
+    /**
      * Busca una factura / boleto registrado
      *
      * @param date Fecha de la venta
@@ -237,6 +259,71 @@ public class Mongo {
             //Error
             throw new RuntimeException("No existe la pelicula con el titulo: " + title);
         }
+    }
+
+    /**
+     * Busca películas en la base de datos según diferentes criterios de
+     * búsqueda.
+     *
+     * @param title Título de la película.
+     * @param director Director de la película.
+     * @param actors Lista de actores de la película.
+     * @param classification Clasificación de la película.
+     * @param duration Duración de la película.
+     * @param date Fecha de la película.
+     * @param genres Lista de géneros de la película.
+     * @return Lista de películas que coinciden con los criterios de búsqueda.
+     */
+    public List<Movie> findMovies(String title, String director, List<String> actors,
+            String classification, int duration, String date,
+            List<String> genres) {
+        List<Movie> movies = new ArrayList<>();
+
+        try {
+            // Crear filtro para la consulta
+            Document filters = new Document();
+            if (title != null && !title.isEmpty()) {
+                System.out.println("Title: " + title);
+                filters.append("Title", title);
+            }
+            if (director != null && !director.isEmpty()) {
+                System.out.println("Director: " + director);
+                filters.append("Director", director);
+            }
+            if (actors != null && !actors.isEmpty()) {
+                System.out.println("Actors: " + actors);
+                filters.append("Actors", new Document("$in", actors));
+            }
+            if (classification != null && !classification.isEmpty()) {
+                System.out.println("Classification: " + classification);
+                filters.append("Classification", classification);
+            }
+            if (duration >= 30) {
+                System.out.println("Duration: " + duration);
+                filters.append("Duration", duration);
+            }
+            if (date != null && !date.isEmpty()) {
+                System.out.println("Date: " + date);
+                filters.append("Date", date);
+            }
+            if (genres != null && !genres.isEmpty()) {
+                System.out.println("Genres: " + genres);
+                filters.append("Genres", new Document("$in", genres));
+            }
+
+            // Ejecutar la consulta
+            MongoCursor<Document> cursor = getCollection(C_MOVIES).find(filters).iterator();
+            while (cursor.hasNext()) {
+                Document doc = cursor.next();
+                Movie movie = new Movie(doc);
+                movies.add(movie);
+            }
+            cursor.close();
+        } catch (Exception e) {
+            // Manejar cualquier excepción y enviar un mensaje de advertencia
+            Window.Message("warning", "Error al buscar películas: " + e.toString(), "Error en buscar películas");
+        }
+        return movies;
     }
 
     /**

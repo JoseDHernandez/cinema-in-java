@@ -6,9 +6,9 @@ package Classes;
 
 import com.mycompany.cuevadeana.Mongo;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import org.bson.Document;
 import static org.junit.jupiter.api.Assertions.*;
@@ -28,16 +28,14 @@ public class BillIT {
     @Test
     public void testSomeMethod() {
         //Variables
-
         //Fecha
         final SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-        final String dateString = sdf.format(LocalDate.now());
+        final String dateString = sdf.format(new Date());
         //tiempos de funcion
         final int openTime = 7;//Tiempo de apertura
         final int delay = 20;//Teimpo entre proyecciones
         //nombre de la sala
         final String nameTheater = "Sala 1";
-
         //Crear usuario
         User user = new User();
         user.setName("Pedro Mascal Hurtado Perdomo");
@@ -46,7 +44,6 @@ public class BillIT {
         user.setRol("Cajero");
         user.setCashRegister("Caja 1");
         user.createUserName();
-
         // Crear pelicula
         Movie movie = new Movie();
         movie.setTitle("Inception");
@@ -65,13 +62,11 @@ public class BillIT {
         actors.add("Jhonn P.");
         actors.add("Roberto Hernandez");
         movie.setActors(actors);
-
         //crear sala
         Theater theater = new Theater();
         theater.setDate(dateString);
         theater.setName(nameTheater);
         theater.setFeatures("2D");
-
         // Creatar funcion / proyeccion
         //Clase showtime 1
         Showtime showtime = new Showtime();
@@ -88,7 +83,6 @@ public class BillIT {
         showtime.setSeatsSold(seatsSold);
         //Agregar showtime a theater
         theater.addShowtime(showtime);
-
         //Clase showtime 2
         Showtime showtime2 = new Showtime();
         showtime2.setMovie(movie);
@@ -105,7 +99,6 @@ public class BillIT {
         showtime2.setSeatsSold(seatsSold2);
         //Agregar showtime a theater
         theater.addShowtime(showtime2);
-
         // Creato factura
         Bill bill = new Bill();
         bill.setCashier(user);
@@ -120,7 +113,6 @@ public class BillIT {
         bill.setSeats(seats);
         final double PRECIO_BASE_2D = 10000.0;
         bill.setPrice(PRECIO_BASE_2D * seats.size());
-
         //Registrar registros
         Mongo mongoDB = new Mongo(uri, name);
         mongoDB.insert(user);
@@ -131,7 +123,6 @@ public class BillIT {
         Document billDB = mongoDB.findBill(dateString, ident, movie.getTitle());
         List<Theater> listTeahers = mongoDB.getTheater(movie.getTitle(), dateString);
         mongoDB.closeConnection();
-
         //Test a bill
         assertNotNull(billDB, "No se obtuvo factura");
         assertEquals(bill.getNameClient(), billDB.getString("NameClient"), "Error en la coincidencia del nombre del cliente");
@@ -147,7 +138,6 @@ public class BillIT {
         assertEquals(bill.getSeats(), seatsDB);
         assertEquals(bill.getPrice(), billDB.getDouble("Price"), 0.0001, "Precios distintos");
         assertEquals(bill.getTotalPrice(), billDB.getDouble("TotalPrice"), 0.0001, "Precios totales diferentes");
-
         //Test de theater y showtime
         assertFalse(listTeahers.isEmpty(), "No se encontro la sala");
         Showtime showTimeDB = listTeahers.getFirst().getShowtimes().getFirst();//Primer showtime (showtime 1)

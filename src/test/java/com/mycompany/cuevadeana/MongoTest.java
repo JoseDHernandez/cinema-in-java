@@ -56,7 +56,6 @@ public class MongoTest {
                 test2 = true;
             }
         }
-        mongoDB.closeConnection();
         //test correcto
         assertFalse(test2, "Base de datos " + DBNameError + " fue encontrada");
     }
@@ -78,11 +77,12 @@ public class MongoTest {
         user.setCashRegister("Caja 2");
         user.setPassword(pass);
         user.createUserName();
+        String USERNAME = user.getUserName();
         //insercion
         Mongo mongoDB = new Mongo(uri, name);
         mongoDB.insert(user);
         //obtener usuario
-        Document userDB = mongoDB.findUser(userName, user.hashPassword(pass));
+        Document userDB = mongoDB.findUser(user.hashPassword(pass), USERNAME);
         mongoDB.closeConnection();
         //test
         assertEquals(userDB.getString("Name"), user.getName(), "Los nombres no coinciden");
@@ -93,7 +93,8 @@ public class MongoTest {
         assertEquals(userDB.getString("UserName"), user.getUserName(), "Los nombres de usaurio no coinciden");
         //test de nombre de usuario
         user.createUserName();
-        assertFalse(userDB.getString("UserName").equals(user.getUserName()), "El nuevo nombre del usuario: " + user.getUserName() + ", es igual al anterior: " + userDB.getString("UserName"));
+        assertFalse(userDB.getString("UserName").equals(user.getUserName()), "El nuevo nombre del usuario: "
+                + user.getUserName() + ", es igual al anterior: " + userDB.getString("UserName"));
     }
 
     /*

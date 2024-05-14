@@ -91,7 +91,6 @@
                           </Group>
                           <Component id="jLabel8" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="jScrollPane1" alignment="0" max="32767" attributes="0"/>
-                          <Component id="jPanel3" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Group type="102" alignment="1" attributes="0">
                               <Component id="jLabel10" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
@@ -107,6 +106,7 @@
                                   <Component id="Duration" min="-2" pref="101" max="-2" attributes="0"/>
                               </Group>
                           </Group>
+                          <Component id="jPanel3" alignment="0" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace pref="221" max="32767" attributes="0"/>
@@ -210,33 +210,21 @@
                       <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="Accion" min="-2" max="-2" attributes="0"/>
-                                  <Component id="Terror" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace max="32767" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="Romance" min="-2" max="-2" attributes="0"/>
-                                  <Group type="103" alignment="0" groupAlignment="1" attributes="0">
-                                      <Component id="Drama" min="-2" max="-2" attributes="0"/>
-                                      <Component id="Familia" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                              </Group>
-                              <EmptySpace max="32767" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Component id="Fantasia" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                                      <Component id="Crimen" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Component id="Comedia" alignment="0" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace pref="34" max="32767" attributes="0"/>
-                          </Group>
+                          <Component id="Accion" min="-2" max="-2" attributes="0"/>
+                          <Component id="Terror" min="-2" max="-2" attributes="0"/>
+                          <Component id="Fantasia" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="Comedia" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
+                      <EmptySpace max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="Romance" min="-2" max="-2" attributes="0"/>
+                          <Group type="103" alignment="0" groupAlignment="1" attributes="0">
+                              <Component id="Drama" min="-2" max="-2" attributes="0"/>
+                              <Component id="Familia" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <Component id="Crimen" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="Misterio" min="-2" max="-2" attributes="0"/>
                           <Component id="Suspenso" min="-2" max="-2" attributes="0"/>

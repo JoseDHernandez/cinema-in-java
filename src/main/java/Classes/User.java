@@ -34,6 +34,20 @@ public class User {
     }
 
     /**
+     * Constructor que crea un objeto User a partir de un documento de MongoDB.
+     *
+     * @param doc Documento de MongoDB que representa un usuario.
+     */
+    public User(Document doc) {
+        this.userName = doc.getString("UserName");
+        this.name = doc.getString("Name");
+        this.identification = doc.getString("Identification");
+        this.rol = doc.getString("Rol");
+        this.cashRegister = doc.getString("CashRegister");
+        this.password = doc.getString("Password");
+    }
+
+    /**
      * Establece el nombre del usuario.
      *
      * @param name El nombre del usuario.

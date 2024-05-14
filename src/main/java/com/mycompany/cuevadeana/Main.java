@@ -10,6 +10,8 @@ import Templates.RegisterShowtimes;
 import Templates.RegisterUser;
 import Templates.Resolution;
 import Templates.SellSeats;
+import java.awt.Image;
+import java.awt.Toolkit;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import org.bson.Document;
@@ -34,6 +36,9 @@ public class Main extends javax.swing.JFrame implements Resolution {
 
     public Main() {
         initComponents();
+        Toolkit miPantalla = Toolkit.getDefaultToolkit();
+        Image miIcono = miPantalla.getImage("src/Logo2.png");
+        setIconImage(miIcono);
         this.setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
         enableButtons(false);//Deshabilitar botones
         visibleButtons(false);
@@ -64,6 +69,7 @@ public class Main extends javax.swing.JFrame implements Resolution {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 102, 102));
+        setIconImage(getIconImage());
         setPreferredSize(new java.awt.Dimension(1366, 768));
         addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentResized(java.awt.event.ComponentEvent evt) {
@@ -130,6 +136,10 @@ public class Main extends javax.swing.JFrame implements Resolution {
         Button4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         Button4.setForeground(new java.awt.Color(255, 102, 102));
         Button4.setText("Opciones");
+        Button4.setBorder(null);
+        Button4.setBorderPainted(false);
+        Button4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        Button4.setFocusPainted(false);
         Button4.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 Button4MouseClicked(evt);
@@ -233,7 +243,7 @@ public class Main extends javax.swing.JFrame implements Resolution {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(Menu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(MasterPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 1335, Short.MAX_VALUE)
+            .addComponent(MasterPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -241,7 +251,7 @@ public class Main extends javax.swing.JFrame implements Resolution {
                 .addContainerGap()
                 .addComponent(Menu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(MasterPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 673, Short.MAX_VALUE))
+                .addComponent(MasterPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -262,11 +272,11 @@ public class Main extends javax.swing.JFrame implements Resolution {
         URIMONGO = uri;
         DBNAME = name;
     }
-    
+
     public String getURIMONGO() {
         return URIMONGO;
     }
-    
+
     public String getDBNAME() {
         return DBNAME;
     }
@@ -280,17 +290,17 @@ public class Main extends javax.swing.JFrame implements Resolution {
         MasterPanel.revalidate();
         MasterPanel.repaint();
     }
-    
+
     private void SC_RegisterShowtime() {
         RegisterShowtimes re = new RegisterShowtimes(mongoDB);
         changeScenne(re);
     }
-    
+
     private void SC_SellSeats() {
         SellSeats v = new SellSeats(mongoDB, userData);
         changeScenne(v);
     }
-    
+
     private void SC_RegisterMovie() {
         RegisterMovies registerMovie = new RegisterMovies(mongoDB);
         changeScenne(registerMovie);
@@ -303,12 +313,12 @@ public class Main extends javax.swing.JFrame implements Resolution {
             SC_SellSeats();
         }
     }//GEN-LAST:event_Button1MouseClicked
-    
+
     private void SC_ListMovies() {
         List_movies list_movies = new List_movies(mongoDB, this, userData);
         changeScenne(list_movies);
     }
-    
+
     private void SC_RegisterUser() {
         RegisterUser newUser = new RegisterUser(mongoDB);
         changeScenne(newUser);
@@ -321,7 +331,7 @@ public class Main extends javax.swing.JFrame implements Resolution {
             SC_ListMovies();
         }
     }//GEN-LAST:event_Button2MouseClicked
-    
+
     private void formComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentResized
         // TODO add your handling code here:
         if (actualScenne != null) {
@@ -357,7 +367,7 @@ public class Main extends javax.swing.JFrame implements Resolution {
                 //Cambiar botones segun el cargo
                 Button1.setText(user.getRol().equals("Administrador") ? "Registrar" : "Venta");
                 Button2.setText(user.getRol().equals("Administrador") ? "Funciones" : "Peliculas");
-                
+
                 Button4.setText("Salir");
                 //
                 UserNameTitle.setText(user.getName());
@@ -385,10 +395,10 @@ public class Main extends javax.swing.JFrame implements Resolution {
         if (userData.getRol().equals("Administrador")) {
             SC_RegisterUser();
         } else {
-            
+
         }
     }//GEN-LAST:event_Button3MouseClicked
-    
+
     private void Button4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Button4MouseClicked
         // TODO add your handling code here:
         if (Button4.getText().equalsIgnoreCase("Opciones")) {
@@ -410,7 +420,7 @@ public class Main extends javax.swing.JFrame implements Resolution {
             }
         }
     }//GEN-LAST:event_Button4MouseClicked
-    
+
     private void SC_Login() {
         Login loginT = new Login(this);
         loginT.setName("Login");
@@ -422,25 +432,25 @@ public class Main extends javax.swing.JFrame implements Resolution {
             mongoDB.closeConnection();
         }
     }//GEN-LAST:event_formWindowClosing
-    
+
     private void Button2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_Button2ActionPerformed
-    
+
     private void Button5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Button5MouseClicked
         // TODO add your handling code here:
         if (userData.getRol().equals("Administrador")) {
             SC_ListMovies();
         }
     }//GEN-LAST:event_Button5MouseClicked
-    
+
     private void enableButtons(boolean enable) {
         Button1.setEnabled(enable);
         Button2.setEnabled(enable);
         Button3.setEnabled(enable);
         Button5.setEnabled(enable);
     }
-    
+
     private void visibleButtons(boolean isVisible) {
         Button1.setVisible(isVisible);
         Button2.setVisible(isVisible);

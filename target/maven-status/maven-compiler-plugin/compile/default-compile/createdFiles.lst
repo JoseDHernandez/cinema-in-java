@@ -6,6 +6,7 @@ com\mycompany\cuevadeana\Main$9.class
 com\mycompany\cuevadeana\Main$6.class
 Templates\List_movies.class
 Templates\ViewMovie.class
+Templates\List_movies$3.class
 Templates\Login$3.class
 Templates\Login$4.class
 Templates\RegisterMovies$5.class
@@ -21,6 +22,7 @@ Templates\SellSeats$8.class
 Templates\Options$1.class
 com\mycompany\cuevadeana\Main$8.class
 Templates\SellSeats$4.class
+Templates\RegisterUser$2.class
 Templates\RegisterMovies$1.class
 Templates\List_movies$2.class
 Templates\SellSeats$1.class
@@ -47,6 +49,7 @@ Templates\MoviePoster.class
 Templates\List_movies$1.class
 Templates\RegisterShowtimes$1.class
 Templates\SellSeats$3.class
+Templates\List_movies$4.class
 Classes\User.class
 com\mycompany\cuevadeana\Mongo.class
 Templates\Options$2.class

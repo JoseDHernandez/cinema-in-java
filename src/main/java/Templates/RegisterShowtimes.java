@@ -169,6 +169,7 @@ public class RegisterShowtimes extends javax.swing.JPanel implements Resolution 
             }
         });
 
+        jLabel7.setForeground(new java.awt.Color(204, 204, 204));
         jLabel7.setText("Guarda la funcion en el servidor, con el boton de abajo:");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
