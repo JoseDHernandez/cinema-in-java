@@ -217,6 +217,29 @@ public class Mongo {
     }
 
     /**
+     * Funcion para eliminar una pelicula de la coleccion movies
+     *
+     * @param title Tiulo de la pelicula
+     * @param date Fecha de estreno
+     * @param duration Minutos de duracion de la pelicula
+     * @return Retorna el estado de la operación: {@code True} si elimino de
+     * manera exitosa, {@code False} si hubo un error
+     */
+    public boolean deleteMovie(String title, String date, int duration) {
+        try {
+            // Eliminar la película que coincida con el título, la fecha y la duración
+            getCollection(C_MOVIES).deleteOne(new Document("Title", title)
+                    .append("Date", date)
+                    .append("Duration", duration));
+            Window.Message("info", "La película '" + title + "' fue eliminada.", "Película eliminada");
+            return true;
+        } catch (MongoException e) {
+            Window.Message("danger", "Error al eliminar la película '" + title + "': \n" + e.toString(), "Error al eliminar la pelicula");
+            return false;
+        }
+    }
+
+    /**
      * Busca una factura / boleto registrado
      *
      * @param date Fecha de la venta
@@ -258,6 +281,40 @@ public class Mongo {
         } else {
             //Error
             throw new RuntimeException("No existe la pelicula con el titulo: " + title);
+        }
+    }
+
+    /**
+     * Metodo para eliminar una pelicula de la base datos
+     *
+     * @param user Usuario de tipo ADMINISTRADOR
+     * @param updatedMovie Objeto {@code Movie} con los nuevos datos
+     */
+    public void updateMovie(User user, Movie updatedMovie) {
+        // Verificar si el usuario tiene permisos para actualizar películas
+        if (!user.getRol().equalsIgnoreCase("Administrador")) {
+            System.out.println("El usuario no tiene permisos para actualizar películas.");
+            return;
+        }
+
+        // Crear el filtro para identificar la película a actualizar
+        Document filter = new Document("Name", updatedMovie.getTitle())
+                .append("Date", updatedMovie.getDate())
+                .append("Duration", updatedMovie.getDuration());
+
+        // Convertir la película actualizada a un documento BSON
+        Document updateDoc = updatedMovie.converter();
+
+        // Crear la operación de actualización
+        Document updateOperation = new Document("$set", updateDoc);
+
+        // Ejecutar la actualización
+        try {
+            getCollection(C_MOVIES).updateOne(filter, updateOperation);
+            Window.Message("info", "Película actualizada con éxito", "Película actualizada");
+        } catch (Exception e) {
+            System.out.println("Error al actualizar la película: " + e.getMessage());
+            Window.Message("error", "Error al actualizar la película: \n" + e.getMessage(), "Error en actualizar pelicula");
         }
     }
 

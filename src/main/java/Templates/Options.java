@@ -310,7 +310,7 @@ public class Options extends javax.swing.JFrame {
                         if (mongo.createDefaultCollections()) {
                             this.dispose();
                             Window.Message("info", "Datos creados", "Exitos en la creación de los datos");
-                            Window.Message("info", "Cuentas por defecto:\n\n\nNombre de usuario: Administrador\nContraseña: 123\n\nNombre de usuario: Cajero\nContraseña: 123", "Cuentas creadas");
+                            Window.Message("info", "Cuentas por defecto:\n\n\nNombre de usuario: Admin\nContraseña: 123\n\nNombre de usuario: CajeroTest\nContraseña: 123", "Cuentas creadas");
                         } else {
                             Window.Message("danger", "Error en la creacion de los datos, se recomienda  validar los datos y reintentar", "ERROR EN LA CARGA DE DATOS POR DEFECTO");
                             DataDefault.setEnabled(true);

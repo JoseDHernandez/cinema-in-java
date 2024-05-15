@@ -1,5 +1,6 @@
 package com.mycompany.cuevadeana;
 
+import Classes.Movie;
 import Classes.User;
 import Classes.Window;
 import Templates.List_movies;
@@ -296,8 +297,8 @@ public class Main extends javax.swing.JFrame implements Resolution {
         changeScenne(re);
     }
 
-    private void SC_SellSeats() {
-        SellSeats v = new SellSeats(mongoDB, userData);
+    public void SC_SellSeats() {
+        SellSeats v = new SellSeats(mongoDB, userData, this);
         changeScenne(v);
     }
 
@@ -314,7 +315,12 @@ public class Main extends javax.swing.JFrame implements Resolution {
         }
     }//GEN-LAST:event_Button1MouseClicked
 
-    private void SC_ListMovies() {
+    public void updateMovie(Movie movie) {
+        RegisterMovies registerMovie = new RegisterMovies(mongoDB, movie, userData);
+        changeScenne(registerMovie);
+    }
+
+    public void SC_ListMovies() {
         List_movies list_movies = new List_movies(mongoDB, this, userData);
         changeScenne(list_movies);
     }
@@ -354,7 +360,7 @@ public class Main extends javax.swing.JFrame implements Resolution {
         try {
             User user = new User();
             Document userDataLogin = mongoDB.findUser(user.hashPassword(pass), username);
-            if (userDataLogin.getString("Password").equals(user.hashPassword(pass))) {
+            if (userDataLogin != null && userDataLogin.getString("Password").equals(user.hashPassword(pass))) {
                 user.setId(userDataLogin.getObjectId("_id").toString());
                 user.setUserName(userDataLogin.getString("UserName"));
                 user.setName(userDataLogin.getString("Name"));
@@ -382,7 +388,7 @@ public class Main extends javax.swing.JFrame implements Resolution {
                 }
                 SC_ListMovies();
             } else {
-                Window.Message("warning", "Usuario invalido", "Error de ingreso");
+                Window.Message("warning", "Usuario invalido, verifique los datos ingresados", "Error de ingreso");
                 SC_Login();
             }
         } catch (Exception e) {
@@ -406,7 +412,7 @@ public class Main extends javax.swing.JFrame implements Resolution {
             op.setVisible(true);
         } else {
             //Cerrar sesion
-            int op = JOptionPane.showConfirmDialog(this, "¿Estas seguro de querer cerrar sesion?", "Cerrar sesion", JOptionPane.OK_CANCEL_OPTION);
+            int op = JOptionPane.showConfirmDialog(this, "¿Estás seguro de querer cerrar sesión?", "Cerrar sesión", JOptionPane.OK_CANCEL_OPTION);
             if (op == 0) {
                 //Cerrar conexion
                 mongoDB.closeConnection();

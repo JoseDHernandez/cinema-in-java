@@ -1,0 +1,159 @@
+[{
+  "_id": {
+    "$oid": "664434308c88587730c7c4e7"
+  },
+  "Name": "Sala 1",
+  "Date": "15-05-2024",
+  "Features": "2D",
+  "Showtimes": [
+    {
+      "Title": "El robo del siglo",
+      "StartHour": "07:00",
+      "EndHour": "08:54",
+      "Duration": 114,
+      "SeatsSold": []
+    },
+    {
+      "Title": "Los Cronocrímenes",
+      "StartHour": "09:14",
+      "EndHour": "10:42",
+      "Duration": 88,
+      "SeatsSold": []
+    },
+    {
+      "Title": "FORREST GUMP",
+      "StartHour": "11:02",
+      "EndHour": "13:24",
+      "Duration": 142,
+      "SeatsSold": [
+        "J10",
+        "K10"
+      ]
+    },
+    {
+      "Title": "EL ORIGEN",
+      "StartHour": "13:44",
+      "EndHour": "16:12",
+      "Duration": 148,
+      "SeatsSold": []
+    },
+    {
+      "Title": "READY PLAYER ONE",
+      "StartHour": "16:32",
+      "EndHour": "18:52",
+      "Duration": 140,
+      "SeatsSold": []
+    },
+    {
+      "Title": "Spider-Man",
+      "StartHour": "19:12",
+      "EndHour": "21:13",
+      "Duration": 121,
+      "SeatsSold": []
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "664434e18c88587730c7c4e8"
+  },
+  "Name": "Sala 4",
+  "Date": "15-05-2024",
+  "Features": "3D",
+  "Showtimes": [
+    {
+      "Title": "FORREST GUMP",
+      "StartHour": "07:00",
+      "EndHour": "09:22",
+      "Duration": 142,
+      "SeatsSold": []
+    },
+    {
+      "Title": "EL ORIGEN",
+      "StartHour": "09:42",
+      "EndHour": "12:10",
+      "Duration": 148,
+      "SeatsSold": []
+    },
+    {
+      "Title": "READY PLAYER ONE",
+      "StartHour": "12:30",
+      "EndHour": "14:50",
+      "Duration": 140,
+      "SeatsSold": []
+    },
+    {
+      "Title": "Los Cronocrímenes",
+      "StartHour": "15:10",
+      "EndHour": "16:38",
+      "Duration": 88,
+      "SeatsSold": []
+    },
+    {
+      "Title": "El robo del siglo",
+      "StartHour": "16:58",
+      "EndHour": "18:52",
+      "Duration": 114,
+      "SeatsSold": []
+    },
+    {
+      "Title": "Spider-Man",
+      "StartHour": "19:12",
+      "EndHour": "21:13",
+      "Duration": 121,
+      "SeatsSold": []
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "664435048c88587730c7c4e9"
+  },
+  "Name": "Sala 9",
+  "Date": "15-05-2024",
+  "Features": "4D",
+  "Showtimes": [
+    {
+      "Title": "El planeta de los simios Nuevo reino",
+      "StartHour": "07:00",
+      "EndHour": "09:25",
+      "Duration": 145,
+      "SeatsSold": []
+    },
+    {
+      "Title": "Spider-Man",
+      "StartHour": "09:45",
+      "EndHour": "11:46",
+      "Duration": 121,
+      "SeatsSold": []
+    },
+    {
+      "Title": "El robo del siglo",
+      "StartHour": "12:06",
+      "EndHour": "14:00",
+      "Duration": 114,
+      "SeatsSold": []
+    },
+    {
+      "Title": "Los Cronocrímenes",
+      "StartHour": "14:20",
+      "EndHour": "15:48",
+      "Duration": 88,
+      "SeatsSold": []
+    },
+    {
+      "Title": "READY PLAYER ONE",
+      "StartHour": "16:08",
+      "EndHour": "18:28",
+      "Duration": 140,
+      "SeatsSold": []
+    },
+    {
+      "Title": "EL ORIGEN",
+      "StartHour": "18:48",
+      "EndHour": "21:16",
+      "Duration": 148,
+      "SeatsSold": []
+    }
+  ]
+}]

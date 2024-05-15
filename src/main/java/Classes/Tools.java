@@ -43,8 +43,8 @@ public class Tools {
         return jsonArray;
     }
     private final static String[] patterns = {
-        /*0*/"^([A-Za-z-ZáéíóúÁÉÍÓÚüÜñÑ\\s\'-,.()\\\"!¡?¿/%#0-9]{2,})+\\S$", // texto normal (Descripción)
-        /*1*/ "^([A-Za-z-ZáéíóúÁÉÍÓÚüÜñÑ\\s]{2,})+\\S$", // texto sin caracteres especiales
+        /*0*/"^([A-Za-z-ZáéíóúÁÉÍÓÚüÜñÑ\\s\'-,.;:()\\\"!¡?¿/%#0-9]{2,})+\\S$", // texto normal (Descripción)
+        /*1*/ "^([A-Za-z-ZáéíóúÁÉÍÓÚüÜñÑ;\\-_?¿!¡:\\s]{2,})$", // texto sin caracteres especiales
         /*2*/ "^([A-Za-z-ZáéíóúÁÉÍÓÚüÜñÑ\\s\'-,.]{2,})+\\S$", // texto con punto y coma
         /*3*/ "^([0-9]{2}-){2}[0-9]{4}$", // Fecha dd-mm-yyyy
         /*4*/ "^([A-Za-z-ZáéíóúÁÉÍÓÚüÜñÑ\\d]{4,})$",//UserName

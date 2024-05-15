@@ -1,0 +1,24 @@
+[{
+  "_id": {
+    "$oid": "66443a37f9f5cf55019517a6"
+  },
+  "CashRegister": "Caja 1",
+  "Cashier": "CAJERO DE PRUEBA",
+  "NameClient": "jesus villas",
+  "Identification": "CC 123123123123",
+  "Movie": "FORREST GUMP",
+  "Date": "15-05-2024",
+  "StartHour": "11:02",
+  "EndHour": "13:24",
+  "Theater": "Sala 1",
+  "Seats": [
+    "J10",
+    "K10"
+  ],
+  "Price": 25000,
+  "Tax": 0.19,
+  "TotalPrice": 29750,
+  "PurchaseDate": {
+    "$date": "2024-05-14T23:29:42.569Z"
+  }
+}]

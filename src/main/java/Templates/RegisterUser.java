@@ -7,6 +7,7 @@ package Templates;
 import Classes.User;
 import Classes.Window;
 import com.mycompany.cuevadeana.Mongo;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
@@ -21,30 +22,34 @@ public class RegisterUser extends javax.swing.JPanel {
      * Creates new form RegisterUser
      */
     private Mongo mongoDB;
+    List<User> users = new ArrayList<>();
 
     public RegisterUser(Mongo client) {
         initComponents();
         mongoDB = client;
-
-        drawTable(mongoDB.getUsers());
+        users = mongoDB.getUsers();
+        drawTable();
     }
 
-    private void drawTable(List<User> users) {
-        TableModel model = Table.getModel();
-        DefaultTableModel tableModel = (DefaultTableModel) model;
-        for (User user : users) {
-            Object[] rowData = new Object[5];
-            rowData[0] = user.getUserName();
-            rowData[1] = user.getName();
-            rowData[2] = user.getIdentification();
-            rowData[3] = user.getRol();
-            // Verificar si el usuario es administrador para asignar "N/A" como caja asignada
-            if (user.getRol().equalsIgnoreCase("Administrador")) {
-                rowData[4] = "N/A";
-            } else {
-                rowData[4] = user.getCashRegister();
+    private void drawTable() {
+        if (!users.isEmpty()) {
+            TableModel model = Table.getModel();
+            DefaultTableModel tableModel = (DefaultTableModel) model;
+            tableModel.setRowCount(0);
+            for (User user : users) {
+                Object[] rowData = new Object[5];
+                rowData[0] = user.getUserName();
+                rowData[1] = user.getName();
+                rowData[2] = user.getIdentification();
+                rowData[3] = user.getRol();
+                // Verificar si el usuario es administrador para asignar "N/A" como caja asignada
+                if (user.getRol().equalsIgnoreCase("Administrador")) {
+                    rowData[4] = "N/A";
+                } else {
+                    rowData[4] = user.getCashRegister();
+                }
+                tableModel.addRow(rowData);
             }
-            tableModel.addRow(rowData);
         }
     }
 
@@ -303,6 +308,8 @@ public class RegisterUser extends javax.swing.JPanel {
             window.Message("warning", "Usuario ya registrado", "Error de registro");
         } else {
             mongoDB.insert(user);
+            users.add(user);
+            drawTable();
         }
     }//GEN-LAST:event_jButton1MouseClicked
 

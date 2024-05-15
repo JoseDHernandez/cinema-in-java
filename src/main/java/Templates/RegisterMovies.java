@@ -6,6 +6,7 @@ package Templates;
 
 import Classes.Movie;
 import Classes.Tools;
+import Classes.User;
 import Classes.Window;
 import com.mycompany.cuevadeana.Mongo;
 import java.awt.Color;
@@ -36,10 +37,84 @@ public class RegisterMovies extends javax.swing.JPanel implements Resolution {
      * @param client El cliente de MongoDB.
      */
     private Mongo mongoDB;
+    private boolean isUpdate = false;
+    private User user;
 
     public RegisterMovies(Mongo client) {
         initComponents();
         this.mongoDB = client;
+    }
+
+    public RegisterMovies(Mongo client, Movie movie, User user) {
+        initComponents();
+        this.user = user;
+        this.mongoDB = client;
+        isUpdate = true;
+        loadMovieData(movie);
+
+    }
+
+    private void loadMovieData(Movie movie) {
+        Title.setText(movie.getTitle());
+        Actor.setText(String.join(",", movie.getActorsList()));
+        Classification.setSelectedItem(movie.getClassification());
+
+        // Cargar géneros
+        clearGenres();
+        for (String genre : movie.getGenresList()) {
+            System.out.println(genre);
+            switch (genre.trim().toLowerCase()) {
+                case "comedia" ->
+                    Comedia.setSelected(true);
+                case "acción" ->
+                    Accion.setSelected(true);
+                case "terror" ->
+                    Terror.setSelected(true);
+                case "fantasia" ->
+                    Fantasia.setSelected(true);
+                case "drama" ->
+                    Drama.setSelected(true);
+                case "familia" ->
+                    Familia.setSelected(true);
+                case "romance" ->
+                    Romance.setSelected(true);
+                case "crimen" ->
+                    Crimen.setSelected(true);
+                case "suspenso" ->
+                    Suspenso.setSelected(true);
+                case "misterio" ->
+                    Misterio.setSelected(true);
+                case "ciencia ficción" ->
+                    Ciencia_f.setSelected(true);
+                case "aventura" ->
+                    Aventura.setSelected(true);
+            }
+
+        }
+
+        // Cargar imagen
+        if (movie.getPoster() != null) {
+            byte[] imageData = movie.getPoster();
+            imagenInBinary = new Binary(imageData);
+            ImageIcon ico = new ImageIcon(imageData);
+            Image img = ico.getImage();
+            ImageIcon scaledIcon = new ImageIcon(img.getScaledInstance(280, 413, Image.SCALE_SMOOTH));
+            switchPoster(false);
+            Poster.setIcon(scaledIcon);
+        }
+
+        Description.setText(movie.getDescription());
+        Director.setText(movie.getDirector());
+        Duration.setText(String.valueOf(movie.getDuration()));
+
+        // Convertir la fecha
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        try {
+            Date date = sdf.parse(movie.getDate());
+            DateChooser.setDate(date);
+        } catch (java.text.ParseException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     /**
@@ -52,10 +127,13 @@ public class RegisterMovies extends javax.swing.JPanel implements Resolution {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
+        jLabel6 = new javax.swing.JLabel();
+        jPanel4 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         Title = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        Actors = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        Classification = new javax.swing.JComboBox<>();
         jPanel3 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         Comedia = new javax.swing.JCheckBox();
@@ -71,21 +149,20 @@ public class RegisterMovies extends javax.swing.JPanel implements Resolution {
         Ciencia_f = new javax.swing.JCheckBox();
         Aventura = new javax.swing.JCheckBox();
         ClearGenres = new javax.swing.JButton();
-        jLabel4 = new javax.swing.JLabel();
-        Classification = new javax.swing.JComboBox<>();
-        jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         Description = new javax.swing.JTextArea();
-        DateChooser = new com.toedter.calendar.JDateChooser();
         jLabel10 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
         Director = new javax.swing.JTextField();
+        jLabel11 = new javax.swing.JLabel();
         Duration = new javax.swing.JFormattedTextField();
-        jLabel6 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        Actor = new javax.swing.JTextArea();
+        jLabel7 = new javax.swing.JLabel();
         Clear = new javax.swing.JButton();
+        jLabel9 = new javax.swing.JLabel();
+        DateChooser = new com.toedter.calendar.JDateChooser();
         jPanel2 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         Save = new javax.swing.JButton();
@@ -99,6 +176,11 @@ public class RegisterMovies extends javax.swing.JPanel implements Resolution {
         jPanel1.setForeground(new java.awt.Color(255, 255, 255));
         jPanel1.setPreferredSize(new java.awt.Dimension(910, 630));
 
+        jLabel6.setFont(new java.awt.Font("Ebrima", 1, 24)); // NOI18N
+        jLabel6.setText("Datos de la película");
+
+        jPanel4.setBackground(new java.awt.Color(255, 255, 255));
+
         jLabel1.setFont(new java.awt.Font("Ebrima", 1, 14)); // NOI18N
         jLabel1.setText("Titulo");
 
@@ -110,6 +192,11 @@ public class RegisterMovies extends javax.swing.JPanel implements Resolution {
 
         jLabel3.setFont(new java.awt.Font("Ebrima", 1, 14)); // NOI18N
         jLabel3.setText("Actores");
+
+        jLabel4.setFont(new java.awt.Font("Ebrima", 1, 14)); // NOI18N
+        jLabel4.setText("Clasificación");
+
+        Classification.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar", "T", "7", "12", "15", "18", "X", "Prohibido" }));
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
         jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 102, 102)));
@@ -226,18 +313,8 @@ public class RegisterMovies extends javax.swing.JPanel implements Resolution {
                 .addContainerGap())
         );
 
-        jLabel4.setFont(new java.awt.Font("Ebrima", 1, 14)); // NOI18N
-        jLabel4.setText("Clasificación");
-
-        Classification.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar", "T", "7", "12", "15", "18", "X", "Prohibido" }));
-
-        jLabel7.setText("*Actores separados por comas ( , )");
-
         jLabel8.setFont(new java.awt.Font("Ebrima", 1, 14)); // NOI18N
-        jLabel8.setText("Descripción");
-
-        jLabel9.setFont(new java.awt.Font("Ebrima", 1, 14)); // NOI18N
-        jLabel9.setText("Fecha");
+        jLabel8.setText("Descripción o sinopsis");
 
         Description.setColumns(20);
         Description.setLineWrap(true);
@@ -245,18 +322,22 @@ public class RegisterMovies extends javax.swing.JPanel implements Resolution {
         Description.setWrapStyleWord(true);
         jScrollPane1.setViewportView(Description);
 
-        DateChooser.setDateFormatString("dd-MM-yyyy");
-
         jLabel10.setFont(new java.awt.Font("Ebrima", 1, 14)); // NOI18N
         jLabel10.setText("Director");
 
         jLabel11.setFont(new java.awt.Font("Ebrima", 1, 14)); // NOI18N
         jLabel11.setText("Duración");
 
-        jLabel6.setFont(new java.awt.Font("Ebrima", 1, 24)); // NOI18N
-        jLabel6.setText("Datos de la película");
-
+        jLabel12.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
         jLabel12.setText("*Duración en minutos");
+
+        Actor.setColumns(20);
+        Actor.setLineWrap(true);
+        Actor.setRows(5);
+        Actor.setWrapStyleWord(true);
+        jScrollPane2.setViewportView(Actor);
+
+        jLabel7.setText("*Actores separados por comas ( , )");
 
         Clear.setBackground(new java.awt.Color(255, 102, 102));
         Clear.setFont(new java.awt.Font("Ebrima", 1, 18)); // NOI18N
@@ -283,91 +364,120 @@ public class RegisterMovies extends javax.swing.JPanel implements Resolution {
             }
         });
 
+        jLabel9.setFont(new java.awt.Font("Ebrima", 1, 14)); // NOI18N
+        jLabel9.setText("Fecha");
+
+        DateChooser.setDateFormatString("dd-MM-yyyy");
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(28, 28, 28)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(Clear, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addGap(114, 114, 114)
+                                .addComponent(jLabel11)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel4Layout.createSequentialGroup()
+                                        .addComponent(jLabel12)
+                                        .addGap(0, 37, Short.MAX_VALUE))
+                                    .addComponent(Duration)))
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel10)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(Director))))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(jLabel8)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel3))
+                        .addGap(35, 35, 35)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel7)
+                            .addComponent(Title)))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(Classification, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel9)
+                        .addGap(29, 29, 29)
+                        .addComponent(DateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(24, 24, 24))
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(Title, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel4)
+                        .addComponent(Classification, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel9))
+                    .addComponent(DateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel8)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(9, 9, 9)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel10)
+                            .addComponent(Director, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(3, 3, 3)
+                        .addComponent(jLabel12)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel11)
+                            .addComponent(Duration, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(Clear, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(23, 23, 23)
+                .addContainerGap()
                 .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(Clear, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addComponent(jLabel3)
-                            .addGap(35, 35, 35)
-                            .addComponent(Actors))
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addComponent(jLabel1)
-                            .addGap(48, 48, 48)
-                            .addComponent(Title))
-                        .addComponent(jLabel7)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addComponent(jLabel4)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(Classification, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel9)
-                            .addGap(28, 28, 28)
-                            .addComponent(DateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(jLabel8)
-                        .addComponent(jScrollPane1)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                            .addComponent(jLabel10)
-                            .addGap(23, 23, 23)
-                            .addComponent(Director, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(34, 34, 34)
-                            .addComponent(jLabel11)
-                            .addGap(18, 18, 18)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addGap(6, 6, 6)
-                                    .addComponent(jLabel12))
-                                .addComponent(Duration, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap(221, Short.MAX_VALUE))
+                .addGap(39, 39, 39)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(214, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(704, 704, 704))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(54, 54, 54)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(Title, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(Actors, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel4)
-                        .addComponent(Classification, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel9))
-                    .addComponent(DateChooser, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel8)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel10)
-                    .addComponent(Director, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel11)
-                    .addComponent(Duration, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(7, 7, 7)
-                .addComponent(jLabel12)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(Clear, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(42, 42, 42)
+                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -422,16 +532,19 @@ public class RegisterMovies extends javax.swing.JPanel implements Resolution {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(31, 31, 31)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(Poster, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(22, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(Save, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(64, 64, 64))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(31, 31, 31)
+                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(Poster, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -440,7 +553,7 @@ public class RegisterMovies extends javax.swing.JPanel implements Resolution {
                 .addComponent(jLabel5)
                 .addGap(18, 18, 18)
                 .addComponent(Poster, javax.swing.GroupLayout.PREFERRED_SIZE, 413, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
                 .addComponent(Save, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(103, 103, 103))
         );
@@ -450,13 +563,13 @@ public class RegisterMovies extends javax.swing.JPanel implements Resolution {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 997, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1013, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 678, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 673, Short.MAX_VALUE)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
@@ -505,85 +618,93 @@ public class RegisterMovies extends javax.swing.JPanel implements Resolution {
 
     private void SaveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_SaveMouseClicked
         // TODO add your handling code here:
-
-        List<String> errorList = new ArrayList<>();
-        //registrar titulo
-        String title = Title.getText().trim();
-        if (!Tools.validate("name", title)) {
-            errorList.add("\nThe title is empty");
-        }
-        //convertir texto de actores a una lista
-        String actorsString = Actors.getText().trim();
-        if (Tools.validate("actors", actorsString)) {
-            if (actorsString.charAt(actorsString.length() - 1) == ',') {
-                actorsString = actorsString.substring(0, actorsString.length() - 1);
-            } else if (actorsString.charAt(0) == ',') {
-                actorsString = actorsString.substring(1);
-            }
-        } else {
-            errorList.add("\nThe actors is empty");
-        }
-        //Generos a lista
-        String genresString = getListGenres();
-        if (genresString.length() == 0) {
-            errorList.add("\nGenre or Genres not selected");
-        }
-        //clasificacion
-        if (Classification.getSelectedIndex() == 0) {
-            errorList.add("\nClassification is not selected");
-        }
-
-        //Poster
-        if (imagenInBinary == null) {
-            errorList.add("\nPoster not upload");
-
-        }
-        //Description
-        String description = Description.getText().trim();
-        if (!Tools.validate("description", description)) {
-            errorList.add("\nDescription is invalid");
-        }
-        Date date = DateChooser.getDate();
-
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-        String dateString = sdf.format(date);
-        if (!Tools.validate("date", dateString)) {
-            errorList.add("\nDate error");
-        }
-        //Duration
-        int duration = 0;
         try {
-            duration = Integer.parseInt(Duration.getText().trim());
-        } catch (NumberFormatException e) {
-            errorList.add("\nDuration is not a number");
-        }
-        if (duration <= 30 || duration >= 900) {
-            errorList.add("\nDuration lenght error");
-        }
-        //Director
-        String director = Director.getText().trim();
-        if (!Tools.validate("name", director)) {
-            errorList.add("\nDirector's name invalid");
-        }
-        if (errorList.isEmpty()) {
-            //Create a class movie 
-            Movie movie = new Movie();
-            movie.setTitle(title);
-            movie.setPoster(imagenInBinary);
-            movie.setClassification(Classification.getSelectedItem().toString());
-            movie.setGenres(stringToList(genresString));
-            movie.setActors(stringToList(actorsString));
-            movie.setDescription(description);
-            movie.setDirector(director);
-            movie.setDuration(duration);
-            movie.setDate(dateString);
-            //Conecction and insertion in database
-            mongoDB.insert(movie);
-            //Clear all fields
-            clearForm();
-        } else {
-            Window.Message("danger", "Error in register a new movie:" + errorList.toString().substring(1, errorList.toString().length()), "Error to register a movie");
-            errorList.clear();
+            List<String> errorList = new ArrayList<>();
+            //registrar titulo
+            String title = Title.getText().trim();
+            if (!Tools.validate("name", title)) {
+                errorList.add("\nThe title is empty");
+            }
+            //convertir texto de actores a una lista
+            String actorsString = Actor.getText().trim();
+            if (Tools.validate("actors", actorsString)) {
+                if (actorsString.charAt(actorsString.length() - 1) == ',') {
+                    actorsString = actorsString.substring(0, actorsString.length() - 1);
+                } else if (actorsString.charAt(0) == ',') {
+                    actorsString = actorsString.substring(1);
+                }
+            } else {
+                errorList.add("\nThe actors is empty");
+            }
+            //Generos a lista
+            String genresString = getListGenres();
+            if (genresString.length() == 0) {
+                errorList.add("\nGenre or Genres not selected");
+            }
+            //clasificacion
+            if (Classification.getSelectedIndex() == 0) {
+                errorList.add("\nClassification is not selected");
+            }
+
+            //Poster
+            if (!isUpdate && imagenInBinary == null) {
+                errorList.add("\nPoster not upload");
+
+            }
+            //Description
+            String description = Description.getText().trim();
+            if (!Tools.validate("description", description)) {
+                errorList.add("\nDescription is invalid");
+            }
+            Date date = DateChooser.getDate();
+
+            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+            String dateString = sdf.format(date);
+            if (!Tools.validate("date", dateString)) {
+                errorList.add("\nDate error");
+            }
+            //Duration
+            int duration = 0;
+            try {
+                duration = Integer.parseInt(Duration.getText().trim());
+            } catch (NumberFormatException e) {
+                errorList.add("\nDuration is not a number");
+            }
+            if (duration <= 30 || duration >= 900) {
+                errorList.add("\nDuration lenght error");
+            }
+            //Director
+            String director = Director.getText().trim();
+            if (!Tools.validate("name", director)) {
+                errorList.add("\nDirector's name invalid");
+            }
+            if (errorList.isEmpty()) {
+                //Create a class movie 
+                Movie movie = new Movie();
+                movie.setTitle(title);
+                movie.setPoster(imagenInBinary);
+                movie.setClassification(Classification.getSelectedItem().toString());
+                movie.setGenres(stringToList(genresString));
+                movie.setActors(stringToList(actorsString));
+                movie.setDescription(description);
+                movie.setDirector(director);
+                movie.setDuration(duration);
+                movie.setDate(dateString);
+                if (isUpdate) {
+                    //Actulizar
+                    mongoDB.updateMovie(user, movie);
+                } else {
+                    //Insertar
+                    mongoDB.insert(movie);
+                }
+                //Clear all fields
+                clearForm();
+            } else {
+                Window.Message("danger", "Error in register a new movie:" + errorList.toString().substring(1, errorList.toString().length()), "Error to register a movie");
+                errorList.clear();
+            }
+        } catch (Exception e) {
+            Window.Message("warning", "Error en los datos ingresados", "Error en los datos");
         }
     }//GEN-LAST:event_SaveMouseClicked
 
@@ -613,7 +734,7 @@ public class RegisterMovies extends javax.swing.JPanel implements Resolution {
         imagenInBinary = null;
         clearGenres();
         Title.setText("");
-        Actors.setText("");
+        Actor.setText("");
         Classification.setSelectedIndex(0);
         switchPoster(true);
         Description.setText("");
@@ -695,7 +816,7 @@ public class RegisterMovies extends javax.swing.JPanel implements Resolution {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox Accion;
-    private javax.swing.JTextField Actors;
+    private javax.swing.JTextArea Actor;
     private javax.swing.JCheckBox Aventura;
     private javax.swing.JCheckBox Ciencia_f;
     private javax.swing.JComboBox<String> Classification;
@@ -732,6 +853,8 @@ public class RegisterMovies extends javax.swing.JPanel implements Resolution {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     // End of variables declaration//GEN-END:variables
 }

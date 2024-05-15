@@ -3,6 +3,7 @@ Templates\RegisterMovies$8.class
 com\mycompany\cuevadeana\Main.class
 Classes\Movie.class
 com\mycompany\cuevadeana\Main$9.class
+Templates\ViewMovie$1.class
 com\mycompany\cuevadeana\Main$6.class
 Templates\List_movies.class
 Templates\ViewMovie.class
@@ -13,6 +14,7 @@ Templates\RegisterMovies$5.class
 com\mycompany\cuevadeana\Main$2.class
 Templates\RegisterShowtimes.class
 Templates\RegisterMovies$2.class
+Templates\ViewMovie$2.class
 Templates\Options$3.class
 com\mycompany\cuevadeana\Main$5.class
 Templates\RegisterShowtimes$3.class

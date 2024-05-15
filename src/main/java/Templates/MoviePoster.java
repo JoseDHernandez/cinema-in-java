@@ -97,7 +97,7 @@ public class MoviePoster extends javax.swing.JPanel {
      * @param date La fecha de la película.
      */
     public void setData(String title, byte[] imageData) {
-        Title.setText(title);
+        Title.setText("<html><p align='center'>" + title + "</p></html>");
         setPoster(imageData);
     }
 

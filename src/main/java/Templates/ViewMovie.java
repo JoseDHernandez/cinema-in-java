@@ -2,8 +2,11 @@ package Templates;
 
 import Classes.Movie;
 import Classes.User;
+import com.mycompany.cuevadeana.Main;
+import com.mycompany.cuevadeana.Mongo;
 import java.awt.Image;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -13,9 +16,13 @@ public class ViewMovie extends javax.swing.JPanel implements Resolution {
     
     Movie movie = new Movie();
     private User user;
+    private Mongo mongoDB;
+    private final Main parentFrame;
     
-    public ViewMovie(Movie movie, User user) {
+    public ViewMovie(Mongo client, Movie movie, User user, Main parentFrame) {
+        this.parentFrame = parentFrame;
         this.movie = movie;
+        mongoDB = client;
         this.user = user;
         initComponents();
         if (user.getRol().equalsIgnoreCase("Cajero")) {
@@ -32,6 +39,24 @@ public class ViewMovie extends javax.swing.JPanel implements Resolution {
      */
     private String toHTML(String text) {
         return "<html><p>" + text + "</p></html>";
+    }
+    
+    private void deleteMovie() {
+        if (user.getRol().equalsIgnoreCase("administrador")) {
+            int op = JOptionPane.showConfirmDialog(this, "¿Está seguro de eliminar la película: '" + movie.getTitle() + "'?", "Eliminar película", JOptionPane.OK_CANCEL_OPTION, JOptionPane.OK_CANCEL_OPTION);
+            if (op == 0) {
+                boolean t = mongoDB.deleteMovie(movie.getTitle(), movie.getDate(), movie.getDuration());
+                if (t) {
+                    parentFrame.SC_ListMovies();
+                }
+            }
+        }
+    }
+    
+    private void updateMovie() {
+        if (user.getRol().equalsIgnoreCase("administrador")) {
+            parentFrame.updateMovie(movie);
+        }
     }
     
     private void setData() {
@@ -111,11 +136,21 @@ public class ViewMovie extends javax.swing.JPanel implements Resolution {
         jButton1.setFont(new java.awt.Font("Ebrima", 1, 14)); // NOI18N
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Eliminar");
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton1MouseClicked(evt);
+            }
+        });
 
         jButton2.setBackground(new java.awt.Color(255, 102, 102));
         jButton2.setFont(new java.awt.Font("Ebrima", 1, 18)); // NOI18N
         jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.setText("Actualizar");
+        jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton2MouseClicked(evt);
+            }
+        });
 
         jLabel8.setFont(new java.awt.Font("Ebrima", 2, 14)); // NOI18N
         jLabel8.setText("Opciones:");
@@ -237,7 +272,7 @@ public class ViewMovie extends javax.swing.JPanel implements Resolution {
         );
 
         jLabel4.setFont(new java.awt.Font("Ebrima", 1, 14)); // NOI18N
-        jLabel4.setText("Descripción");
+        jLabel4.setText("Descripción o sinopsis");
 
         jLabel5.setFont(new java.awt.Font("Ebrima", 1, 14)); // NOI18N
         jLabel5.setText("Diractor/a:");
@@ -301,6 +336,14 @@ public class ViewMovie extends javax.swing.JPanel implements Resolution {
                 .addContainerGap(130, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+        deleteMovie();
+    }//GEN-LAST:event_jButton1MouseClicked
+    
+    private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
+        updateMovie();
+    }//GEN-LAST:event_jButton2MouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Actors;

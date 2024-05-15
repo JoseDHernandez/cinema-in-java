@@ -99,7 +99,7 @@ public class BillIT {
         showtime2.setSeatsSold(seatsSold2);
         //Agregar showtime a theater
         theater.addShowtime(showtime2);
-        // Creato factura
+        // Creacion factura
         Bill bill = new Bill();
         bill.setCashier(user);
         bill.setNameClient("Luis Alajandro Diaz Torres");

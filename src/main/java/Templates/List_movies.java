@@ -83,7 +83,7 @@ public class List_movies extends javax.swing.JPanel implements Resolution {
      *
      */
     public void openViewMovie(String title) {
-        ViewMovie v = new ViewMovie(mongoDB.getMovie(title), user);
+        ViewMovie v = new ViewMovie(mongoDB, mongoDB.getMovie(title), user, parentFrame);
         parentFrame.changeScenne(v);
     }
 

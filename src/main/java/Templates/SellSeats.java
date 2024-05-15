@@ -11,6 +11,7 @@ import Classes.Theater;
 import Classes.Tools;
 import Classes.User;
 import Classes.Window;
+import com.mycompany.cuevadeana.Main;
 import com.mycompany.cuevadeana.Mongo;
 import java.awt.Color;
 import java.awt.Component;
@@ -70,7 +71,10 @@ public class SellSeats extends javax.swing.JPanel {
     public Showtime tempShow = new Showtime(); //Showtime temporal para tener como referencia
     public final DateTimeFormatter formatterDate = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
-    public SellSeats(Mongo client, User cashier) {
+    private final Main parentFrame;
+
+    public SellSeats(Mongo client, User cashier, Main parentFrame) {
+        this.parentFrame = parentFrame;
         initComponents();
         mongoDB = client;
         this.cashier = cashier;
@@ -692,8 +696,13 @@ public class SellSeats extends javax.swing.JPanel {
             titleOfMovie = ListMovies.getSelectedItem().toString();
             try {
                 //Fecha (date chooser o actual)
-                String dateSelected = DateChoosser.getDate().compareTo(new Date()) != 0 ? dateString : formatterDate.format(DateChoosser.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
-                //Cambiar fecha si DateChosser y dateSelected son diferentes
+                String dateSelected;
+                if (DateChoosser.getDate().compareTo(new Date()) != 0) {
+                    dateSelected = formatterDate.format(DateChoosser.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+                } else {
+                    dateSelected = dateString;
+                }
+                // Cambiar fecha si DateChosser y dateSelected son diferentes
                 if (!dateSelected.equals(dateString)) {
                     dateString = dateSelected;
                 }
@@ -715,7 +724,7 @@ public class SellSeats extends javax.swing.JPanel {
                     //Restablecer showtimes
                     theaterList = new ArrayList<>();
                     Window.Message("alert", "Funcion no encontrada:\n solicite el registro de la funcion correspodiente al dia " + dateString
-                            + " para la pelicula " + titleOfMovie + " con un administrador.", "Funcion no encontrada");
+                            + " \npara la pelicula " + titleOfMovie + " con un administrador.", "Funcion no encontrada");
                 }
             } catch (Exception e) {
                 System.out.println(e);
@@ -816,14 +825,14 @@ public class SellSeats extends javax.swing.JPanel {
                 if (mongoDB.insert(bill)) {
                     Window.Message("info", "Exito en registrar: \n" + bill.toString(), "Venta registrada");
                     //Limpiar inputs
-                    loadSeatsSold();
+                    parentFrame.SC_SellSeats();
                 } else {
                     Window.Message("danger", "Error al registrar la factura ", "Error al registrar la factura");
                 }
             } else {
                 Window.Message("warning", "Factura cancelada con exito", "Factura cancelada");
                 //Limpiar inputs
-                loadSeatsSold();
+                parentFrame.SC_SellSeats();
             }
         } else {
             StringBuilder str = new StringBuilder();
