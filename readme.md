@@ -43,20 +43,21 @@ The Cinema software "La Cueva de Ana" is a ticketing and invoicing system for an
 3.  Introduce the URI and name of database, you can test the connection or create the default structure and data.
 4.  Accept the notices
 
-         Confirm delete the "old" values
-         ![1](https://github.com/JoseDHernandez/cinema-in-java/assets/128190435/2316d72d-79b6-458f-92c6-9875e1ebac06)
+    Confirm delete the "old" values
+    
+   ![1](https://github.com/JoseDHernandez/cinema-in-java/assets/128190435/2316d72d-79b6-458f-92c6-9875e1ebac06)
 
-        Confirm the actions
+Confirm the actions
 
-    ![2](https://github.com/JoseDHernandez/cinema-in-java/assets/128190435/4b0dbdfa-e647-4788-825e-748afa60143d)
+![2](https://github.com/JoseDHernandez/cinema-in-java/assets/128190435/4b0dbdfa-e647-4788-825e-748afa60143d)
 
-        Pass the simple test
+Pass the simple test
 
-    ![3](https://github.com/JoseDHernandez/cinema-in-java/assets/128190435/1efa168d-5ed1-4a99-84c8-431adea0595d)
+![3](https://github.com/JoseDHernandez/cinema-in-java/assets/128190435/1efa168d-5ed1-4a99-84c8-431adea0595d)
 
-        View and remember the test credentials
+View and remember the test credentials
 
-    ![4](https://github.com/JoseDHernandez/cinema-in-java/assets/128190435/10a487a2-b552-4d2d-81b8-0eb95bd4bdce)
+![4](https://github.com/JoseDHernandez/cinema-in-java/assets/128190435/10a487a2-b552-4d2d-81b8-0eb95bd4bdce)
 
 5.  You can use, edit, modify, adapt, or customize as needed. respecting the license.
 
