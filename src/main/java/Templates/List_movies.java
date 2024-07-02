@@ -83,8 +83,12 @@ public class List_movies extends javax.swing.JPanel implements Resolution {
      *
      */
     public void openViewMovie(String title) {
-        ViewMovie v = new ViewMovie(mongoDB, mongoDB.getMovie(title), user, parentFrame);
-        parentFrame.changeScenne(v);
+        try {
+            ViewMovie v = new ViewMovie(mongoDB, mongoDB.getMovie(title), user, parentFrame);
+            parentFrame.changeScenne(v);
+        } catch (RuntimeException e) {
+            Window.Message("warning", "La pelicula " + title + " no fue encontrada", "Pelicula no encontrada");
+        }
     }
 
     //Obtiene lista de generos

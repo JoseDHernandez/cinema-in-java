@@ -17,7 +17,7 @@ import javax.swing.ImageIcon;
 public class MoviePoster extends javax.swing.JPanel {
 
     private final List_movies parentFrame;
-    private String Datet;
+    private String TitleFilm;
 
     /**
      * Creates new form MovieT
@@ -26,6 +26,7 @@ public class MoviePoster extends javax.swing.JPanel {
      */
     public MoviePoster(List_movies parentFrame) {
         this.parentFrame = parentFrame;
+        TitleFilm = "";
         initComponents();
     }
 
@@ -94,10 +95,11 @@ public class MoviePoster extends javax.swing.JPanel {
      * Establece los datos de la película en el componente.
      *
      * @param title El título de la película.
-     * @param date La fecha de la película.
+     * @param imageData Binarios de la imagen
      */
     public void setData(String title, byte[] imageData) {
         Title.setText("<html><p align='center'>" + title + "</p></html>");
+        TitleFilm = title;
         setPoster(imageData);
     }
 
@@ -117,7 +119,7 @@ public class MoviePoster extends javax.swing.JPanel {
         Panel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                parentFrame.openViewMovie(Title.getText());
+                parentFrame.openViewMovie(TitleFilm);
             }
         });
     }
