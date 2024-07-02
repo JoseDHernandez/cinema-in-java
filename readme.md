@@ -9,6 +9,12 @@ The Cinema software "La Cueva de Ana" is a ticketing and invoicing system for an
 - **Seats Selector**: The users can select the available seats based on date, feature/dimension (2D, 3D,4D), showtime and seats already sold.
 - **Film Data Record**: The administrator can record film data such as title, actors list, classification, date, genres, description or synopsis, director, duration and film poster. The cashier can view this data.
 
+## Technologies Used
+
+- Java (Java Swing, MongoDB Driver)
+- MongoDB
+- Maven
+
 ## Screenshots
 
 **Main Screen**
